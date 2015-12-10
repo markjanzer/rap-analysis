@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Rap Analysis Webapp Homepage</h1>
+  <a href="/login"><button>Log in</button></a>
+  <a href="/users/new"><button>Sign up</button></a>
+  <a href="/logout"><button>Log out</button></a>
+
+
+  <ul>
+    <% @songs.each do |song| %>
+    <li>
+      <%= song.name %> :: <%= song.artists.first.name %> :: <%= song.album.title %>
+    </li>
+    <% end %>
+  </ul>
+
+  <a href="/songs/new"><button>Create A New Song</button></a>
+
+
+</div>

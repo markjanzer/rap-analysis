@@ -4,7 +4,7 @@ class CreateAlbums < ActiveRecord::Migration
       t.string :title
       t.integer :year
 
-      t.integer :artist_id, null: false
+      t.integer :artist_id
 
       t.timestamps
     end
