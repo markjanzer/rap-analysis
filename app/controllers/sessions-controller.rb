@@ -2,7 +2,7 @@ get '/login' do
   erb :'sessions/login'
 end
 
-get '/singup' do
+get '/signup' do
   erb :'sessions/signup'
 end
 
@@ -14,7 +14,7 @@ post '/session' do
     redirect '/songs'
   else
     # ADD ERROR MESSAGES HERE
-    erb :'/sessions/login'
+    erb :'sessions/login'
   end
 end
 

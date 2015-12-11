@@ -1,9 +1,13 @@
 <div class="container">
   <h1>Rap Analysis Webapp Homepage</h1>
-  <a href="/login"><button>Log in</button></a>
-  <a href="/users/new"><button>Sign up</button></a>
-  <a href="/logout"><button>Log out</button></a>
 
+  <% if @current_user %>
+    <a href="/songs/new"><button>Create A New Song</button></a>
+    <a href="/logout"><button>Log out</button></a>
+  <% else %>
+    <a href="/users/new"><button>Sign up</button></a>
+    <a href="/login"><button>Log in</button></a>
+  <% end %>
 
   <ul>
     <% @songs.each do |song| %>
@@ -12,8 +16,5 @@
     </li>
     <% end %>
   </ul>
-
-  <a href="/songs/new"><button>Create A New Song</button></a>
-
 
 </div>

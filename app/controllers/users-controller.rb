@@ -6,6 +6,7 @@ post '/users' do
   if params[:password] == params[:confirmed_password]
     new_user = User.create(username: params[:username])
     new_user.password = params[:password]
+    new_user.save
     redirect '/songs'
   else
     # RAISE AN ERROR HERE
