@@ -3,6 +3,7 @@ $(document).ready(function() {
   beginTextAddition();
   addValueToMeasure();
   retryRhythmCreation();
+  createSong();
   // This is called after the document has loaded in its entirety
   // This guarantees that any elements we bind to will exist on the page
   // when we try to bind to them
@@ -60,12 +61,22 @@ var retryRhythmCreation = function(){
 }
 
 var createSong = function(){
-  $(document).on("submit", ".create-song", function(event){
+  $(".create-song").on("submit", function(event){
     event.preventDefault();
     $.ajax({
       method: "POST",
-      url: "/songs"
+      url: "/songs",
       data: $(".create-song").serialize()
+    }).done(function(response){
+      $(".song-form").hide();
+      var songHeader = $("div");
+      var songName = $("h3").text("Song: " + response["song"])
+      var artistName = $("h4").text("Artist: " + response["artist"])
+      var albumName = $("h4").text("Album: " + response["album"])
+      songHeader.prepend(songName, artistName, albumName)
+      console.log("THIS IS THE SONGHEADER")
+      console.log(songHeader.html())
+      $(".container").prepend(songHeader.html())
     })
   })
 }

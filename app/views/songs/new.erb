@@ -1,11 +1,13 @@
 <link rel="stylesheet" type="text/css" href="/css/new-song.css">
 <div class="container">
-  <form action="/songs" method="POST" class="create-song">
-    Song: <input type="text" name="song">
-    Artist: <input type="text" name="artist">
-    Album: <input type="text" name="album">
-    <input type="submit">
-  </form>
+  <div class="song-form">
+    <form action="/songs" method="POST" class="create-song">
+      Song: <input type="text" name="song">
+      Artist: <input type="text" name="artist">
+      Album: <input type="text" name="album">
+      <input type="submit">
+    </form>
+  </div>
   <br>
   <button type="button" class="begin-measure-creation">Begin Measure Creation</button>
   <div class="rhythm-creation-div">
