@@ -7,3 +7,11 @@
 th {
   text-align: left;
 }
+
+.rhythm-creation-div {
+  display: none;
+}
+
+.add-text-div {
+  display: none;
+}

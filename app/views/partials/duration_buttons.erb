@@ -1,0 +1,5 @@
+<button type="button" class="duration-button" value="1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 ">All 1/16ths</button>
+<br>
+<% ["1/16", "1/4", "1/8", "1/32", "1/12" ].each do |duration| %>
+  <button type="button" class="duration-button" value="<%= duration %>"><%= duration %></button>
+<% end %>

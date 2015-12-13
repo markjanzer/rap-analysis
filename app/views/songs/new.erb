@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="/css/new-song.css">
 <div>
   <form action="/songs" method="POST">
     Song: <input type="text" name="song">
@@ -5,6 +6,21 @@
     Album: <input type="text" name="album">
     <input type="submit">
   </form>
+  <br>
+  <button type="button" class="begin-measure-creation">Begin Measure Creation</button>
+  <div class="rhythm-creation-div">
+    <%= erb :'/partials/duration_buttons' %>
+    <p>Current measure:</p>
+    <p class='measure-creation-values'></p>
+    <p>Current value: </p>
+    <p class='measure-creation-total'>0</p>
+    <button type="button" class="retry-rhythm-creation">Retry</button>
+    <button type="button" class="create-rhythm">Create Rhythm</button>
+  </div>
+  <div class="add-text-div">
+    <p>Here is where I put the appropriately sized textboxes</p>
 
-  <form action="/"
+  </div>
+
+
 </div>
