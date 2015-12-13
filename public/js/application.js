@@ -21,8 +21,16 @@ var beginMeasureCreation = function(){
 var beginTextAddition = function(){
   $(document).on("click", ".create-rhythm", function(event){
     event.preventDefault();
-    $(".rhythm-creation-div").hide();
-    $(".add-text-div").show();
+    // console.log($(".measure-creation-values").text())
+    $.ajax({
+      method: "POST",
+      data: { data: $(".measure-creation-values").text() },
+      url: "/measures"
+    }).done(function(response){
+      $(".rhythm-creation-div").hide();
+      $(".add-text-div").show();
+
+    })
   })
 }
 
@@ -48,6 +56,17 @@ var retryRhythmCreation = function(){
     event.preventDefault();
     $(".measure-creation-values").text("");
     $(".measure-creation-total").text("0");
+  })
+}
+
+var createSong = function(){
+  $(document).on("submit", ".create-song", function(event){
+    event.preventDefault();
+    $.ajax({
+      method: "POST",
+      url: "/songs"
+      data: $(".create-song").serialize()
+    })
   })
 }
 
