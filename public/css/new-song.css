@@ -4,6 +4,7 @@
   padding: 0px 20px 20px 20px;
   border: 1px dotted black;
 }
+
 th {
   text-align: left;
 }
@@ -15,3 +16,13 @@ th {
 .add-text-div {
   display: none;
 }
+
+.begin-measure-creation {
+  display: none;
+}
+
+.section-creation-div {
+  display: none;
+}
+
+

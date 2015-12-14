@@ -1,15 +1,60 @@
 $(document).ready(function() {
+  // createSong();
+
+  beginSectionCreation();
+  createSection();
+
   beginMeasureCreation();
-  beginTextAddition();
   addValueToMeasure();
   retryRhythmCreation();
-  createSong();
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
 
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+  beginTextAddition();
+
 });
+
+// var createSong = function(){
+//   $(document).on("submit", ".create-song", function(event){
+//     event.preventDefault();
+//     $.ajax({
+//       method: "POST",
+//       url: "/songs",
+//       data: $(".create-song").serialize()
+//     }).done(function(response){
+//       $(".song-form").hide();
+//       $(".begin-section-creation").show();
+//       jsonResponse = JSON.parse(response)
+//       $(".container").prepend($("<h4>" + jsonResponse['album'] + "</h4>"))
+//       $(".container").prepend($("<h4>" + jsonResponse['artist'] + "</h4>"))
+//       $(".container").prepend($("<h3>" + jsonResponse['song'] + "</h3>"))
+//     })
+//   })
+// }
+
+var beginSectionCreation = function(){
+  $(document).on("click", ".begin-section-creation", function(event){
+    event.preventDefault();
+    $(".begin-section-creation").hide();
+    $(".section-creation-div").show();
+  })
+}
+
+var createSection = function(){
+  $(document).on("submit", ".create-section", function(event){
+    event.preventDefault();
+    $.ajax({
+      method: "POST",
+      url: "/sections",
+      data: $(".create-section").serialize()
+    }).done(function(response){
+      var parsedResponse = JSON.parse(response)
+      var hiddenSectionID = $('<input type="hidden" class="section-id" value="' + parsedResponse.section.id + '">')
+      $(".section-creation-div").before($("<h5>" + parsedResponse.section.section_type +" by " + parsedResponse.artist_name + "</h5>"), hiddenSectionID)
+      $(".section-creation-div").hide()
+      $(".begin-measure-creation").show();
+    })
+  })
+}
+
 
 var beginMeasureCreation = function(){
   $(document).on("click", ".begin-measure-creation", function(event){
@@ -22,14 +67,19 @@ var beginMeasureCreation = function(){
 var beginTextAddition = function(){
   $(document).on("click", ".create-rhythm", function(event){
     event.preventDefault();
-    // console.log($(".measure-creation-values").text())
     $.ajax({
       method: "POST",
-      data: { data: $(".measure-creation-values").text() },
+      data: {
+        cellLengths: $(".measure-creation-values").text(),
+        sectionID: $(".section-id").val()
+        },
       url: "/measures"
     }).done(function(response){
-      $(".rhythm-creation-div").hide();
-      $(".add-text-div").show();
+      var measureID = JSON.parse(response).measure_id
+      var cells = JSON.parse(response).cells
+
+      // $(".rhythm-creation-div").hide();
+      // $(".add-text-div").show();
 
     })
   })
@@ -60,24 +110,4 @@ var retryRhythmCreation = function(){
   })
 }
 
-var createSong = function(){
-  $(".create-song").on("submit", function(event){
-    event.preventDefault();
-    $.ajax({
-      method: "POST",
-      url: "/songs",
-      data: $(".create-song").serialize()
-    }).done(function(response){
-      $(".song-form").hide();
-      var songHeader = $("div");
-      var songName = $("h3").text("Song: " + response["song"])
-      var artistName = $("h4").text("Artist: " + response["artist"])
-      var albumName = $("h4").text("Album: " + response["album"])
-      songHeader.prepend(songName, artistName, albumName)
-      console.log("THIS IS THE SONGHEADER")
-      console.log(songHeader.html())
-      $(".container").prepend(songHeader.html())
-    })
-  })
-}
 

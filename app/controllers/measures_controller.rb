@@ -1,3 +1,0 @@
-post '/measures' do
-
-end
