@@ -75,8 +75,10 @@ var beginTextAddition = function(){
         },
       url: "/measures"
     }).done(function(response){
-      var measureID = JSON.parse(response).measure_id
-      var cells = JSON.parse(response).cells
+      // console.log(typeof response)
+      $(".rhythm-creation-div").append(response)
+      // var measureID = JSON.parse(response).measure_id
+      // var cells = JSON.parse(response).cells
 
       // $(".rhythm-creation-div").hide();
       // $(".add-text-div").show();

@@ -1,0 +1,11 @@
+<div>
+  <form action="/measures/<%= @measure.id %>/edit" method="POST" class="edit-measure">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="measure_id" value="<%= @measure.id %>">
+    <% @measure.cells.each do |cell| %>
+    <textarea name="<%= cell.id %>" rows="1" style="width: <%= cell.note_duration/9.6 %>%;"></textarea>
+    <% end %>
+    <br>
+    <input type="submit">
+  </form>
+</div>
