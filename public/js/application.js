@@ -64,6 +64,14 @@ var beginMeasureCreation = function(){
   })
 }
 
+var retryRhythmCreation = function(){
+  $(document).on("click", ".retry-rhythm-creation", function(event){
+    event.preventDefault();
+    $(".measure-creation-values").text("");
+    $(".measure-creation-total").text("0");
+  })
+}
+
 var beginTextAddition = function(){
   $(document).on("click", ".create-rhythm", function(event){
     event.preventDefault();
@@ -75,14 +83,9 @@ var beginTextAddition = function(){
         },
       url: "/measures"
     }).done(function(response){
-      // console.log(typeof response)
-      $(".rhythm-creation-div").append(response)
-      // var measureID = JSON.parse(response).measure_id
-      // var cells = JSON.parse(response).cells
-
-      // $(".rhythm-creation-div").hide();
-      // $(".add-text-div").show();
-
+      $(".rhythm-creation-div").hide()
+      $(".input-text-div").append(response)
+      $(".input-text-div").show()
     })
   })
 }
@@ -104,12 +107,5 @@ var addValueToMeasure = function(){
   })
 }
 
-var retryRhythmCreation = function(){
-  $(document).on("click", ".retry-rhythm-creation", function(event){
-    event.preventDefault();
-    $(".measure-creation-values").text("");
-    $(".measure-creation-total").text("0");
-  })
-}
 
 

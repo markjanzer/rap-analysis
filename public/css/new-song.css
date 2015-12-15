@@ -1,9 +1,20 @@
+html {
+      text-align: center;
+}
+
+@media (min-width: 30em) {
+    .row { width: 100%; display: table; table-layout: fixed; }
+    .col { display: table-cell; }
+}
+
 .container {
-  margin: 20px auto;
-  width: 600px;
+  margin: 0em;
+  width: 70%;
   padding: 0px 20px 20px 20px;
   border: 1px dotted black;
+  margin: auto;
 }
+
 
 th {
   text-align: left;
@@ -17,6 +28,11 @@ th {
   display: none;
 }
 
+.input-text-div {
+  display: none;
+}
+
+
 .begin-measure-creation {
   display: none;
 }
@@ -25,4 +41,17 @@ th {
   display: none;
 }
 
+textarea {
+  width:100%;
+}
+/*.col {
+    height: 4em;
+    vertical-align: middle;
+    line-height: 4em;
+    background-color: teal;
+}
 
+.col:nth-of-type(2n) {
+    background-color: #95cbcb;
+}
+*/
