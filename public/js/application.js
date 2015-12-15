@@ -116,8 +116,26 @@ var addTextToMeasure = function(){
       url: "/measures/:id/text",
       data: $("form.add-text-to-measure").serialize()
     }).done(function(response){
-      console.log(response)
+      console.log("made it here")
+      $(".input-text-div").hide()
+      $(".input-qualities-div").show()
+      $(".input-qualities-div").append(response)
     })
+  })
+}
+
+var selectCell = function(){
+  $(document).on("click", "button.select", function(event){
+    event.preventDefault();
+    console.log("SELECTING CELL")
+    // ADD SELECTED ELEMENT TO SESSION
+  })
+}
+
+var addQuality = function(){
+  $(document).on("click", "button.add-quality", function(event){
+    event.preventDefault();
+    console.log("ADDING QUALITY")
   })
 }
 

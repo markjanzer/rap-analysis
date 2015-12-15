@@ -10,11 +10,11 @@ post '/measures' do
 end
 
 put '/measures/:id/text' do #THIS IS NOT RESTFUL
-  measure = Measure.find(params[:measure_id])
-  measure.cells.each do |cell|
+  @measure = Measure.find(params[:measure_id])
+  @measure.cells.each do |cell|
     cell.update(content: params[cell.id.to_s])
   end
-  { cells: measure.cells }.to_json
+  erb :'/partials/button-measure', layout: false
 end
 
 

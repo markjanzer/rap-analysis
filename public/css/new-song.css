@@ -41,8 +41,12 @@ th {
   display: none;
 }
 
-textarea {
+.col textarea {
   width:100%;
+}
+
+.col button {
+  width: 100%;
 }
 /*.col {
     height: 4em;

@@ -1,7 +1,5 @@
 get '/songs' do
   @songs = Song.all
-  p "get/song" + "*"*90
-  p Song.all.count
   @current_user = User.find(session[:id]) if !session[:id].nil?
   erb :'songs/show'
 end
@@ -26,9 +24,7 @@ post '/songs' do
 end
 
 get '/songs/:id/edit' do
-  p params[:id]
   @song = Song.find(params[:id])
-  p @song
   @artists = @song.artists
   @album = @song.album
   erb :'/songs/edit'

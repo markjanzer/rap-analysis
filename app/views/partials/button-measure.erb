@@ -1,11 +1,16 @@
 <div>
-  <form action="/measures/<%= @measure.id %>/edit" method="POST" class="add-text-to-measure">
+  <form action="/measures/<%= @measure.id %>/edit" method="POST" class="add-qualities-to-cells">
     <!-- <input type="hidden" name="_method" value="PUT"> don't need because of Ajax-->
     <input type="hidden" name="measure_id" value="<%= @measure.id %>">
+    <button style="color: orange" class="add-quality" value="orangeRhyme">OrangeRhyme</button>
+    <button style="color: purple" class="add-quality" value="purpleRhyme">PurpleRhyme</button>
+    <button class="add-quality" value="stressed">Stressed Syllable</button>
+    <button class="add-quality" value="end-rhyme">End Rhyme</button>
+
     <div class="row">
       <% @measure.cells.each do |cell| %>
       <div class="col" style="width:<%= cell.note_duration/9.6 %>%">
-        <textarea name="<%= cell.id %>"></textarea>
+        <button class="select" name="<%= cell.id %>"><%= cell.content %></button>
       </div>
     <% end %>
     </div>
