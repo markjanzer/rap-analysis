@@ -7,6 +7,7 @@ class CreateCells < ActiveRecord::Migration
       t.boolean :bold, default: false
       t.boolean :end_rhyme, default: false
       t.string :rhyme
+      t.string :content
     end
   end
 end

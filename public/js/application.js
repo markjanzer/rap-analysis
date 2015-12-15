@@ -9,6 +9,7 @@ $(document).ready(function() {
   retryRhythmCreation();
 
   beginTextAddition();
+  addTextToMeasure();
 
 });
 
@@ -77,11 +78,11 @@ var beginTextAddition = function(){
     event.preventDefault();
     $.ajax({
       method: "POST",
+      url: "/measures",
       data: {
         cellLengths: $(".measure-creation-values").text(),
         sectionID: $(".section-id").val()
         },
-      url: "/measures"
     }).done(function(response){
       $(".rhythm-creation-div").hide()
       $(".input-text-div").append(response)
@@ -107,5 +108,17 @@ var addValueToMeasure = function(){
   })
 }
 
+var addTextToMeasure = function(){
+  $(document).on("submit", "form.add-text-to-measure", function(event){
+    event.preventDefault();
+    $.ajax({
+      method: "PUT",
+      url: "/measures/:id/text",
+      data: $("form.add-text-to-measure").serialize()
+    }).done(function(response){
+      console.log(response)
+    })
+  })
+}
 
 
