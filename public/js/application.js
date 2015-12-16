@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  // createSong();
 
   beginSectionCreation();
   createSection();
@@ -11,25 +10,13 @@ $(document).ready(function() {
   beginTextAddition();
   addTextToMeasure();
 
-});
+  selectCell();
+  addQuality();
 
-// var createSong = function(){
-//   $(document).on("submit", ".create-song", function(event){
-//     event.preventDefault();
-//     $.ajax({
-//       method: "POST",
-//       url: "/songs",
-//       data: $(".create-song").serialize()
-//     }).done(function(response){
-//       $(".song-form").hide();
-//       $(".begin-section-creation").show();
-//       jsonResponse = JSON.parse(response)
-//       $(".container").prepend($("<h4>" + jsonResponse['album'] + "</h4>"))
-//       $(".container").prepend($("<h4>" + jsonResponse['artist'] + "</h4>"))
-//       $(".container").prepend($("<h3>" + jsonResponse['song'] + "</h3>"))
-//     })
-//   })
-// }
+  completeMeasure();
+
+
+});
 
 var beginSectionCreation = function(){
   $(document).on("click", ".begin-section-creation", function(event){
@@ -127,16 +114,45 @@ var addTextToMeasure = function(){
 var selectCell = function(){
   $(document).on("click", "button.select", function(event){
     event.preventDefault();
-    console.log("SELECTING CELL")
-    // ADD SELECTED ELEMENT TO SESSION
+    var cellID = $(this).attr("name")
+    $("input.selected").attr("value", cellID)
+    console.log($(this))
   })
 }
 
 var addQuality = function(){
   $(document).on("click", "button.add-quality", function(event){
     event.preventDefault();
-    console.log("ADDING QUALITY")
+    console.log($(this).attr("value"))
+    var cellID = $("input.selected").attr("value")
+    var selectedButton = $("button.select[name=" + cellID + "]")
+    var quality = $(this).attr("value")
+    // console.log(quality)
+    $.ajax({
+      method: "PUT",
+      url: ("/cells/" + cellID + ""),
+      data: { quality: quality }
+    }).done(function(response){
+      $(".input-qualities-div").empty()
+      $(".input-qualities-div").append(response)
+    })
   })
 }
+
+var completeMeasure = function(){
+  $(document).on("submit", "form.add-qualities-to-cells", function(event){
+    event.preventDefault();
+    measureID = $(this).children("input[name=measure_id]").val()
+    $.ajax({
+      method: "PUT",
+      url: "/measures/" + measureID + "/complete"
+      }).done(function(response){
+      $(".input-qualities-div").empty()
+      $("div.display-section").append(response)
+      $("button.begin-measure-creation").show()
+    })
+  })
+}
+
 
 

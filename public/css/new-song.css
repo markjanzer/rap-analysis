@@ -59,3 +59,23 @@ th {
     background-color: #95cbcb;
 }
 */
+/*POOPY CSS.
+I should make a constant that
+is an association of colors and rhymes
+And then use color instead of class*/
+
+button.orangeRhyme {
+  background-color: orange;
+}
+
+button.purpleRhyme {
+  background-color: purple;
+}
+
+button.end-rhyme {
+  font-style: italic;
+}
+
+button.stressed {
+  font-weight: bold;
+}

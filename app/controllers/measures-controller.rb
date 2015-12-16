@@ -14,8 +14,13 @@ put '/measures/:id/text' do #THIS IS NOT RESTFUL
   @measure.cells.each do |cell|
     cell.update(content: params[cell.id.to_s])
   end
+
   erb :'/partials/button-measure', layout: false
 end
 
+put '/measures/:id/complete' do #THIS IS NOT RESTFUL
+  @measure = Measure.find(params[:id])
+  erb :'/partials/show-measure', layout: false
+end
 
 

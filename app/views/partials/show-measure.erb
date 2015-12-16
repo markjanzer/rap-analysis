@@ -1,0 +1,16 @@
+<div>
+  <input type="hidden" name="measure_id" value="<%= @measure.id %>">
+        <!-- SPLASH ZONE (not DRY) -->
+  <div class="row">
+    <% cells = @measure.cells.sort_by { |cell| cell.id } %>
+    <% cells.each do |cell| %>
+      <% stressed = "" %>
+      <% end_rhyme = "" %>
+      <% stressed = "stressed" if cell.stressed %>
+      <% end_rhyme = "end-rhyme" if cell.end_rhyme %>
+    <div class="col select <%= cell.rhyme %> <%= stressed %> <%= end_rhyme %>" name="<%= cell.id %>" style="width:<%= cell.note_duration/9.6 %>%">
+        <%= cell.content %>
+    </div>
+  <% end %>
+  </div>
+</div>
