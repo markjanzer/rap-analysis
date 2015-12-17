@@ -1,20 +1,18 @@
 <div class="container">
-  <h1>Rap Analysis Webapp Homepage</h1>
+  <div class="song-header">
+    <h1><%= @song.name %></h1>
+    <h2><%= @artists.first.name %></h2>
+    <h2><%= @album.title %></h2>
+  </div>
 
-  <% if @current_user %>
-    <a href="/songs/new"><button>Create A New Song</button></a>
-    <a href="/logout"><button>Log out</button></a>
-  <% else %>
-    <a href="/users/new"><button>Sign up</button></a>
-    <a href="/login"><button>Log in</button></a>
-  <% end %>
-
-  <ul>
-    <% @songs.each do |song| %>
-    <li>
-      <%= song.name %> :: <%= song.artists.first.name %> :: <%= song.album.title %>
-    </li>
+  <div class="display-song">
+    <%= erb :'/partials/display-song', locals: { song: @song }, layout: false %>
+  </div>
+  <% puts @song.transcriber %>
+  <% puts current_user %>
+  <% if current_user %>
+    <% if @song.transcriber.username == current_user.username %>
+      <a href="/songs/<%= @song.id %>/edit"><button>Edit Song</button></a>
     <% end %>
-  </ul>
-
+  <% end %>
 </div>

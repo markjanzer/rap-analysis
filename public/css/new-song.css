@@ -64,18 +64,22 @@ I should make a constant that
 is an association of colors and rhymes
 And then use color instead of class*/
 
-button.orangeRhyme {
+.orangeRhyme {
   background-color: orange;
 }
 
-button.purpleRhyme {
+.purpleRhyme {
   background-color: purple;
 }
 
-button.end-rhyme {
+.end-rhyme {
   font-style: italic;
 }
 
-button.stressed {
+.stressed {
   font-weight: bold;
+}
+
+.col {
+  outline:1px #000 solid;
 }

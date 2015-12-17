@@ -6,6 +6,7 @@
   </div>
 
   <button type="button" class="begin-section-creation">Add Section</button>
+
   <div class="section-creation-div">
     <form action="/sections" method="POST" class="create-section">
       <input type="hidden" name="song-id" value="<%= @song.id %>">
@@ -44,6 +45,8 @@
 
   <div class="display-section">
   </div>
+
+  <a href="/songs/<%= @song.id %>">Complete Song</a>
 
 </div>
 

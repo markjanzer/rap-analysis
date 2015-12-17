@@ -18,6 +18,17 @@
   <title></title>
 </head>
 <body>
+  <div class="header">
+    <%# current_user %>
+    <% if current_user %>
+      <a href="/songs/new"><button>Create A New Song</button></a>
+      <a href="/logout"><button>Log out</button></a>
+    <% else %>
+      <a href="/users/new"><button>Sign up</button></a>
+      <a href="/login"><button>Log in</button></a>
+    <% end %>
+    <a href="/songs"><button>Home</button></a>
+  </div>
   <%= yield %>
 </body>
 </html>

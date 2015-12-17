@@ -15,6 +15,7 @@ $(document).ready(function() {
 
   completeMeasure();
 
+  completeSongCreation();
 
 });
 
@@ -36,6 +37,7 @@ var createSection = function(){
     }).done(function(response){
       var parsedResponse = JSON.parse(response)
       var hiddenSectionID = $('<input type="hidden" class="section-id" value="' + parsedResponse.section.id + '">')
+      // refactor should be partial
       $(".section-creation-div").before($("<h5>" + parsedResponse.section.section_type +" by " + parsedResponse.artist_name + "</h5>"), hiddenSectionID)
       $(".section-creation-div").hide()
       $(".begin-measure-creation").show();
@@ -71,6 +73,8 @@ var beginTextAddition = function(){
         sectionID: $(".section-id").val()
         },
     }).done(function(response){
+      $(".measure-creation-values").empty()
+      $(".measure-creation-total").empty()
       $(".rhythm-creation-div").hide()
       $(".input-text-div").append(response)
       $(".input-text-div").show()
@@ -104,7 +108,7 @@ var addTextToMeasure = function(){
       data: $("form.add-text-to-measure").serialize()
     }).done(function(response){
       console.log("made it here")
-      $(".input-text-div").hide()
+      $(".input-text-div").empty()
       $(".input-qualities-div").show()
       $(".input-qualities-div").append(response)
     })
@@ -150,6 +154,15 @@ var completeMeasure = function(){
       $(".input-qualities-div").empty()
       $("div.display-section").append(response)
       $("button.begin-measure-creation").show()
+    })
+  })
+}
+
+var completeSongCreation = function(){
+  $(document).on("click", "button.complete-song-creation", function(event){
+    event.preventDefault();
+    $.ajax({
+      method: "GET"
     })
   })
 }

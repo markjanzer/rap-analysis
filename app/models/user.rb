@@ -13,5 +13,5 @@ class User < ActiveRecord::Base
     self.password_hash = @password
   end
 
-  has_many :songs
+  has_many :transcribed_songs, class_name: "Song", foreign_key: :transcriber_id
 end

@@ -1,11 +1,18 @@
 get '/songs' do
   @songs = Song.all
   @current_user = User.find(session[:id]) if !session[:id].nil?
-  erb :'songs/show'
+  erb :'songs/index'
 end
 
 get '/songs/new' do
   erb :'songs/new'
+end
+
+get '/songs/:id' do
+  @song = Song.find(params[:id])
+  @artists = @song.artists
+  @album = @song.album
+  erb :'songs/show'
 end
 
 post '/songs' do

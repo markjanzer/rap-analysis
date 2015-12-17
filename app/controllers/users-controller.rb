@@ -7,6 +7,7 @@ post '/users' do
     new_user = User.create(username: params[:username])
     new_user.password = params[:password]
     new_user.save
+    session[:id] = new_user.id
     redirect '/songs'
   else
     # RAISE AN ERROR HERE
