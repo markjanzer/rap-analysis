@@ -23,7 +23,7 @@ post '/songs' do
   artist = Artist.find_by(name: params[:artist])
   album = Album.find_by(title: params[:album])
 
-  song = Song.create(name: params[:song])
+  song = Song.create(name: params[:song], transcriber: current_user)
   artist.songs << song
   album.songs << song
 

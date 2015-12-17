@@ -19,8 +19,11 @@ put '/measures/:id/text' do #THIS IS NOT RESTFUL
 end
 
 put '/measures/:id/complete' do #THIS IS NOT RESTFUL
-  @measure = Measure.find(params[:id])
-  erb :'/partials/show-measure', layout: false
+  # @measure = Measure.find(params[:id])
+  # erb :'/partials/show-measure', layout: false
+  song = Measure.find(params[:id]).section.song
+  erb :'/partials/display-song', locals: { song: song }, layout: false
+
 end
 
 

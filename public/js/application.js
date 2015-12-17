@@ -15,8 +15,6 @@ $(document).ready(function() {
 
   completeMeasure();
 
-  completeSongCreation();
-
 });
 
 var beginSectionCreation = function(){
@@ -152,20 +150,16 @@ var completeMeasure = function(){
       url: "/measures/" + measureID + "/complete"
       }).done(function(response){
       $(".input-qualities-div").empty()
-      $("div.display-section").append(response)
+      // I want to learn how to use load and use it here
+      // $("div.display-song").load("/views/partials/display-song.erb", { song: JSON.parse(response)})
+      $("div.display-song").empty()
+      $("div.display-song").append(response)
       $("button.begin-measure-creation").show()
     })
   })
 }
 
-var completeSongCreation = function(){
-  $(document).on("click", "button.complete-song-creation", function(event){
-    event.preventDefault();
-    $.ajax({
-      method: "GET"
-    })
-  })
-}
+
 
 
 
