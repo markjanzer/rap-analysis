@@ -1,4 +1,8 @@
+require_relative "stats_module"
+
 class Song < ActiveRecord::Base
+  include Statistics
+
   has_many :artists_songs
   has_many :artists, through: :artists_songs
   belongs_to :transcriber, class_name: "User"

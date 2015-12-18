@@ -1,4 +1,8 @@
+require_relative "stats_module"
+
 class Album < ActiveRecord::Base
+  include Statistics
+
   has_many :albums_artists
   has_many :artists, through: :albums_artists
   has_many :songs
