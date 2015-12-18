@@ -1,10 +1,10 @@
 html {
-      text-align: center;
+  text-align: center;
 }
 
 @media (min-width: 30em) {
-    .row { width: 100%; display: table; table-layout: fixed; }
-    .col { display: table-cell; }
+  .row { width: 100%; display: table; table-layout: fixed; }
+  .col { display: table-cell; }
 }
 
 .container {
@@ -48,6 +48,10 @@ th {
 .col button {
   width: 100%;
 }
+
+.col {
+  outline:1px #000 solid;
+}
 /*.col {
     height: 4em;
     vertical-align: middle;
@@ -64,14 +68,7 @@ I should make a constant that
 is an association of colors and rhymes
 And then use color instead of class*/
 
-.orangeRhyme {
-  background-color: orange;
-}
-
-.purpleRhyme {
-  background-color: purple;
-}
-
+/*QUALITIES*/
 .end-rhyme {
   font-style: italic;
 }
@@ -80,6 +77,48 @@ And then use color instead of class*/
   font-weight: bold;
 }
 
-.col {
-  outline:1px #000 solid;
+/*RHYMES*/
+
+.aquaRhyme {
+  background-color: aqua;
 }
+.blueRhyme {
+  background-color: blue;
+}
+.fuchsiaRhyme {
+  background-color: fuchsia;
+}
+.orangeRhyme {
+  background-color: orange;
+}
+.limeRhyme {
+  background-color: lime;
+}
+.greenRhyme {
+  background-color: green;
+}
+.maroonRhyme {
+  background-color: maroon;
+}
+.navyRhyme {
+  background-color: navy;
+}
+.oliveRhyme {
+  background-color: olive;
+}
+.purpleRhyme {
+  background-color: purple;
+}
+.redRhyme {
+  background-color: red;
+}
+.tealRhyme {
+  background-color: teal;
+}
+.yellowRhyme {
+  background-color: yellow;
+}
+
+
+
+

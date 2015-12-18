@@ -38,4 +38,9 @@ get '/songs/:id/edit' do
 end
 
 
-
+delete '/songs/:id' do
+  song = Song.find(params[:id])
+  # REFACTOR Fix this destroy method
+  song.destroy
+  redirect '/songs'
+end
