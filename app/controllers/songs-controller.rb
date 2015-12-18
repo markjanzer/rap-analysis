@@ -1,6 +1,6 @@
 get '/songs' do
   @songs = Song.all
-  @current_user = User.find(session[:id]) if !session[:id].nil?
+  current_user
   erb :'songs/index'
 end
 
@@ -23,7 +23,7 @@ post '/songs' do
   artist = Artist.find_by(name: params[:artist])
   album = Album.find_by(title: params[:album])
 
-  song = Song.create(name: params[:song], transcriber: current_user)
+  song = Song.create(name: params[:song], transcriber: current_user, spotify_uri: params["spotify-uri"])
   artist.songs << song
   album.songs << song
 

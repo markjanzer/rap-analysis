@@ -5,6 +5,15 @@
     <h2><%= @album.title %></h2>
   </div>
 
+  <div class="spotify-play-widget">
+
+  </div>
+
+  <% if !@song.spotify_uri.nil? %>
+  <iframe src="https://embed.spotify.com/?uri=spotify:track:<%= @song.spotify_uri %>" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+  <% end %>
+
+
   <div class="display-song">
     <%= erb :'/partials/display-song', locals: { song: @song }, layout: false %>
   </div>
