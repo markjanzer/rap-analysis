@@ -15,6 +15,9 @@ $(document).ready(function() {
 
   completeMeasure();
 
+  deleteSong();
+
+
 });
 
 var beginSectionCreation = function(){
@@ -158,8 +161,19 @@ var completeMeasure = function(){
     })
   })
 }
-// test
 
+var deleteSong = function(){
+  $(document).on("click", "button.delete-song", function(event){
+    event.preventDefault();
+    var songID = $(this).val()
+    $.ajax({
+      method: "DELETE",
+      url: "/songs/" + songID
+    }).done(function(response){
+      window.location.replace("/songs")
+    })
+  })
+}
 
 
 
