@@ -4,8 +4,13 @@
     <input type="hidden" name="measure_id" value="<%= @measure.id %>">
     <input type="hidden" class="selected" value="">
     <!-- Add variable to pass for  -->
-    <button style="color: orange" class="add-quality" value="orangeRhyme">OrangeRhyme</button>
-    <button style="color: purple" class="add-quality" value="purpleRhyme">PurpleRhyme</button>
+    <% COLORS = ["aqua", "blue", "fuchsia", "orange", "green", "lime", "maroon", "navy", "olive", "purple", "red", "teal", "yellow"] %>
+    <% COLORS.each do |color| %>
+    <button style="color: <%= color %>" class="add-quality" value="<%= color %>Rhyme"><%= color %>Rhyme</button>
+    <% end %>
+    <button style="color: white" class="add-quality" value="" >No Rhyme</button>
+
+
     <button class="add-quality" value="stressed">Stressed Syllable</button>
     <button class="add-quality" value="end-rhyme">End Rhyme</button>
 
