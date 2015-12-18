@@ -35,5 +35,14 @@ class Artist < ActiveRecord::Base
     self.cells.where.not(rhyme: nil).count/self.cells.where.not(content: "").count.to_f
   end
 
+  def percent_of_measures_with_stress_on_beat_one
+    stressed_one = self.measures.select do |measure|
+      measure.cells.any? do |cell|
+        cell.note_beginning == 1 && cell.stressed == true
+      end
+    end
+    stressed_one.count / self.measures.count.to_f
+  end
+
 
 end
