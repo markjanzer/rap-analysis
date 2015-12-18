@@ -1,0 +1,18 @@
+<div class="container">
+  <h1><%= @artist.name %></h1>
+  <h2>Region: <%= @artist.region %></h2>
+  <h3>Albums</h3>
+  <% @artist.albums.each do |album| %>
+    <h4><%= album.title %> :: <%= album.year %></h4>
+    <ul>
+    <% album.songs.each do |song| %>
+      <li><a href="/songs/<%= song.id %>"><%= song.name %></a></li>
+    <% end %>
+    </ul>
+  <% end %>
+  <h3>Statistics</h3>
+  <p>% of syllables rhymed: <%= @artist.percent_of_rhyming_syllables %></p>
+  <p>Average end rhyme syllable count: <%= @artist.average_end_rhyme_syllable_count %></p>
+  <p>Placement of stressed syllables: <%= @artist.placement_of_stressed_syllables %></p>
+  <p>Placement of end rhymes: <%= @artist.placement_of_end_rhymes %></p>
+</div>
