@@ -17,11 +17,13 @@
   <div class="display-song">
     <%= erb :'/partials/display-song', locals: { song: @song }, layout: false %>
   </div>
-  <% puts @song.transcriber %>
-  <% puts current_user %>
   <% if current_user %>
     <% if @song.transcriber.username == current_user.username %>
       <a href="/songs/<%= @song.id %>/edit"><button>Edit Song</button></a>
     <% end %>
   <% end %>
+
+  <%= erb :'/partials/statistics', locals: { content: @song }, layout: false %>
+
+
 </div>

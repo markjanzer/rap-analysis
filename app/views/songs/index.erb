@@ -4,7 +4,7 @@
   <ul>
     <% @songs.each do |song| %>
     <li>
-      <a href="songs/<%= song.id %>"><%= song.name %></a> :: <a href="artists/<%= song.artists.first.id %>"><%= song.artists.first.name %></a> :: <%= song.album.title %></a>
+      <a href="songs/<%= song.id %>"><%= song.name %></a> :: <a href="artists/<%= song.artists.first.id %>"><%= song.artists.first.name %></a> :: <a href="albums/<%= song.album.id %>"><%= song.album.title %></a>
     </li>
     <% end %>
   </ul>
