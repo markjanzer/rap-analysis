@@ -1,6 +1,7 @@
 class Section < ActiveRecord::Base
   belongs_to :song
   belongs_to :artist
+  has_many :phrases
   has_many :measures
   has_many :cells, through: :measures
 
