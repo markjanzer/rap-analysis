@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  addArtistToForm();
+
   beginSectionCreation();
   createSection();
 
@@ -19,6 +21,16 @@ $(document).ready(function() {
 
 
 });
+
+var addArtistToForm = function(){
+  $(document).on("click", "button.add-artist", function(event){
+    event.preventDefault();
+    var artistNum = $(this).prev().prev().attr("name").slice(-1)
+    var newArtistNum = (Number(artistNum) + 1).toString()
+    $("button.add-artist").before($('<input type="text" name="artist-' + newArtistNum + '">'))
+    $("button.add-artist").before($('<br>'))
+  })
+}
 
 var beginSectionCreation = function(){
   $(document).on("click", ".begin-section-creation", function(event){
