@@ -1,0 +1,8 @@
+<h1>Rap Analysis</h1>
+<ul>
+  <% @songs.each do |song| %>
+    <li><%= song.id %></li>
+  <% end %>
+</ul>
+
+<%= link_to "New Song", new_song_path %>
