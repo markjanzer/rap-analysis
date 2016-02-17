@@ -1,8 +1,0 @@
-<div class="container">
-  <h1><%= @album.title %></h1>
-  <h2><%= @album.artists.first.name %></h2>
-  <h2><%= @album.year %></h2>
-
-  <%= erb :'/partials/statistics', locals: { content: @album }, layout: false %>
-
-</div>
