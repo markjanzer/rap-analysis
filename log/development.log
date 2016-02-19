@@ -1873,3 +1873,603 @@ ORDER BY c.conname
   [1m[35mSection Load (9.9ms)[0m  SELECT "sections".* FROM "sections" INNER JOIN "artist_sections" ON "sections"."id" = "artist_sections"."section_id" WHERE "artist_sections"."artist_id" = $1  [["artist_id", 1]]
   [1m[36mArtist Load (0.5ms)[0m  [1mSELECT  "artists".* FROM "artists"  ORDER BY "artists"."id" ASC LIMIT 1[0m
   [1m[35mSong Load (3.0ms)[0m  SELECT "songs".* FROM "songs" INNER JOIN "artist_songs" ON "songs"."id" = "artist_songs"."song_id" WHERE "artist_songs"."artist_id" = $1  [["artist_id", 1]]
+
+
+Started GET "/" for ::1 at 2016-02-19 13:11:12 -0800
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomepageController#index as HTML
+  [1m[35mSong Load (25.6ms)[0m  SELECT "songs".* FROM "songs"
+  Rendered homepage/index.erb within layouts/application (89.6ms)
+Completed 200 OK in 1638ms (Views: 1486.4ms | ActiveRecord: 69.0ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:11:20 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (80.2ms)
+Completed 200 OK in 170ms (Views: 169.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/songs" for ::1 at 2016-02-19 13:24:01 -0800
+Processing by SongsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"gMlWvnZb2ERnsJEIBKB24CLFzEY+zxaeOE/JatLv81IQcM3fxGfkIKeT/vgrXtJB9mKp6l0LyM8MZyWOLcmNPQ==", "commit"=>"Create Song"}
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (30.3ms)[0m  INSERT INTO "songs" ("created_at", "updated_at") VALUES ($1, $2) RETURNING "id"  [["created_at", "2016-02-19 21:24:01.463046"], ["updated_at", "2016-02-19 21:24:01.463046"]]
+  [1m[36m (45.1ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/songs/2/edit
+Completed 302 Found in 207ms (ActiveRecord: 76.4ms)
+
+
+Started GET "/songs/2/edit" for ::1 at 2016-02-19 13:24:01 -0800
+Processing by SongsController#edit as HTML
+  Parameters: {"id"=>"2"}
+  Rendered songs/edit.erb within layouts/application (1.0ms)
+Completed 200 OK in 201ms (Views: 200.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:24:05 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (235.4ms)
+Completed 500 Internal Server Error in 282ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `song_name' for #<Song:0x007fd8a5d3d5a8>):
+    1: <h1>Create A New Song</h1>
+    2: <%= form_for @song do |f| %>
+    3:   <% f.label :song_name %>
+    4:   <% f.text_field :song_name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+    7:   <% f.text_field :artist %>
+  app/views/songs/new.erb:4:in `block in _app_views_songs_new_erb___2268153281577668594_70284235861380'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284235861380'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (98.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (136.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (264.1ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:24:07 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (5.7ms)
+Completed 500 Internal Server Error in 17ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `song_name' for #<Song:0x007fd8ad0294e0>):
+    1: <h1>Create A New Song</h1>
+    2: <%= form_for @song do |f| %>
+    3:   <% f.label :song_name %>
+    4:   <% f.text_field :song_name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+    7:   <% f.text_field :artist %>
+  app/views/songs/new.erb:4:in `block in _app_views_songs_new_erb___2268153281577668594_70284237028840'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284237028840'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (10.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.1ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (90.1ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (81.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (175.3ms)
+
+
+Started GET "/" for ::1 at 2016-02-19 13:25:02 -0800
+Processing by HomepageController#index as HTML
+  [1m[35mSong Load (0.7ms)[0m  SELECT "songs".* FROM "songs"
+  Rendered homepage/index.erb within layouts/application (10.5ms)
+Completed 200 OK in 400ms (Views: 393.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:28:13 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (21.8ms)
+Completed 500 Internal Server Error in 98ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `song_name' for #<Song:0x007fd8a5d66e80>):
+    1: <h1>Create A New Song</h1>
+    2: <%= form_for @song do |f| %>
+    3:   <% f.label :song_name %>
+    4:   <% f.text_field :song_name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+    7:   <% f.text_field :artist %>
+  app/views/songs/new.erb:4:in `block in _app_views_songs_new_erb___2268153281577668594_70284235961300'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284235961300'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (98.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (111.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (226.0ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:28:15 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (8.4ms)
+Completed 500 Internal Server Error in 15ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `song_name' for #<Song:0x007fd8ae070588>):
+    1: <h1>Create A New Song</h1>
+    2: <%= form_for @song do |f| %>
+    3:   <% f.label :song_name %>
+    4:   <% f.text_field :song_name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+    7:   <% f.text_field :artist %>
+  app/views/songs/new.erb:4:in `block in _app_views_songs_new_erb___2268153281577668594_70284304668220'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284304668220'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (9.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (97.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (76.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (172.6ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:28:42 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (5.7ms)
+Completed 500 Internal Server Error in 25ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `artist' for #<Song:0x007fd8ad123710>):
+    4:   <% f.text_field :name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+    7:   <% f.text_field :artist %>
+    8:   <br>
+    9:   <% f.label :album %>
+   10:   <% f.text_field :album %>
+  app/views/songs/new.erb:7:in `block in _app_views_songs_new_erb___2268153281577668594_70284296654400'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284296654400'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (92.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (101.9ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (213.4ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:34:22 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (18.5ms)
+Completed 500 Internal Server Error in 45ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `artist' for #<Song:0x007fd8ad1aa878>):
+    4:   <% f.text_field :name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+    7:   <% f.text_field :artist %>
+    8:   <br>
+    9:   <% f.label :album %>
+   10:   <% f.text_field :album %>
+  app/views/songs/new.erb:7:in `block in _app_views_songs_new_erb___2268153281577668594_70284296931100'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284296931100'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (10.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (8.0ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (97.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (86.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (180.3ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 13:43:06 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (22.5ms)
+Completed 500 Internal Server Error in 49ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `artist' for #<Song:0x007fd8a5bb8728>):
+    4:   <% f.text_field :name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+    7:   <% f.text_field :artist %>
+    8:   <br>
+    9:   <% f.label :album %>
+   10:   <% f.text_field :album %>
+  app/views/songs/new.erb:7:in `block in _app_views_songs_new_erb___2268153281577668594_70284235069980'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284235069980'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (5.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (92.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (88.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (183.4ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:04:04 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (10.1ms)
+Completed 500 Internal Server Error in 73ms (ActiveRecord: 3.4ms)
+
+ActionView::Template::Error (No route matches {:action=>"show", :controller=>"songs"} missing required keys: [:id]):
+    1: <h1>Create A New Song</h1>
+    2: <%= form_tag(song_path) do |f| %>
+    3:   <% f.label :song_name %>
+    4:   <% f.text_field :name %>
+    5:   <br>
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284232888960'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (5.0ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (101.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (103.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (195.2ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:04:36 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (26.1ms)
+Completed 500 Internal Server Error in 52ms (ActiveRecord: 0.0ms)
+
+SyntaxError (/Users/markjanzer/programming/rap-analysis/app/views/songs/new.erb:2: syntax error, unexpected tLABEL
+...=  form_tag(song_path), method: 'post' do |f| @output_buffer...
+...                               ^
+/Users/markjanzer/programming/rap-analysis/app/views/songs/new.erb:2: syntax error, unexpected keyword_do, expecting keyword_end
+...g(song_path), method: 'post' do |f| @output_buffer.safe_appe...
+...                               ^
+/Users/markjanzer/programming/rap-analysis/app/views/songs/new.erb:27: syntax error, unexpected keyword_ensure, expecting end-of-input):
+  app/views/songs/new.erb:2: syntax error, unexpected tLABEL
+  app/views/songs/new.erb:2: syntax error, unexpected keyword_do, expecting keyword_end
+  app/views/songs/new.erb:27: syntax error, unexpected keyword_ensure, expecting end-of-input
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (84.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (106.8ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (203.4ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:04:54 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (1.3ms)
+Completed 500 Internal Server Error in 18ms (ActiveRecord: 0.0ms)
+
+SyntaxError (/Users/markjanzer/programming/rap-analysis/app/views/songs/new.erb:2: syntax error, unexpected tLABEL
+...d=  form_tag('/songs'), method: 'post' do |f| @output_buffer...
+...                               ^
+/Users/markjanzer/programming/rap-analysis/app/views/songs/new.erb:2: syntax error, unexpected keyword_do, expecting keyword_end
+...ag('/songs'), method: 'post' do |f| @output_buffer.safe_appe...
+...                               ^
+/Users/markjanzer/programming/rap-analysis/app/views/songs/new.erb:27: syntax error, unexpected keyword_ensure, expecting end-of-input):
+  app/views/songs/new.erb:2: syntax error, unexpected tLABEL
+  app/views/songs/new.erb:2: syntax error, unexpected keyword_do, expecting keyword_end
+  app/views/songs/new.erb:27: syntax error, unexpected keyword_ensure, expecting end-of-input
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (92.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.7ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (75.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (167.0ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:05:28 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (4.4ms)
+Completed 500 Internal Server Error in 46ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `label' for nil:NilClass):
+    1: <h1>Create A New Song</h1>
+    2: <%= form_tag('/songs', method: :post) do |f| %>
+    3:   <% f.label :song_name %>
+    4:   <% f.text_field :name %>
+    5:   <br>
+    6:   <% f.label :artist %>
+  app/views/songs/new.erb:3:in `block in _app_views_songs_new_erb___2268153281577668594_70284296887940'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284296887940'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.1ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (86.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (123.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (212.8ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:06:58 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (31.2ms)
+Completed 500 Internal Server Error in 80ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined local variable or method `f' for #<#<Class:0x007fd8a5cb4280>:0x007fd8abf7d0d8>):
+    1: <h1>Create A New Song</h1>
+    2: <%= form_tag('/songs', method: :post) do %>
+    3:   <%# f.label :song_name %>
+    4:   <% f.text_field :name %>
+    5:   <br>
+    6:   <%# f.label :artist %>
+    7:   <% f.text_field :artist %>
+  app/views/songs/new.erb:4:in `block in _app_views_songs_new_erb___2268153281577668594_70284224356160'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284224356160'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.9ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.2ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (84.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (111.1ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (206.4ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:08:56 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (16.0ms)
+Completed 500 Internal Server Error in 57ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined local variable or method `f' for #<#<Class:0x007fd8a5cb4280>:0x007fd8a67c8ba8>):
+    27:   <br>
+    28:   <!-- refactor rename -->
+    29: 
+    30:   <%= f.submit %>
+    31: <% end %>
+  app/views/songs/new.erb:30:in `block in _app_views_songs_new_erb___2268153281577668594_70284241406520'
+  app/views/songs/new.erb:2:in `_app_views_songs_new_erb___2268153281577668594_70284241406520'
+
+
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.1ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (84.1ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.6ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (95.1ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /Users/markjanzer/.rbenv/versions/2.2.2/lib/ruby/gems/2.2.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (243.3ms)
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:09:17 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (1.5ms)
+Completed 200 OK in 342ms (Views: 341.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/homepage.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/songs.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/jquery.self-c64a74367bda6ef8b860f19e74df08927ca99d2be2ac934e9e92d5fd361e0da4.js?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/jquery_ujs.self-d602bdfe68ffc63b9f9cc512872aa3cfff046228a0a36e90dd476e8ef54c1b09.js?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/homepage.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/songs.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-02-19 14:09:17 -0800
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:09:26 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (1.1ms)
+Completed 200 OK in 47ms (Views: 46.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/homepage.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/songs.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/jquery_ujs.self-d602bdfe68ffc63b9f9cc512872aa3cfff046228a0a36e90dd476e8ef54c1b09.js?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/jquery.self-c64a74367bda6ef8b860f19e74df08927ca99d2be2ac934e9e92d5fd361e0da4.js?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/homepage.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/songs.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-02-19 14:09:26 -0800
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:09:46 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (0.9ms)
+Completed 200 OK in 45ms (Views: 44.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/homepage.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/songs.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/jquery_ujs.self-d602bdfe68ffc63b9f9cc512872aa3cfff046228a0a36e90dd476e8ef54c1b09.js?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/jquery.self-c64a74367bda6ef8b860f19e74df08927ca99d2be2ac934e9e92d5fd361e0da4.js?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/homepage.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/songs.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-02-19 14:09:46 -0800
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:12:58 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (6.5ms)
+Completed 200 OK in 417ms (Views: 404.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/songs.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/homepage.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/jquery.self-c64a74367bda6ef8b860f19e74df08927ca99d2be2ac934e9e92d5fd361e0da4.js?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/jquery_ujs.self-d602bdfe68ffc63b9f9cc512872aa3cfff046228a0a36e90dd476e8ef54c1b09.js?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/homepage.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/songs.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-02-19 14:12:59 -0800
+
+
+Started GET "/songs/new" for ::1 at 2016-02-19 14:14:26 -0800
+Processing by SongsController#new as HTML
+  Rendered songs/new.erb within layouts/application (1.4ms)
+Completed 200 OK in 235ms (Views: 234.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/homepage.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/songs.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/jquery.self-c64a74367bda6ef8b860f19e74df08927ca99d2be2ac934e9e92d5fd361e0da4.js?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/jquery_ujs.self-d602bdfe68ffc63b9f9cc512872aa3cfff046228a0a36e90dd476e8ef54c1b09.js?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/homepage.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/songs.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-02-19 14:14:27 -0800
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-02-19 14:14:27 -0800

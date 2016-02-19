@@ -1,18 +1,24 @@
 <h1>Create A New Song</h1>
-<%= form_for @song do |f| %>
-  <%# f.label :song_name %>
-  <%# f.text_field :song_name %>
+<%= form_tag('/songs', method: :post) do %>
+  <p>Song Name</p>
+  <input type="text", name="name">
   <br>
-  <%# f.label :artist %>
-  <%# f.text_field :artist %>
+  <p>Artist</p>
+  <input type="text", name="artist">
   <br>
-  <%# f.label :album %>
-  <%# f.text_field :album %>
+  <p>Album</p>
+  <input type="text", name="album">
   <br>
-  <!-- What subdivision -->
-  <!-- How many beats per measure -->
-  <!-- How long for beat resolution -->
-  <!-- What year was the song written in? -->
-  <%= f.submit %>
+  <p>Measures per musical phrase</p>
+  <input type="text", name="measures-per-beat-resolution" value="4">
+  <br>
+  <p>Beats per measure</p>
+  <input type="text", name="beats-per-measure", value="4">
+  <br>
+  <p>Beat subdivison</p>
+  <input type="text", name="beat-subdivision", value="16">
+  <br>
+  <!-- refactor rename -->
+  <input type="submit">
 <% end %>
 
