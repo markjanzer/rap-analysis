@@ -30,11 +30,6 @@ ActiveRecord::Schema.define(version: 20160219205158) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "albums_artists", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "artist_sections", force: :cascade do |t|
     t.integer  "artist_id"
     t.integer  "section_id"
@@ -52,13 +47,6 @@ ActiveRecord::Schema.define(version: 20160219205158) do
   create_table "artists", force: :cascade do |t|
     t.string   "name"
     t.string   "region"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "artists_songs", force: :cascade do |t|
-    t.integer  "artist_id"
-    t.integer  "song_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -102,6 +90,7 @@ ActiveRecord::Schema.define(version: 20160219205158) do
   create_table "songs", force: :cascade do |t|
     t.string   "name"
     t.string   "region"
+    t.integer  "album_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

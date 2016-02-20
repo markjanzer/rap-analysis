@@ -9,6 +9,9 @@ class SongsController < ApplicationController
   end
 
   def edit
+    @song = Song.find(params[:id])
+    @artist_names = @song.artists.map {|artist| artist.name}.join(", ")
+
   end
 
   def create

@@ -1,0 +1,48 @@
+<div class="new-section-form">
+  <h3>New Section Form</h3>
+  <%= form_tag do %>
+    <p>Section Type</p>
+    <select name="section-type" class="section-type">
+      <option value="Verse">Verse</option>
+      <option value="Chorus">Chorus</option>
+      <option value="Intro">Intro</option>
+      <option value="Bridge">Bridge</option>
+      <option value="Outro">Outro</option>
+      <option value="Other">Other</option>
+    </select>
+    <br>
+    <!-- refactor rename -->
+    <p>Measures per musical phrase</p>
+    <!-- <input type="text", name="measures-per-beat-resolution" value="4"> -->
+    <select name="measures-per-phrase" class="measures-per-phrase">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4" selected="selected">4</option>
+      <option value="8">8</option>
+    </select>
+    <br>
+
+    <p>Beats per measure</p>
+    <!-- <input type="text", name="beats-per-measure", value="4"> -->
+    <select name="beats-per-measure" class="beats-per-measure">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4" selected="selected">4</option>
+    </select>
+    <br>
+
+    <p>Beat subdivison</p>
+    <!-- <input type="text", name="beat-subdivision", value="16"> -->
+    <select name="beat-subdivision" class="beat-subdivision">
+      <option value="8">8</option>
+      <option value="16" selected="selected">16</option>
+      <option value="32">32</option>
+      <option value="12">12</option>
+      <option value="24">24</option>
+    </select>
+    <br>
+
+    <input type="submit" class="section-create">
+
+  <% end %>
+</div>
