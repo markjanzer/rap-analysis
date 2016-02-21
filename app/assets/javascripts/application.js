@@ -14,3 +14,14 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function() {
+  createSection();
+});
+
+function createSection(){
+  (document).on("submit", ".new-section-form", function(event){
+    event.preventDefault();
+
+  })
+}
