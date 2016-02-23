@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :songs
     resources :artists
     resources :albums
+    resources :sections
 
   # Example resource route with options:
   #   resources :products do

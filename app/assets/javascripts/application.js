@@ -15,13 +15,30 @@
 //= require turbolinks
 //= require_tree .
 
+
 $(document).ready(function() {
   createSection();
+  purplify();
 });
 
 function createSection(){
-  (document).on("submit", ".new-section-form", function(event){
+  $(document).on("click", ".new-section-form", function(event){
     event.preventDefault();
+    var sectionData = $(".new-section-form").serialize();
+    var request = $.ajax({
+      url: "/sections/",
+      type: "POST",
+      data: sectionData
+    })
+    request.done(function(response){
+      console.log("MADE IT BOYS")
+    })
+  })
+}
 
+function purplify(){
+  $(document).on("click", "h1", function(event){
+    event.preventDefault();
+    $("body").css("background-color", "yellow");
   })
 }
