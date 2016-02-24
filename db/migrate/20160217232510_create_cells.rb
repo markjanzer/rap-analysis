@@ -7,7 +7,7 @@ class CreateCells < ActiveRecord::Migration
       t.integer :note_duration
       t.boolean :stressed, default: false
       t.boolean :end_rhyme, default: false
-      t.intger :rhyme, default: nil
+      t.integer :rhyme, default: nil
       t.string :content, default: nil
 
       t.timestamps null: false

@@ -3,7 +3,7 @@
   <%= form_tag( {}, {class: 'new-section-form'}) do %>
     <input type="hidden" name="song-id" value="<%= @song.id %>">
     <!-- Right now there is only capability to add a section to the end of a song -->
-    <input type="hidden" name="section-number" value="<%= song.sections.count %>">
+    <input type="hidden" name="section-number" value="<%= @song.sections.count %>">
     <p>Section Type</p>
     <select name="section-type" class="section-type">
       <option value="Verse">Verse</option>

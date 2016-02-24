@@ -31,7 +31,7 @@ function createSection(){
       data: sectionData
     })
     request.done(function(response){
-      console.log("MADE IT BOYS")
+      $(".song-edit").html(response)
     })
   })
 }
