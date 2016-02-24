@@ -3,13 +3,13 @@ class Cell < ActiveRecord::Base
   def html(attribute)
     case attribute
     when "stressed"
-      if this.stressed
+      if self.stressed
         return "stressed"
       else
         return ""
       end
     when "end_rhyme"
-      if this.end_rhyme
+      if self.end_rhyme
         return "end-rhyme"
       else
         return ""

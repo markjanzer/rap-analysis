@@ -1,4 +1,4 @@
-<% @song.section.each do |section| %>
-  <%= render partial: "show_section", locals: { @section: section } %>
+<% song.sections.each do |section| %>
+  <%= render partial: "show_section", locals: { section: section } %>
 <% end %>
 
