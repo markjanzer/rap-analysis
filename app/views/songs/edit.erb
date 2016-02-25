@@ -11,5 +11,5 @@
 <%= render partial: "add_section_button" %>
 
 <div class="song-edit">
-
+  <%= render partial: 'show_song', locals: { song: @song, edit_type: 'attributes' } %>
 </div>

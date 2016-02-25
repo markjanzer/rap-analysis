@@ -1,0 +1,14 @@
+<div class="display-section">
+  <!-- refactor for section artists -->
+  <h5> <%= section.section_type %> by <%= section.song.artists.name %></h5>
+  <!-- refactor for different beats per measure -->
+  <div class="row">
+    <div class="col" style="width:25%">1</div>
+    <div class="col" style="width:25%">2</div>
+    <div class="col" style="width:25%">3</div>
+    <div class="col" style="width:25%">4</div>
+  </div>
+  <% section.measures.each do |measure| %>
+    <%= render partial: 'show_measure', locals: { measure: measure, edit: edit } %>
+  <% end %>
+</div>

@@ -1,6 +1,9 @@
 <div class="new-section-div">
   <h3>New Section Form</h3>
-  <%= form_tag(class: 'new-section-form') do %>
+  <%= form_tag( {}, {class: 'new-section-form'}) do %>
+    <input type="hidden" name="song-id" value="<%= @song.id %>">
+    <!-- Right now there is only capability to add a section to the end of a song -->
+    <input type="hidden" name="section-number" value="<%= @song.sections.count %>">
     <p>Section Type</p>
     <select name="section-type" class="section-type">
       <option value="Verse">Verse</option>
@@ -11,9 +14,19 @@
       <option value="Other">Other</option>
     </select>
     <br>
+
+    <p>Phrases in section</p>
+    <select name="phrases-in-section" class="phrases-in-section">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4" selected="selected">4</option>
+      <option value="6">6</option>
+      <option value="8">8</option>
+    </select>
+    <br>
+
     <!-- refactor rename -->
     <p>Measures per musical phrase</p>
-    <!-- <input type="text", name="measures-per-beat-resolution" value="4"> -->
     <select name="measures-per-phrase" class="measures-per-phrase">
       <option value="2">2</option>
       <option value="3">3</option>
@@ -23,7 +36,6 @@
     <br>
 
     <p>Beats per measure</p>
-    <!-- <input type="text", name="beats-per-measure", value="4"> -->
     <select name="beats-per-measure" class="beats-per-measure">
       <option value="2">2</option>
       <option value="3">3</option>
@@ -32,7 +44,6 @@
     <br>
 
     <p>Beat subdivison</p>
-    <!-- <input type="text", name="beat-subdivision", value="16"> -->
     <select name="beat-subdivision" class="beat-subdivision">
       <option value="8">8</option>
       <option value="16" selected="selected">16</option>

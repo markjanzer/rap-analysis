@@ -56,12 +56,12 @@ ActiveRecord::Schema.define(version: 20160219205158) do
     t.integer  "measure_cell_number"
     t.integer  "note_beginning"
     t.integer  "note_duration"
-    t.boolean  "stressed"
-    t.boolean  "end_rhyme"
-    t.string   "rhyme"
+    t.boolean  "stressed",            default: false
+    t.boolean  "end_rhyme",           default: false
+    t.integer  "rhyme"
     t.string   "content"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "measures", force: :cascade do |t|
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20160219205158) do
   end
 
   create_table "sections", force: :cascade do |t|
-    t.string   "type"
+    t.string   "section_type"
     t.integer  "section_number"
     t.integer  "song_id"
     t.datetime "created_at",     null: false
