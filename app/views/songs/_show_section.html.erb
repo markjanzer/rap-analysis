@@ -9,6 +9,6 @@
     <div class="col" style="width:25%">4</div>
   </div>
   <% section.measures.each do |measure| %>
-    <%= render partial: 'show_measure', locals: { measure: measure } %>
+    <%= render partial: 'show_measure', locals: { measure: measure, edit: edit } %>
   <% end %>
 </div>

@@ -7,4 +7,5 @@ class Artist < ActiveRecord::Base
 
   has_many :artist_section
   has_many :sections, through: :artist_section
+
 end
