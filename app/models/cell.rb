@@ -16,4 +16,9 @@ class Cell < ActiveRecord::Base
       end
     end
   end
+  # refactor move to a different place?
+  def self.colors
+    ["aqua", "blue", "fuchsia", "orange", "green", "lime", "maroon", "navy", "olive", "purple", "red", "teal", "yellow"]
+  end
+
 end
