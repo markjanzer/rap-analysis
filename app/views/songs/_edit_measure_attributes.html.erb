@@ -4,9 +4,7 @@
     <!-- refactor to have to translate cell into html for the cell -->
     <% measure.ordered_cells.each do |cell| %>
       <div class="col select <%= cell.rhyme %> <%= cell.html('stressed') %> <%= cell.html('end_rhyme') %>" name="<%= cell.id %>" style="width:<%= cell.note_duration/9.6 %>%">
-        <button class="select <%= cell.rhyme %> <%= cell.html('stressed') %> <%= cell.html('end_rhyme')%>" name="<%= cell.id %>">
-          <%= cell.content %>
-        </button>
+        <%= cell.content %>
       </div>
     <% end %>
   </div>
