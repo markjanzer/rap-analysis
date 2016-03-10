@@ -14,11 +14,13 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require jquery-ui/selectable
 
 
 $(document).ready(function() {
   createSection();
   purplify();
+  selectable();
 });
 
 function createSection(){
@@ -37,8 +39,18 @@ function createSection(){
 }
 
 function purplify(){
-  $(document).on("click", "h1", function(event){
+  $("document").on("click", "#selectable", function(event){
     event.preventDefault();
     $("body").css("background-color", "yellow");
   })
+}
+
+// function selectable(){
+//   $('#selectable').selectable();
+// }
+
+function selectable(){
+  $('.selectable').selectable({
+    filter: ".select"
+  });
 }
