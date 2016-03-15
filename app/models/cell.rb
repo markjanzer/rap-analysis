@@ -1,4 +1,6 @@
 class Cell < ActiveRecord::Base
+  belongs_to :measure
+
   # Makes html cells easier (maybe)
   def html(attribute)
     case attribute
@@ -16,4 +18,9 @@ class Cell < ActiveRecord::Base
       end
     end
   end
+  # refactor move to a different place?
+  def self.colors
+    ["aqua", "blue", "fuchsia", "orange", "green", "lime", "maroon", "navy", "olive", "purple", "red", "teal", "yellow"]
+  end
+
 end

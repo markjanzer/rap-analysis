@@ -25,6 +25,24 @@ class SongsController < ApplicationController
   end
 
   def update
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    if params["quality"] == "stressed"
+      new_stressed_value = !all_cells.first.stressed
+      all_cells.each do |cell|
+        cell.update(stressed: new_stressed_value)
+      end
+      render json: {quality: new_stressed_value}
+    elsif params["quality"] == "end-rhyme"
+      p "now we doing end rhyme"
+    else
+      p "GOT TO EDIT RHYME"
+      all_cells.each do |cell|
+        cell.update(rhyme: params['quality'])
+      end
+      render json: {quality: params['quality']}
+    end
   end
 
   def destroy

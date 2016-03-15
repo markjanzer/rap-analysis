@@ -5,7 +5,7 @@
 </div>
 
 <div class="song-show">
-  <%= render partial: 'render_song', locals: { song: @song, edit: "none" } %>
+  <%= render partial: 'show_song', locals: { song: @song, edit: "none" } %>
 </div>
 
 <%= link_to("Edit Song", edit_song_path) %>

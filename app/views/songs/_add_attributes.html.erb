@@ -1,0 +1,12 @@
+<div class="attributes">
+  <button class="change-rhyme" value="" >No Rhyme</button>
+  <br>
+  <!-- Eventually do each with index and store colors as numbers -->
+  <% Cell.colors.each do |color|  %>
+    <button style="color: <%= color %>" class="change-rhyme" value="<%= color %>Rhyme"><%= color %>Rhyme</button>
+  <% end %>
+  <br>
+  <button class="change-stress" value="stressed">Stressed Syllable</button>
+  <br>
+  <button class="change-end-rhyme" value="end-rhyme">End Rhyme</button>
+</div>

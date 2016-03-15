@@ -14,11 +14,13 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require jquery-ui/selectable
 
 
 $(document).ready(function() {
   createSection();
-  purplify();
+  selectable();
+  changeRhyme();
 });
 
 function createSection(){
@@ -36,9 +38,66 @@ function createSection(){
   })
 }
 
-function purplify(){
-  $(document).on("click", "h1", function(event){
+function selectable(){
+  $('.selectable').selectable({
+    filter: ".select"
+  });
+}
+
+var changeRhyme = function(){
+  $(document).on("click", "button.change-rhyme", function(event){
     event.preventDefault();
-    $("body").css("background-color", "yellow");
+    var allCells = $(".ui-selected");
+    var cellIDs = $.map(allCells, function(cell){
+      return $(cell).attr("name");
+    });
+    var quality = $(this).attr("value");
+    // refactor This is to get song id
+    var songID = $("input[name='song-id']").attr("value");
+    // refactor to not include authenticity_token in params if possible
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID),
+      data: { quality: quality, cellIDs: cellIDs, authenticity_token: getCSRFTokenValue() }
+    }).done(function(response){
+      $.each(allCells, function(){
+        $(this).css("background-color", response['quality'].slice(0, -5))
+      })
+    })
   })
+}
+
+var changeStress = function(){
+  $(document).on("click", "button.change-stress", function(event){
+    event.preventDefault();
+    var allCells = $(".ui-selected")
+    var cellIDs = $.map(allCells, function(cell){
+      return $(cell).attr("name")
+    });
+    var quality = $(this).attr("value")
+    // refactor This is to get song id
+    var songID = $("input[name='song-id']").attr("value")
+    // refactor to not include authenticity_token in params if possible
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID),
+      data: { quality: quality, cellIDs: cellIDs, authenticity_token: getCSRFTokenValue() }
+    }).done(function(response){
+      if (response['quality']){
+        $.each(allCells, function(){
+          $(this).addClass("stressed");
+        })
+      } else {
+        $.each(allCells, function(){
+          $(this).removeClass("stressed");
+        })
+      }
+    })
+  })
+}
+
+
+
+function getCSRFTokenValue(){
+  return $('meta[name="csrf-token"]').attr('content');
 }

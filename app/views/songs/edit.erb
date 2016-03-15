@@ -1,5 +1,4 @@
 <h1>Edit Song</h1>
-
 <div class="song-header">
   <h2><%= @song.name %></h2>
   <p><%= @artist_names %></p>
@@ -10,6 +9,8 @@
 
 <%= render partial: "add_section_button" %>
 
-<div class="song-edit">
-  <%= render partial: 'show_song', locals: { song: @song, edit_type: 'attributes' } %>
+<%= render partial: "add_attributes" %>
+
+<div class="song-edit selectable">
+  <%= render partial: 'edit_song_attributes', locals: { song: @song } %>
 </div>
