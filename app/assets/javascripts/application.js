@@ -19,8 +19,8 @@
 
 $(document).ready(function() {
   createSection();
-  purplify();
   selectable();
+  changeRhyme();
 });
 
 function createSection(){
@@ -38,19 +38,38 @@ function createSection(){
   })
 }
 
-function purplify(){
-  $("document").on("click", "#selectable", function(event){
-    event.preventDefault();
-    $("body").css("background-color", "yellow");
-  })
-}
-
-// function selectable(){
-//   $('#selectable').selectable();
-// }
-
 function selectable(){
   $('.selectable').selectable({
     filter: ".select"
   });
+}
+
+var changeRhyme = function(){
+  $(document).on("click", "button.add-quality", function(event){
+    event.preventDefault();
+    var allCells = $(".ui-selected")
+    var cellIDs = $.map(allCells, function(cell){
+      return $(cell).attr("name")
+    });
+    var quality = $(this).attr("value")
+    var songID = $("input[name='song-id']").attr("value")
+    // refactor to not include authenticity_token in params if possible
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID),
+      data: { quality: quality, cellIDs: cellIDs, authenticity_token: getCSRFTokenValue() }
+    }).done(function(response){
+      $.each(allCells, function(){
+        console.log($(this));
+        console.log(response['quality']);
+        $(this).css("background-color", response['quality'].slice(0, -5))
+      })
+    })
+  })
+}
+
+
+
+function getCSRFTokenValue(){
+  return $('meta[name="csrf-token"]').attr('content');
 }

@@ -1,4 +1,6 @@
 class Cell < ActiveRecord::Base
+  belongs_to :measure
+
   # Makes html cells easier (maybe)
   def html(attribute)
     case attribute

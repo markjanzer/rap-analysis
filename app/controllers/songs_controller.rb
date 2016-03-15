@@ -25,6 +25,14 @@ class SongsController < ApplicationController
   end
 
   def update
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    all_cells.each do |cell|
+      cell.rhyme = params['quality']
+      cell.save
+    end
+    render json: {quality: params['quality']}
   end
 
   def destroy
