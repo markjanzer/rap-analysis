@@ -35,9 +35,12 @@ class SongsController < ApplicationController
       end
       render json: {quality: new_stressed_value}
     elsif params["quality"] == "end-rhyme"
-      p "now we doing end rhyme"
+      new_end_rhyme_value = !all_cells.first.end_rhyme
+      all_cells.each do |cell|
+        cell.update(end_rhyme: new_end_rhyme_value)
+      end
+      render json: {quality: new_end_rhyme_value}
     else
-      p "GOT TO EDIT RHYME"
       all_cells.each do |cell|
         cell.update(rhyme: params['quality'])
       end
