@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160322021959) do
+ActiveRecord::Schema.define(version: 20160219205158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,10 +68,10 @@ ActiveRecord::Schema.define(version: 20160322021959) do
     t.integer  "phrase_id"
     t.integer  "section_measure_number"
     t.integer  "phrase_measure_number"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "errors",                  default: false
-    t.float    "total_rhythmic_duration"
+    t.float    "total_rhythmic_value"
+    t.boolean  "rhythmic_errors"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "phrases", force: :cascade do |t|
