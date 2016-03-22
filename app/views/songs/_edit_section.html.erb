@@ -1,4 +1,4 @@
-<div class="edit-section-attributes">
+<div class="edit-section">
   <!-- refactor for section artists -->
   <h5> <%= section.section_type %> by <%= section.song.artists.name %></h5>
   <!-- refactor for different beats per measure -->
@@ -9,6 +9,6 @@
     <div class="col" style="width:25%">4</div>
   </div>
   <% section.measures.each do |measure| %>
-    <%= render partial: 'edit_measure_attributes', locals: { measure: measure } %>
+    <%= render partial: 'edit_measure', locals: { measure: measure } %>
   <% end %>
 </div>
