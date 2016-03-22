@@ -5,7 +5,7 @@
 //= require jquery-ui/selectable
 
 
-$(document).ready(function() {
+$(document).on('ready page:load', function(){
   createSection();
   selectable();
   changeRhyme();

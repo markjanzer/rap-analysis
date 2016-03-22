@@ -20,7 +20,7 @@ class SectionsController < ApplicationController
         end
       end
     end
-    render template: "songs/_edit_song_attributes", locals: { song: Song.find_by(id: Integer(params["song-id"]))}, layout: false
+    render template: "songs/_edit_song", locals: { song: Song.find_by(id: Integer(params["song-id"]))}, layout: false
   end
 
 end
