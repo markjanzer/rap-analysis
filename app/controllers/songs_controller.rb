@@ -40,6 +40,12 @@ class SongsController < ApplicationController
         cell.update(end_rhyme: new_end_rhyme_value)
       end
       render json: {quality: new_end_rhyme_value}
+    elsif params["quality"] == "lyrics"
+      all_cells.each do |cell|
+        cell.update(content: params["lyrics"])
+      end
+      # refactor unecessary, might be nice though if I want to show errors
+      render json: {quality: params["lyrics"]}
     else
       all_cells.each do |cell|
         cell.update(rhyme: params['quality'])
