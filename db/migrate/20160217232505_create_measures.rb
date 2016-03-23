@@ -5,7 +5,7 @@ class CreateMeasures < ActiveRecord::Migration
       t.integer :section_measure_number
       t.integer :phrase_measure_number
       t.float :total_rhythmic_value
-      t.boolean :rhythmic_errors
+      t.boolean :rhythmic_errors, default: false
 
       t.timestamps null: false
     end
