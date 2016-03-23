@@ -61,6 +61,10 @@ th {
   outline:1px #000 solid;
 }
 
+.invalid {
+  outline:1px red dotted;
+}
+
 /*.col {
     height: 4em;
     vertical-align: middle;
