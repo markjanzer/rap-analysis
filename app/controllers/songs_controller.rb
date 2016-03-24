@@ -63,6 +63,20 @@ class SongsController < ApplicationController
       end
       render json: measures_hash
 
+    elsif params["quality"] == "remove-cell"
+      all_measures = all_cells.map { |cell| cell.measure }.uniq
+      all_cells.each { |cell| cell.destroy }
+      measures_hash = {}
+      all_measures.each do |measure|
+        measure.update_measure
+        if measure.rhythmic_errors
+          measures_hash[measure.id] = render_to_string partial: "edit_invalid_measure", locals: {measure: measure}
+        else
+          measures_hash[measure.id] = render_to_string partial: "edit_measure", locals: {measure: measure}
+        end
+      end
+      render json: measures_hash
+
     else
       all_cells.each do |cell|
         cell.update(rhyme: params['quality'])

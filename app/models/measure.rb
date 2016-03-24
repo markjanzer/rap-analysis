@@ -7,8 +7,17 @@ class Measure < ActiveRecord::Base
   end
 
   def update_measure
+    self.update_cell_numbers
     self.update_cell_beginnings
     self.check_for_rhythmic_errors
+  end
+
+  def update_cell_numbers
+    cells = self.ordered_cells
+    cells.inject(cells.first.measure_cell_number) do |cell_number, cell|
+      cell.update(measure_cell_number: cell_number)
+      cell_number += 1
+    end
   end
 
   def update_cell_beginnings

@@ -13,6 +13,7 @@ $(document).on('ready page:load', function(){
   changeEndRhyme();
   changeLyric();
   changeRhythm();
+  removeCell();
 });
 
 function createSection(){
@@ -174,10 +175,31 @@ var changeRhythm = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      console.log(response)
       for (var key in response){
-        console.log($("input[value='" + key + "'][name='measure_id']").parent());
-        console.log(response[key])
+        $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
+      }
+    })
+  })
+}
+
+var removeCell = function(){
+  $(document).on("click", "button.remove-cell", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var allCells = $(".ui-selected")
+    var cellIDs = $.map(allCells, function(cell){
+      return $(cell).attr("name");
+    });
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID),
+      data: {
+        quality: "remove-cell",
+        cellIDs: cellIDs,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      for (var key in response){
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
       }
     })
