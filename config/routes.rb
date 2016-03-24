@@ -24,6 +24,7 @@ Rails.application.routes.draw do
         put 'change_lyrics'
         put 'change_rhythm'
         put 'change_rhyme'
+        put 'add_cell_before'
       end
     end
 
