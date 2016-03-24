@@ -13,10 +13,9 @@ class Measure < ActiveRecord::Base
   end
 
   def update_cell_numbers
-    cells = self.ordered_cells
-    cells.inject(cells.first.measure_cell_number) do |cell_number, cell|
-      cell.update(measure_cell_number: cell_number)
-      cell_number += 1
+    ordered_cells = self.ordered_cells
+    ordered_cells.each_with_index do |cell, index|
+      cell.update(measure_cell_number: index)
     end
   end
 
