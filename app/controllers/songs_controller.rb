@@ -43,16 +43,7 @@ class SongsController < ApplicationController
     end
     all_cells.each { |cell| cell.update(note_duration: params["duration"].to_i) }
     all_measures = all_cells.map { |cell| cell.measure }.uniq
-    measures_hash = {}
-    all_measures.each do |measure|
-      measure.update_measure
-      if measure.rhythmic_errors
-        measures_hash[measure.id] = render_to_string partial: "edit_invalid_measure", locals: {measure: measure}
-      else
-        measures_hash[measure.id] = render_to_string partial: "edit_measure", locals: {measure: measure}
-      end
-    end
-    render json: measures_hash
+    render json: update_measures_return_hash(all_measures)
   end
 
   def change_lyrics
@@ -94,6 +85,51 @@ class SongsController < ApplicationController
     end
     all_measures = all_cells.map { |cell| cell.measure }.uniq
     all_cells.each { |cell| cell.destroy }
+    render json: update_measures_return_hash(all_measures)
+  end
+
+  def add_cell
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    all_measures = all_cells.map { |cell| cell.measure }.uniq
+    default_duration = all_cells[0].note_duration
+    all_cells.each_with_index do |cell, index|
+      if params["before_or_after"] == "before"
+        cell_placement = cell.measure_cell_number
+      elsif params["before_or_after"] == "after"
+        cell_placement = cell.measure_cell_number + 1
+      end
+      measure = cell.measure
+      cells_in_measure = measure.ordered_cells
+      cell_added = false
+      cells_in_measure.each_with_index do |cell, i|
+        if i == cell_placement
+          cell.update(measure_cell_number: i + 1)
+          measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: i)
+          cell_added = true
+          next
+        end
+        if cell_added
+          cell.update(measure_cell_number: i + 1)
+        end
+      end
+      if !cell_added
+        measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: cells_in_measure.length)
+      end
+    end
+
+    render json: update_measures_return_hash(all_measures)
+  end
+
+
+
+  def destroy
+  end
+
+  private
+
+  def update_measures_return_hash(all_measures)
     measures_hash = {}
     all_measures.each do |measure|
       measure.update_measure
@@ -103,14 +139,8 @@ class SongsController < ApplicationController
         measures_hash[measure.id] = render_to_string partial: "edit_measure", locals: {measure: measure}
       end
     end
-    render json: measures_hash
+    measures_hash
   end
-
-
-  def destroy
-  end
-
-  private
 
   def song_params
     params.permit(:name)
