@@ -43,16 +43,7 @@ class SongsController < ApplicationController
     end
     all_cells.each { |cell| cell.update(note_duration: params["duration"].to_i) }
     all_measures = all_cells.map { |cell| cell.measure }.uniq
-    measures_hash = {}
-    all_measures.each do |measure|
-      measure.update_measure
-      if measure.rhythmic_errors
-        measures_hash[measure.id] = render_to_string partial: "edit_invalid_measure", locals: {measure: measure}
-      else
-        measures_hash[measure.id] = render_to_string partial: "edit_measure", locals: {measure: measure}
-      end
-    end
-    render json: measures_hash
+    render json: update_measures_return_hash(all_measures)
   end
 
   def change_lyrics
@@ -94,17 +85,7 @@ class SongsController < ApplicationController
     end
     all_measures = all_cells.map { |cell| cell.measure }.uniq
     all_cells.each { |cell| cell.destroy }
-    measures_hash = {}
-
-    all_measures.each do |measure|
-      measure.update_measure
-      if measure.rhythmic_errors
-        measures_hash[measure.id] = render_to_string partial: "edit_invalid_measure", locals: {measure: measure}
-      else
-        measures_hash[measure.id] = render_to_string partial: "edit_measure", locals: {measure: measure}
-      end
-    end
-    render json: measures_hash
+    render json: update_measures_return_hash(all_measures)
   end
 
   def add_cell
@@ -113,7 +94,9 @@ class SongsController < ApplicationController
     end
     all_measures = all_cells.map { |cell| cell.measure }.uniq
     default_duration = all_cells[0].note_duration
-    all_cells.each do |cell|
+    # needed for ugly attempt at asynchronous functioning
+    # song_cell_count = all_measures.first.phrase.section.song.cells.count
+    all_cells.each_with_index do |cell, index|
       if params["before_or_after"] == "before"
         cell_placement = cell.measure_cell_number
       elsif params["before_or_after"] == "after"
@@ -137,12 +120,22 @@ class SongsController < ApplicationController
         measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: cells_in_measure.length)
       end
     end
-    # p "*" * 80
-    # all_measures.first.cells.count
-    # sleep(3)
-    # all_measures.first.cells.count
-    # p "*" * 80
-    sleep(3)
+
+    # A ugly attempt to make asynchronous
+    # sleep(0.1) until all_measures.first.phrase.section.song.cells.count == song_cell_count + all_cells.length
+    # all_measures[0].ordered_cells.each { |cell| p cell }
+
+    render json: update_measures_return_hash(all_measures)
+  end
+
+
+
+  def destroy
+  end
+
+  private
+
+  def update_measures_return_hash(all_measures)
     measures_hash = {}
     all_measures.each do |measure|
       measure.update_measure
@@ -152,14 +145,8 @@ class SongsController < ApplicationController
         measures_hash[measure.id] = render_to_string partial: "edit_measure", locals: {measure: measure}
       end
     end
-    render json: measures_hash
+    measures_hash
   end
-
-
-  def destroy
-  end
-
-  private
 
   def song_params
     params.permit(:name)

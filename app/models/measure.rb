@@ -1,6 +1,8 @@
 class Measure < ActiveRecord::Base
   has_many :cells
 
+  belongs_to :phrase
+
   def ordered_cells
     cells = self.cells.sort_by { |cell| cell.measure_cell_number }
     return cells
