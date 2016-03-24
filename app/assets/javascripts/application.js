@@ -50,7 +50,7 @@ var changeRhyme = function(){
     // refactor to not include authenticity_token in params if possible
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID),
+      url: ("/songs/" + songID + "/change_rhyme"),
       data: {
         quality: quality,
         cellIDs: cellIDs,
@@ -71,14 +71,15 @@ var changeStress = function(){
     var cellIDs = $.map(allCells, function(cell){
       return $(cell).attr("name");
     });
-    var quality = $(this).attr("value");
+    // refactor Don't think I need following line
+    // var quality = $(this).attr("value");
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
     // refactor to not include authenticity_token in params if possible
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID),
-      data: { quality: quality,
+      url: ("/songs/" + songID + "/change_stress"),
+      data: {
         cellIDs: cellIDs,
         authenticity_token: getCSRFTokenValue()
       }
@@ -103,15 +104,13 @@ var changeEndRhyme = function(){
     var cellIDs = $.map(allCells, function(cell){
       return $(cell).attr("name");
     });
-    var quality = $(this).attr("value");
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
     // refactor to not include authenticity_token in params if possible
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID),
+      url: ("/songs/" + songID + "/change_end_rhyme"),
       data: {
-        quality: quality,
         cellIDs: cellIDs,
         authenticity_token: getCSRFTokenValue()
       }
@@ -141,9 +140,8 @@ var changeLyric = function(){
     var replacementLyrics = $(".replacement-lyrics").val();
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID),
+      url: ("/songs/" + songID + "/change_lyrics"),
       data: {
-        quality: "lyrics",
         lyrics: replacementLyrics,
         cellIDs: cellIDs,
         authenticity_token: getCSRFTokenValue()
@@ -167,9 +165,8 @@ var changeRhythm = function(){
     var replacementDuration = $(this).val();
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID),
+      url: ("/songs/" + songID + "/change_rhythm"),
       data: {
-        quality: "rhythm",
         duration: replacementDuration,
         cellIDs: cellIDs,
         authenticity_token: getCSRFTokenValue()
@@ -192,9 +189,8 @@ var removeCell = function(){
     });
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID),
+      url: ("/songs/" + songID + "/delete_cell"),
       data: {
-        quality: "remove-cell",
         cellIDs: cellIDs,
         authenticity_token: getCSRFTokenValue()
       }
