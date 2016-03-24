@@ -94,8 +94,6 @@ class SongsController < ApplicationController
     end
     all_measures = all_cells.map { |cell| cell.measure }.uniq
     default_duration = all_cells[0].note_duration
-    # needed for ugly attempt at asynchronous functioning
-    # song_cell_count = all_measures.first.phrase.section.song.cells.count
     all_cells.each_with_index do |cell, index|
       if params["before_or_after"] == "before"
         cell_placement = cell.measure_cell_number
@@ -120,10 +118,6 @@ class SongsController < ApplicationController
         measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: cells_in_measure.length)
       end
     end
-
-    # A ugly attempt to make asynchronous
-    # sleep(0.1) until all_measures.first.phrase.section.song.cells.count == song_cell_count + all_cells.length
-    # all_measures[0].ordered_cells.each { |cell| p cell }
 
     render json: update_measures_return_hash(all_measures)
   end
