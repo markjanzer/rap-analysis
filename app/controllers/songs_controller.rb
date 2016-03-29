@@ -122,6 +122,26 @@ class SongsController < ApplicationController
     render json: update_measures_return_hash(all_measures)
   end
 
+  def add_measure_after
+    # Lets do adding to the end first.
+    section = Cell.find(params["cellID"].to_i).measure.phrase.section
+    last_phrase = section.ordered_phrases.last
+
+    if last_phrase.measures.count == last_phrase.number_of_measures
+      last_phrase = Phrase.create(section_phrase_number: last_phrase.section_phrase_number + 1, number_of_measures: last_phrase.number_of_measures)
+      section.phrases << last_phrase
+    end
+
+    added_measure = Measure.create(section_measure_number: section.phrases.count, phrase_measure_number: last_phrase.measures.count)
+    last_phrase.measures << added_measure
+    section.default_subdivision.times do |c|
+      cell = Cell.create(measure_id: added_measure.id, measure_cell_number: c, note_beginning: (c * 960/section.default_subdivision)+1, note_duration:  960/section.default_subdivision)
+      added_measure.cells << cell
+    end
+
+    render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
+  end
+
 
 
   def destroy

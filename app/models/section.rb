@@ -7,4 +7,9 @@ class Section < ActiveRecord::Base
   has_many :artists, through: :artist_section
 
   belongs_to :song
+
+  def ordered_phrases
+    phrases = self.phrases.sort_by { |phrase| phrase.section_phrase_number }
+    return phrases
+  end
 end

@@ -15,6 +15,7 @@ $(document).on('ready page:load', function(){
   changeRhythm();
   removeCell();
   addCell();
+  addMeasureAfter();
 });
 
 function createSection(){
@@ -228,6 +229,27 @@ var addCell = function(){
   })
 }
 
+var addMeasureAfter = function(){
+  $(document).on("click", "button.add-measure", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var cellID = $(".ui-selected").first().attr("name");
+    var beforeOrAfter = $(this).val();
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/add_measure"),
+      data: {
+        cellID: cellID,
+        before_or_after: beforeOrAfter,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      $(".ui-selected").closest("div.edit-section").append(response)
+    });
+  });
+}
+
+//----------- HELPERS -------------------
 function getCSRFTokenValue(){
   return $('meta[name="csrf-token"]').attr('content');
 }
