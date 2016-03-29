@@ -16,6 +16,7 @@ $(document).on('ready page:load', function(){
   removeCell();
   addCell();
   addMeasureAfter();
+  addMeasureBefore();
 });
 
 function createSection(){
@@ -230,14 +231,15 @@ var addCell = function(){
 }
 
 var addMeasureAfter = function(){
-  $(document).on("click", "button.add-measure", function(event){
+  $(document).on("click", "button.add-measure-after", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var cellID = $(".ui-selected").first().attr("name");
+    // refactor use this when combining before and after
     var beforeOrAfter = $(this).val();
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID + "/add_measure"),
+      url: ("/songs/" + songID + "/add_measure_after"),
       data: {
         cellID: cellID,
         before_or_after: beforeOrAfter,
@@ -245,6 +247,26 @@ var addMeasureAfter = function(){
       }
     }).done(function(response){
       $(".ui-selected").closest("div.edit-section").append(response)
+    });
+  });
+}
+
+var addMeasureBefore = function(){
+  $(document).on("click", "button.add-measure-before", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var cellID = $(".ui-selected").first().attr("name");
+    var beforeOrAfter = $(this).val();
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/add_measure_after"),
+      data: {
+        cellID: cellID,
+        before_or_after: beforeOrAfter,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      $(".ui-selected").parent().parent().siblings(".section-duration-header").after(response)
     });
   });
 }

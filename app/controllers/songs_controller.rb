@@ -142,6 +142,25 @@ class SongsController < ApplicationController
     render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
   end
 
+  def add_measure_before
+    section = Cell.find(params["cellID"].to_i).measure.phrase.section
+    first_phrase = section.ordered_phrases.first
+    if first_phrase.measures.count = first_phrase.number_of_measures
+      first_phrase = Phrase.create(section_phrase_number: first_phrase.section_phrase_number - 1,
+        number_of_measures: first_phrase.number_of_measures)
+      section.phrases << first_phrase
+    end
+
+    added_measure = Measure.create(section_measure_number: section.phrases.first, phrase_measure_number: first_phrase.number_of_measures - first_phrase.measures.count)
+    first_phrase.measures << added_measure
+    section.default_subdivision.times do |c|
+      cell = Cell.create(measure_id: added_measure.id, measure_cell_number: c, note_beginning: (c * 960/section.default_subdivision)+1, note_duration:  960/section.default_subdivision)
+      added_measure.cells << cell
+    end
+
+    render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
+  end
+
 
 
   def destroy

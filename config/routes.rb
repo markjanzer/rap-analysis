@@ -26,6 +26,7 @@ Rails.application.routes.draw do
         put 'add_cell'
         put 'delete_cell'
         put 'add_measure_after'
+        put 'add_measure_before'
       end
     end
 
