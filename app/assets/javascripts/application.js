@@ -259,7 +259,7 @@ var addMeasureBefore = function(){
     var beforeOrAfter = $(this).val();
     $.ajax({
       method: "PUT",
-      url: ("/songs/" + songID + "/add_measure_after"),
+      url: ("/songs/" + songID + "/add_measure_before"),
       data: {
         cellID: cellID,
         before_or_after: beforeOrAfter,

@@ -145,7 +145,7 @@ class SongsController < ApplicationController
   def add_measure_before
     section = Cell.find(params["cellID"].to_i).measure.phrase.section
     first_phrase = section.ordered_phrases.first
-    if first_phrase.measures.count = first_phrase.number_of_measures
+    if first_phrase.measures.count == first_phrase.number_of_measures
       first_phrase = Phrase.create(section_phrase_number: first_phrase.section_phrase_number - 1,
         number_of_measures: first_phrase.number_of_measures)
       section.phrases << first_phrase
