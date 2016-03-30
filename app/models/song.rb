@@ -14,4 +14,10 @@ class Song < ActiveRecord::Base
     artist_names = self.artists.map{ |artist| artist.name }
     artist_names.join(", ")
   end
+
+  def ordered_sections
+    sections = self.sections.sort_by { |section| section.section_number}
+    return sections
+  end
+
 end

@@ -1,12 +1,12 @@
 class SectionsController < ApplicationController
 
   def create
-    section = Section.create(song_id: params["song-id"], section_number: params["section-number"], section_type: params["section-type"])
+    section = Section.create(song_id: params["song-id"], section_number: params["section-number"], section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]))
 
     # Do it without beats per measure first
     # refactor to use methods defined in each of the models
     Integer(params["phrases-in-section"]).times do |a|
-      phrase = Phrase.create(section_id: section.id, section_phrase_number: a)
+      phrase = Phrase.create(section_id: section.id, section_phrase_number: a, number_of_measures: params["measures-per-phrase"])
       section.phrases << phrase
       Integer(params["measures-per-phrase"]).times do |b|
         # Section measure number needs to be figured out

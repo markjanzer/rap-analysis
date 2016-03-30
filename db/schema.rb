@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20160219205158) do
   create_table "phrases", force: :cascade do |t|
     t.integer  "section_id"
     t.integer  "section_phrase_number"
+    t.integer  "number_of_measures"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -85,8 +86,9 @@ ActiveRecord::Schema.define(version: 20160219205158) do
     t.string   "section_type"
     t.integer  "section_number"
     t.integer  "song_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "default_subdivision"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "songs", force: :cascade do |t|

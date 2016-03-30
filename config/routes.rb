@@ -18,13 +18,16 @@ Rails.application.routes.draw do
 
     resources :songs do
       member do
-        put 'delete_cell'
         put 'change_stress'
         put 'change_end_rhyme'
         put 'change_lyrics'
         put 'change_rhythm'
         put 'change_rhyme'
         put 'add_cell'
+        put 'delete_cell'
+        put 'add_measure_after'
+        put 'add_measure_before'
+        put 'delete_measure'
       end
     end
 

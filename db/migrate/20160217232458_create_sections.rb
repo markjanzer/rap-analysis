@@ -4,6 +4,7 @@ class CreateSections < ActiveRecord::Migration
       t.string :section_type
       t.integer :section_number
       t.integer :song_id
+      t.integer :default_subdivision
 
       t.timestamps null: false
     end
