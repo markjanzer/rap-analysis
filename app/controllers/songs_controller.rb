@@ -161,6 +161,9 @@ class SongsController < ApplicationController
     render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
   end
 
+  def delete_measure
+
+  end
 
 
   def destroy
