@@ -5,6 +5,7 @@ class CreateSections < ActiveRecord::Migration
       t.integer :section_number
       t.integer :song_id
       t.integer :default_subdivision
+      t.integer :number_of_pickup_measures
 
       t.timestamps null: false
     end
