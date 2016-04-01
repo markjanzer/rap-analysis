@@ -131,12 +131,8 @@ class SongsController < ApplicationController
       section.phrases << last_phrase
     end
 
-    added_measure = Measure.create(section_measure_number: section.phrases.count, phrase_measure_number: last_phrase.measures.count)
+    added_measure = Measure.create_measure_and_cells(last_phrase.id, last_phrase.measures.count, section.ordered_measures.last.section_measure_number + 1, section.default_subdivision)
     last_phrase.measures << added_measure
-    section.default_subdivision.times do |c|
-      cell = Cell.create(measure_id: added_measure.id, measure_cell_number: c, note_beginning: (c * 960/section.default_subdivision)+1, note_duration:  960/section.default_subdivision)
-      added_measure.cells << cell
-    end
 
     render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
   end
@@ -151,12 +147,8 @@ class SongsController < ApplicationController
       section.phrases << first_phrase
     end
 
-    added_measure = Measure.create(section_measure_number: section.phrases.first, phrase_measure_number: first_phrase.number_of_measures - first_phrase.measures.count)
+    added_measure = Measure.create_measure_and_cells(first_phrase.id, (first_phrase.number_of_measures - 1 - first_phrase.measures.count), 0, section.default_subdivision )
     first_phrase.measures << added_measure
-    section.default_subdivision.times do |c|
-      cell = Cell.create(measure_id: added_measure.id, measure_cell_number: c, note_beginning: (c * 960/section.default_subdivision)+1, note_duration:  960/section.default_subdivision)
-      added_measure.cells << cell
-    end
 
     render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
   end

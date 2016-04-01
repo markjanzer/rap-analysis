@@ -18,17 +18,19 @@ class Section < ActiveRecord::Base
     return measures
   end
 
+  # Fill a section with phrases and cells and number them appropriately
   def populate_section(measures_in_section, measures_per_phrase)
+    # refactor don't make phrase if no pickup phrases are necessary
     pickup_phrase = Phrase.create(section_id: self.id, section_phrase_number: 0, number_of_measures: measures_per_phrase)
     self.phrases << pickup_phrase
     self.number_of_pickup_measures.times do |i|
       pickup_phrase << Measure.create_measure_and_cells(pickup_phrase.id, pickup_phrase.number_of_measures - (self.number_of_pickup_measures + i), i, self.default_subdivision)
     end
 
-    [1..measures_in_section].reduce(first_phrase) do |phrase, i|
-      phrase_measure_number = i % measures_per_phrase
-      if (phrase_measure_number == 1)
-        phrase = Phrase.create(section_id: self.id, section_phrase_numer: (i/measures_per_phrase), number_of_measures: measures_per_phrase)
+    [0..(measures_in_section - 1)].reduce do |phrase, i|
+      phrase_measure_number = i % (measures_per_phrase)
+      if (phrase_measure_number == 0)
+        phrase = Phrase.create(section_id: self.id, section_phrase_numer: 1 + (i/measures_per_phrase), number_of_measures: measures_per_phrase)
         section.phrases << phrase
       end
       phrase << Measure.create_measure_and_cells(phrase.id, phrase_measure_number, self.number_of_pickup_measures + i, self.default_subdivision)
