@@ -35,7 +35,7 @@ class Measure < ActiveRecord::Base
   end
 
   def self.create_measure_and_cells(phrase_id, phrase_measure_number, section_measure_number, subdivision)
-    measure = Measure.create(phrase_id: phrase_id, phrase_measure_number: phrase_measure_number)
+    measure = Measure.create(phrase_id: phrase_id, phrase_measure_number: phrase_measure_number, section_measure_number: section_measure_number)
     subdivision.times do |c|
       cell = Cell.create(measure_id: measure.id, measure_cell_number: c, note_beginning: (c * 960/subdivision)+1, note_duration:  960/subdivision)
       measure.cells << cell
