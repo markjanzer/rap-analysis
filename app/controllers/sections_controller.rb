@@ -1,7 +1,6 @@
 class SectionsController < ApplicationController
 
   def create
-    p "*" * 80
     section = Section.create(song_id: params["song-id"], section_number: params["section-number"], section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]), number_of_pickup_measures: params["pickup-measures"].to_i)
 
     # refactor add beats per measure

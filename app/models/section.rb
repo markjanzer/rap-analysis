@@ -27,14 +27,14 @@ class Section < ActiveRecord::Base
       pickup_phrase << Measure.create_measure_and_cells(pickup_phrase.id, pickup_phrase.number_of_measures - (self.number_of_pickup_measures + i), i, self.default_subdivision)
     end
 
-    [0..(measures_in_section - 1)].reduce do |phrase, i|
+    (0..(measures_in_section - 1)).reduce(nil) do |phrase, i|
       phrase_measure_number = i % (measures_per_phrase)
       if (phrase_measure_number == 0)
-        phrase = Phrase.create(section_id: self.id, section_phrase_numer: 1 + (i/measures_per_phrase), number_of_measures: measures_per_phrase)
-        section.phrases << phrase
+        phrase = Phrase.create(section_id: self.id, section_phrase_number: 1 + (i/measures_per_phrase), number_of_measures: measures_per_phrase)
+        self.phrases << phrase
       end
-      phrase << Measure.create_measure_and_cells(phrase.id, phrase_measure_number, self.number_of_pickup_measures + i, self.default_subdivision)
-      return phrase
+      phrase.measures << Measure.create_measure_and_cells(phrase.id, phrase_measure_number, self.number_of_pickup_measures + i, self.default_subdivision)
+      phrase
     end
   end
 
@@ -52,7 +52,7 @@ class Section < ActiveRecord::Base
 
     ordered_measures.each.with_index.reduce(ordered_phrases.shift) do |phrase, (measure, index)|
       if phrase.measures.count == phrase.number_of_measures && ordered_phrases.empty?
-        phrase = Phrase.create(section_id: self.id, section_phrase_numer: phrase.section_phrase_number + 1, number_of_measures: phrase.measures_per_phrase)
+        phrase = Phrase.create(section_id: self.id, section_phrase_number: phrase.section_phrase_number + 1, number_of_measures: phrase.measures_per_phrase)
       elsif phrase.measures.count == phrase.number_of_measures
         phrase = ordered_phrases.unshift
       end
