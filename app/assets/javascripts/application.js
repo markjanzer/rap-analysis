@@ -18,6 +18,7 @@ $(document).on('ready page:load', function(){
   addMeasureAfter();
   addMeasureBefore();
   deleteMeasure();
+  deleteSection();
 });
 
 function createSection(){
@@ -288,9 +289,26 @@ var deleteMeasure = function(){
       }
     }).done(function(response){
       measure.remove();
-      console.log("should have deleted measure")
     });
   });
+}
+
+var deleteSection = function(){
+  $(document).on("click", "button.delete-section", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var sectionID = $(this).siblings("input").val();
+    var section = $(this).parent();
+    $.ajax({
+      method: "DELETE",
+      url: ("/sections/" + sectionID + ""),
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      section.remove();
+    })
+  })
 }
 
 //----------- HELPERS -------------------

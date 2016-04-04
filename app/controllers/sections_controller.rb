@@ -10,4 +10,10 @@ class SectionsController < ApplicationController
     render template: "songs/_edit_song", locals: { song: Song.find_by(id: Integer(params["song-id"]))}, layout: false
   end
 
+  def destroy
+    section = Section.find(params["id"])
+    section.destroy
+    render json: {"destroyed?": true}
+  end
+
 end
