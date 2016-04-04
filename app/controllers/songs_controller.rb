@@ -154,8 +154,8 @@ class SongsController < ApplicationController
   end
 
   def delete_measure
-    section = Cell.find(params["cellID"].to_i).measure.phrase.section
     measure = Measure.find(params["measureID"].to_i)
+    section = measure.phrase.section
     measure.destroy
     section.update_measures
 

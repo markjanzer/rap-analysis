@@ -273,11 +273,11 @@ var addMeasureBefore = function(){
 }
 
 var deleteMeasure = function(){
-  $(document).on("click", "button.remove-measure", function(event){
+  $(document).on("click", "button.delete-measure", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var measure = $(".ui-selected").first().parent().parent()
-    var measureID = measure.attr("value");
+    var measureID = measure.children("input").val();
     console.log("this is measureID" + measureID)
     $.ajax({
       method: "PUT",

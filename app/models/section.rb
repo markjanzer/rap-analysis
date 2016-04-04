@@ -24,7 +24,7 @@ class Section < ActiveRecord::Base
     pickup_phrase = Phrase.create(section_id: self.id, section_phrase_number: 0, number_of_measures: measures_per_phrase)
     self.phrases << pickup_phrase
     self.number_of_pickup_measures.times do |i|
-      pickup_phrase << Measure.create_measure_and_cells(pickup_phrase.id, pickup_phrase.number_of_measures - (self.number_of_pickup_measures + i), i, self.default_subdivision)
+      pickup_phrase.measures << Measure.create_measure_and_cells(pickup_phrase.id, pickup_phrase.number_of_measures - (self.number_of_pickup_measures + i), i, self.default_subdivision)
     end
 
     (0..(measures_in_section - 1)).reduce(nil) do |phrase, i|
@@ -34,14 +34,17 @@ class Section < ActiveRecord::Base
         self.phrases << phrase
       end
       phrase.measures << Measure.create_measure_and_cells(phrase.id, phrase_measure_number, self.number_of_pickup_measures + i, self.default_subdivision)
+      p phrase.measures.count
       phrase
     end
   end
 
   def update_measures
-    self.phrases.update(measures: [])
+    # is upadting all measures to remove associations to phrases necessary?
+    # self.phrases.update(measures: [])
     ordered_measures = self.ordered_measures
     ordered_phrases = self.ordered_phrases
+    # self.measures.update_all(phrase_id: 0)
 
     pickup_phrase = ordered_phrases.shift
     self.number_of_pickup_measures.times do |i|
@@ -52,12 +55,13 @@ class Section < ActiveRecord::Base
 
     ordered_measures.each.with_index.reduce(ordered_phrases.shift) do |phrase, (measure, index)|
       if phrase.measures.count == phrase.number_of_measures && ordered_phrases.empty?
-        phrase = Phrase.create(section_id: self.id, section_phrase_number: phrase.section_phrase_number + 1, number_of_measures: phrase.measures_per_phrase)
+        phrase = Phrase.create(section_id: self.id, section_phrase_number: phrase.section_phrase_number + 1, number_of_measures: phrase.number_of_measures)
       elsif phrase.measures.count == phrase.number_of_measures
-        phrase = ordered_phrases.unshift
+        phrase = ordered_phrases.shift
       end
-      measure.update_all(section_measure_number: index + self.number_of_pickup_measures, phrase_measure_number: phrase.measures.count + 1)
+      measure.update(section_measure_number: index + self.number_of_pickup_measures, phrase_measure_number: phrase.measures.count + 1)
       phrase.measures << measure
+      phrase
     end
   end
 end

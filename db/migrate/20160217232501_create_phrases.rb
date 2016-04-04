@@ -1,4 +1,4 @@
-class CreatePhrases < ActiveRecord::Migration
+    class CreatePhrases < ActiveRecord::Migration
   def change
     create_table :phrases do |t|
       t.integer :section_id
