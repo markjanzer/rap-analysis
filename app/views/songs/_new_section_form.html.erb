@@ -15,19 +15,23 @@
     </select>
     <br>
 
-    <p>Phrases in section</p>
-    <select name="phrases-in-section" class="phrases-in-section">
+    <p>Measures in Section</p>
+    <input type="number" name="measures-in-section"
+       min="0" max="128" step="1" value="16">
+    <br>
+
+    <p>Number of pickup measures</p>
+    <select name="pickup-measures">
+      <option value="0"selected="selected">0</option>
+      <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
-      <option value="4" selected="selected">4</option>
-      <option value="6">6</option>
-      <option value="8">8</option>
+      <option value="4">4</option>
     </select>
     <br>
 
-    <!-- refactor rename -->
-    <p>Measures per musical phrase</p>
-    <select name="measures-per-phrase" class="measures-per-phrase">
+    <p>Measures per phrase</p>
+    <select name="measures-per-phrase">
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4" selected="selected">4</option>
@@ -36,7 +40,7 @@
     <br>
 
     <p>Beats per measure</p>
-    <select name="beats-per-measure" class="beats-per-measure">
+    <select name="beats-per-measure">
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4" selected="selected">4</option>
@@ -44,7 +48,7 @@
     <br>
 
     <p>Beat subdivison</p>
-    <select name="beat-subdivision" class="beat-subdivision">
+    <select name="beat-subdivision">
       <option value="8">8</option>
       <option value="16" selected="selected">16</option>
       <option value="32">32</option>

@@ -17,6 +17,7 @@ $(document).on('ready page:load', function(){
   addCell();
   addMeasureAfter();
   addMeasureBefore();
+  deleteMeasure();
 });
 
 function createSection(){
@@ -267,6 +268,27 @@ var addMeasureBefore = function(){
       }
     }).done(function(response){
       $(".ui-selected").parent().parent().siblings(".section-duration-header").after(response)
+    });
+  });
+}
+
+var deleteMeasure = function(){
+  $(document).on("click", "button.delete-measure", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var measure = $(".ui-selected").first().parent().parent()
+    var measureID = measure.children("input").val();
+    console.log("this is measureID" + measureID)
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/delete_measure"),
+      data: {
+        measureID: measureID,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      measure.remove();
+      console.log("should have deleted measure")
     });
   });
 }
