@@ -19,6 +19,7 @@ $(document).on('ready page:load', function(){
   addMeasureBefore();
   deleteMeasure();
   deleteSection();
+  renderNewSectionForm();
 });
 
 function createSection(){
@@ -307,6 +308,25 @@ var deleteSection = function(){
       }
     }).done(function(response){
       section.remove();
+    })
+  })
+}
+
+var renderNewSectionForm = function(){
+  $(document).on("click", "button.add-section-button", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var sectionNumber = $(this).val();
+    $.ajax({
+      method: "GET",
+      url: "/sections/new",
+      data: {
+        sectionNumber: sectionNumber,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      console.log(response)
+      $(thisButton).replaceWith(response)
     })
   })
 }

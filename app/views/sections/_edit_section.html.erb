@@ -11,4 +11,7 @@
   <% section.measures.each do |measure| %>
     <%= render partial: 'edit_measure', locals: { measure: measure } %>
   <% end %>
+  <%= render partial: "add_section_button", localss: { section_number: section.section_number + 1 } %>
+  <!-- refactor -->
+  <h1>WHY AM I USING THIS (it is in sections)</h1>
 </div>

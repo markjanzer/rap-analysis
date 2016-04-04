@@ -1,16 +1,15 @@
 <div class="edit-section">
-  <input type="hidden" name="section-id" value="<%= section.id %>">
   <!-- refactor for section artists -->
   <h5> <%= section.section_type %> by <%= section.song.artists.name %></h5>
-  <button class="delete-section">Delete Section</button>
   <!-- refactor for different beats per measure -->
-  <div class="row section-duration-header">
+  <div class="row">
     <div class="col" style="width:25%">1</div>
     <div class="col" style="width:25%">2</div>
     <div class="col" style="width:25%">3</div>
     <div class="col" style="width:25%">4</div>
   </div>
-  <% section.ordered_phrases.each do |phrase| %>
-    <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
+  <% section.measures.each do |measure| %>
+    <%= render partial: 'edit_measure', locals: { measure: measure } %>
   <% end %>
+  <%= render partial: "add_section_button", locals: { section_number: section.section_number + 1 } %>
 </div>
