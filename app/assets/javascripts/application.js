@@ -20,15 +20,19 @@ $(document).on('ready page:load', function(){
   deleteMeasure();
   deleteSection();
   renderNewSectionForm();
+  cancelSectionCreation();
 });
 
 function createSection(){
-  $(document).on("click", ".new-section-form", function(event){
+  $(document).on("submit", ".new-section-form", function(event){
     event.preventDefault();
-    var sectionData = $(".new-section-form").serialize();
+    var songID = $("input[name='song-id']").attr("value");
+    var sectionData = $(".new-section-form").serializeArray();
+    sectionData.push({ name: "songID", value: songID });
+    // refactor might not have to add songID to sectionData
     var request = $.ajax({
-      url: "/sections/",
-      type: "POST",
+      url: "/songs/" + songID + "/create_section",
+      type: "PUT",
       data: sectionData
     })
     request.done(function(response){
@@ -301,9 +305,10 @@ var deleteSection = function(){
     var sectionID = $(this).siblings("input").val();
     var section = $(this).parent();
     $.ajax({
-      method: "DELETE",
-      url: ("/sections/" + sectionID + ""),
+      method: "PUT",
+      url: ("/songs/" + songID + "/delete_section"),
       data: {
+        sectionID: sectionID,
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
@@ -315,18 +320,37 @@ var deleteSection = function(){
 var renderNewSectionForm = function(){
   $(document).on("click", "button.add-section-button", function(event){
     event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
     var thisButton = $(this);
     var sectionNumber = $(this).val();
     $.ajax({
-      method: "GET",
-      url: "/sections/new",
+      method: "PUT",
+      url: "/songs/" + songID + "/render_section_form",
       data: {
         sectionNumber: sectionNumber,
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      console.log(response)
       $(thisButton).replaceWith(response)
+    })
+  })
+}
+
+var cancelSectionCreation = function(){
+  $(document).on("click", "button.cancel-section-creation", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisForm = $(this).parent().parent();
+    var sectionNumber = $(this).siblings("input[name='section-number']").val();
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/cancel_section_form",
+      data: {
+        sectionNumber: sectionNumber,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      $(thisForm).replaceWith(response)
     })
   })
 }
