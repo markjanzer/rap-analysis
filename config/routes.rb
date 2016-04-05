@@ -14,10 +14,13 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
     resources :artists
     resources :albums
-    resources :sections
 
     resources :songs do
       member do
+        put 'render_section_form'
+        put 'cancel_section_form'
+        put 'create_section'
+        put 'delete_section'
         put 'change_stress'
         put 'change_end_rhyme'
         put 'change_lyrics'
@@ -30,6 +33,7 @@ Rails.application.routes.draw do
         put 'delete_measure'
       end
     end
+
 
   # Example resource route with options:
   #   resources :products do

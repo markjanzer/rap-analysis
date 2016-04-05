@@ -20,4 +20,17 @@ class Song < ActiveRecord::Base
     return sections
   end
 
+  # refactor use .update_all("section_number = section_number + 1")
+  def add_section_with_number_n(n)
+    self.sections.where("section_number >= ?", n).each do |section|
+      section.update(section_number: section.section_number + 1)
+    end
+  end
+
+  # refactor use .update_all("section_number = section_number - 1")
+  def remove_section_with_number_n(n)
+    self.sections.where("section_number > ?", n).each do |section|
+      section.update(section_number: section.section_number - 1)
+    end
+  end
 end

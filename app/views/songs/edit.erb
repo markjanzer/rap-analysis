@@ -1,14 +1,13 @@
 <div>
   <h1>Edit Song</h1>
+  <input type="hidden" name="song-id" value="<%= @song.id %>">
   <div class="song-header">
     <h2><%= @song.name %></h2>
     <p><%= @artist_names %></p>
     <p><%= @song.album.title %></p>
   </div>
 
-  <%= render partial: "new_section_form" %>
-
-  <%= render partial: "add_section_button" %>
+  <%= render partial: "add_section_button", locals: { section_number: 0} %>
 
   <%= render partial: "add_attributes" %>
 

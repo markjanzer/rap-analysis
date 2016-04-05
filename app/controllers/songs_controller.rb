@@ -2,11 +2,32 @@ class SongsController < ApplicationController
   def index
   end
 
-  def show
-    @song = Song.find(params[:id])
+  def render_section_form
+    render template: "songs/_new_section_form", locals: { section_number: params["sectionNumber"]}, layout: false
   end
 
-  def new
+  def cancel_section_form
+    render template: "songs/_add_section_button", locals: { section_number: params["sectionNumber"]}, layout: false
+  end
+
+  def create_section
+    section = Section.create(song_id: params["songID"], section_number: params["section-number"], section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]), number_of_pickup_measures: params["pickup-measures"].to_i)
+
+    # refactor add beats per measure
+    section.populate_section(params["measures-in-section"].to_i, params["measures-per-phrase"].to_i)
+
+    # refactor render section
+    render template: "songs/_edit_song", locals: { song: Song.find_by(id: Integer(params["songID"]))}, layout: false
+  end
+
+  def delete_section
+    section = Section.find(params["sectionID"])
+    section.destroy
+    render json: {"destroyed?": true}
+  end
+
+  def show
+    @song = Song.find(params[:id])
   end
 
   def edit
@@ -22,9 +43,6 @@ class SongsController < ApplicationController
 
     # Add default music values for measures per musical phrase, beats per measure, beat subdivision
     redirect_to edit_song_path(@song)
-  end
-
-  def update
   end
 
   def change_rhyme
