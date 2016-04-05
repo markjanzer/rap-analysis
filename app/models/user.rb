@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :songs, foreign_key: :transcriber_id
+
   include BCrypt
 
   def password

@@ -21,6 +21,7 @@ $(document).on('ready page:load', function(){
   deleteSection();
   renderNewSectionForm();
   cancelSectionCreation();
+  publish();
 });
 
 function createSection(){
@@ -350,7 +351,26 @@ var cancelSectionCreation = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      $(thisForm).replaceWith(response)
+      $(thisForm).replaceWith(response);
+    })
+  })
+}
+
+var publish = function(){
+  $(document).on("click", "button.publish", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var value = $(this).val();
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/publish",
+      data: {
+        value: value,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
     })
   })
 }

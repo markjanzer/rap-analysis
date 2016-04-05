@@ -22,4 +22,11 @@
   <div class="song-edit selectable">
     <%= render partial: 'edit_song', locals: { song: @song } %>
   </div>
+
+  <% if super_user && !@song.published %>
+    <%= render partial: "publish_button" %>
+  <% elsif super_user && @song.published %>
+    <%= render partial: "unpublish_button" %>
+  <% end %>
+
 </div>

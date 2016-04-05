@@ -1,1 +1,12 @@
-<h1>LOGIN</h1>
+<h1>Log in</h1>
+<%= form_for(:session, url: login_path) do |f| %>
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+
+  <!-- refactor add password confirmation -->
+
+  <%= f.submit "Log in" %>
+<% end %>

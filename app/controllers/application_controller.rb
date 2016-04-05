@@ -8,4 +8,9 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def super_user
+    current_user.super
+  end
+  helper_method :super_user
+
 end

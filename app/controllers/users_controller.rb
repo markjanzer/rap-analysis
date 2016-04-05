@@ -5,7 +5,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    p params
     @user = User.new(user_params)
     @user.password = params[:user][:password]
     @user.save!
@@ -13,13 +12,8 @@ class UsersController < ApplicationController
     redirect_to "/"
   end
 
-  def login
-    @user = User.find_by_username(params[:username])
-    if @user.password == params[:password]
-      session[:current_user_id] = @user.id
-    else
-      redirect_to root
-    end
+  def show
+    current_user
   end
 
   private

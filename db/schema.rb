@@ -96,9 +96,10 @@ ActiveRecord::Schema.define(version: 20160405034630) do
     t.string   "name"
     t.string   "region"
     t.integer  "album_id"
-    t.boolean  "public",     default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.integer  "transcriber_id"
+    t.boolean  "published",      default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "users", force: :cascade do |t|
