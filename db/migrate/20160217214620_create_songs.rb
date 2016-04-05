@@ -6,6 +6,8 @@ class CreateSongs < ActiveRecord::Migration
 
       t.integer :album_id
 
+      t.boolean :public, default: false
+
       t.timestamps null: false
     end
   end
