@@ -8,6 +8,7 @@ class Song < ActiveRecord::Base
   has_many :cells, through: :measures
 
   belongs_to :album
+  belongs_to :transcriber, class_name: :user
 
   # refactor as module to belong to song, section, and album
   def comma_separated_artists

@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
     resources :artists
     resources :albums
+    resources :users
+
+    get 'login' => 'sessions#new'
+    post 'login' => 'sessions#create'
+    delete 'logout' => 'sessions#destroy'
 
     resources :songs do
       member do
@@ -31,6 +36,7 @@ Rails.application.routes.draw do
         put 'add_measure_after'
         put 'add_measure_before'
         put 'delete_measure'
+        put 'publish'
       end
     end
 

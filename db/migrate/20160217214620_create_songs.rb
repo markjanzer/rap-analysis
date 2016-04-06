@@ -5,6 +5,9 @@ class CreateSongs < ActiveRecord::Migration
       t.string :region
 
       t.integer :album_id
+      t.integer :transcriber_id
+
+      t.boolean :published, default: false
 
       t.timestamps null: false
     end

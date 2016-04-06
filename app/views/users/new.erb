@@ -1,0 +1,12 @@
+<h1>NEW USER</h1>
+<%= form_for(@user) do |f| %>
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+
+  <!-- refactor add password confirmation -->
+
+  <%= f.submit "Create Account" %>
+<% end %>
