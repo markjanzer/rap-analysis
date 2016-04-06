@@ -40,8 +40,10 @@ class SongsController < ApplicationController
     @song.artists << Artist.find_by(name: params[:artist])
     album = Album.create(title: params[:album]) if Album.all.where(title: params[:album]).empty?
     Album.find_by(title: params[:album]).songs << @song
-    @song.update(transcriber_id: current_user.id)
-    current_user.songs << @song
+    if current_user
+      @song.update(transcriber_id: current_user.id)
+      current_user.songs << @song
+    end
     # Add default music values for measures per musical phrase, beats per measure, beat subdivision
     redirect_to edit_song_path(@song)
   end

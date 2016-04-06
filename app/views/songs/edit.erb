@@ -1,5 +1,8 @@
 <div>
   <h1>Edit Song</h1>
+  <% if !current_user %>
+    <p>NONE OF YOUR INFORMATION WILL BE SAVED UNLESS YOU LOG IN</p>
+  <% end %>
   <input type="hidden" name="song-id" value="<%= @song.id %>">
   <div class="song-header">
     <h2><%= @song.name %></h2>

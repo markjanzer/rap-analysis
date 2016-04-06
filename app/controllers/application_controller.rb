@@ -9,7 +9,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def super_user
-    current_user.super
+    if current_user
+      current_user.super
+    else
+      false
+    end
   end
   helper_method :super_user
 
