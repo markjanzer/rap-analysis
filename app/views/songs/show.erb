@@ -8,6 +8,8 @@
   <%= render partial: 'show_song', locals: { song: @song, edit: "none" } %>
 </div>
 
-<% if super_user || @song.transcriber == current_user %>
+<% if super_user || (current_user && @song.transcriber.id == current_user.id) %>
   <%= link_to("Edit Song", edit_song_path) %>
 <% end %>
+
+<%= render partial: 'statistics', locals: { content: @song } %>
