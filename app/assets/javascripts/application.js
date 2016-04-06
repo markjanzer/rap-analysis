@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require foundation
 //= require turbolinks
 //= require_tree .
 //= require jquery-ui/selectable
@@ -379,3 +380,5 @@ var publish = function(){
 function getCSRFTokenValue(){
   return $('meta[name="csrf-token"]').attr('content');
 }
+
+$(function(){ $(document).foundation(); });
