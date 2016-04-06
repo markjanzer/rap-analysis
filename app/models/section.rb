@@ -1,4 +1,5 @@
 class Section < ActiveRecord::Base
+
   has_many :phrases
 
   has_many :measures, through: :phrases
