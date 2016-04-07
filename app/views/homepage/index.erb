@@ -1,57 +1,71 @@
-<h1>Rap Analysis Web App</h1>
+<div class="row">
+  <div class="small-12 large-10 columns large-centered">
+    <h1 class="text-center">Rap Analysis Web App</h1>
 
-<ul class="tabs" data-tabs id="example-tabs">
-  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Tab 1</a></li>
-  <li class="tabs-title"><a href="#panel2">Tab 2</a></li>
-</ul>
-<div class="tabs-content" data-tabs-content="example-tabs">
-  <div class="tabs-panel is-active" id="published-songs">
-    <table>
-      <thead>
-        <tr>
-          <th width="200">Song</th>
-          <th>Artists</th>
-          <th width="150">Album</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% Song.where(published: true).each do |song| %>
-          <tr>
-            <td><a href="/songs/<%= song.id %>"><%= song.name %></a></td>
-            <td><%= song.comma_separated_artists %></td>
-            <td><%= song.album.title %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+    <ul class="tabs" data-tabs id="example-tabs">
+      <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Published Transcriptions</a></li>
+      <% if current_user %>
+        <li class="tabs-title"><a href="#panel2">Your Transcriptions</a></li>
+      <% end %>
+    </ul>
+    <div class="tabs-content" data-tabs-content="example-tabs">
+      <div class="tabs-panel is-active" id="published-songs">
+        <table>
+          <thead>
+            <tr>
+              <th width="400">Song</th>
+              <th>Artists</th>
+              <th width="300">Album</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% Song.where(published: true).each do |song| %>
+              <tr>
+                <td><a href="/songs/<%= song.id %>"><%= song.name %></a></td>
+                <td><%= song.comma_separated_artists %></td>
+                <td><%= song.album.title %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
 
-  <div class="tabs-panel" id="personal-songs">
-    <table>
-      <thead>
-        <tr>
-          <th width="200">Song</th>
-          <th>Artists</th>
-          <th width="150">Album</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% Song.where(transcriber_id: current_user.id).each do |song| %>
-          <tr>
-            <td><a href="/songs/<%= song.id %>"><%= song.name %></a></td>
-            <td><%= song.comma_separated_artists %></td>
-            <td><%= song.album.title %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <% if current_user %>
+        <div class="tabs-panel" id="personal-songs">
+          <table>
+            <thead>
+              <tr>
+                <th width="400">Song</th>
+                <th>Artists</th>
+                <th width="300">Album</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% Song.where(transcriber_id: current_user.id).each do |song| %>
+                <tr>
+                  <td><a href="/songs/<%= song.id %>"><%= song.name %></a></td>
+                  <td><%= song.comma_separated_artists %></td>
+                  <td><%= song.album.title %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Add Path to edit songs -->
+    <!-- make more conditional -->
+    <!-- Also change size of tabs if possible -->
+
+    <!-- refactor add space without using row with empty p tags -->
+    <div class="row">
+      <p></p>
+    </div>
+    <div class="row">
+      <div class="small-2 columns small-centered">
+        <a class="large button text-centered" href="<%= new_song_path %>">New Song</a>
+      </div>
+    </div>
   </div>
 </div>
-
-<!-- Add Path to edit songs -->
-<!-- Also make conditional so it doesn't show if logged in -->
-<!-- Also make new song a button -->
-<!-- Also change size of tabs if possible -->
-
-
-<%= link_to "New Song", new_song_path %>

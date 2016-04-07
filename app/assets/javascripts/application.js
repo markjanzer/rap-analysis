@@ -1,14 +1,9 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/selectable
 //= require turbolinks
 //= require foundation
-//= require jquery-ui/selectable
-  //= require_tree .
-
-// refactor remove
-// $(function() {
-//   $(document).foundation();
-// });
+//= require_tree .
 
 
 $(document).on('ready page:load', function(){

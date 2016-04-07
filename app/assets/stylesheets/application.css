@@ -7,14 +7,18 @@
  */
 
 /* temporarily disabled */
-/*html {
-  text-align: center;
-}
 
 @media (min-width: 30em) {
   .row { width: 100%; display: table; table-layout: fixed; height: 1.2em;}
   .col { display: table-cell; }
-}*/
+}
+
+.selectable .ui-selecting {
+  background: #ccc;
+}
+.selectable .ui-selected {
+  background: #999;
+}
 
 /*.container {
   margin: 0em;

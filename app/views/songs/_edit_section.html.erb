@@ -5,10 +5,10 @@
   <button class="delete-section">Delete Section</button>
   <!-- refactor for different beats per measure -->
   <div class="row section-duration-header">
-    <div class="col" style="width:25%">1</div>
-    <div class="col" style="width:25%">2</div>
-    <div class="col" style="width:25%">3</div>
-    <div class="col" style="width:25%">4</div>
+    <div class="col text-center" style="width:25%">1</div>
+    <div class="col text-center" style="width:25%">2</div>
+    <div class="col text-center" style="width:25%">3</div>
+    <div class="col text-center" style="width:25%">4</div>
   </div>
   <% section.ordered_phrases.each do |phrase| %>
     <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
