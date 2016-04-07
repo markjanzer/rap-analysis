@@ -1,12 +1,18 @@
 //= require jquery
 //= require jquery_ujs
-//= require foundation
 //= require turbolinks
-//= require_tree .
+//= require foundation
 //= require jquery-ui/selectable
+  //= require_tree .
+
+// refactor remove
+// $(function() {
+//   $(document).foundation();
+// });
 
 
 $(document).on('ready page:load', function(){
+  $(document).foundation();
   createSection();
   selectable();
   changeRhyme();
