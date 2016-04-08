@@ -37,6 +37,8 @@ Rails.application.routes.draw do
         put 'add_measure_before'
         put 'delete_measure'
         put 'publish'
+        put 'open_edit_menu'
+        put 'close_edit_menu'
       end
     end
 

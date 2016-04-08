@@ -194,6 +194,14 @@ class SongsController < ApplicationController
     end
   end
 
+  def open_edit_menu
+    render template: "songs/_edit_menu", layout: false
+  end
+
+  def close_edit_menu
+    render template: "songs/_open_edit_menu_button", layout: false
+  end
+
   def destroy
   end
 

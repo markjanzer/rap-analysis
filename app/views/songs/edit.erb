@@ -24,22 +24,6 @@
 
   <%= render partial: "add_section_button", locals: { section_number: 0} %>
 
-
-
-  <div class="row">
-    <div class="small-12 columns">
-      <%= render partial: "edit_lyrics" %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="small-5 columns">
-      <%= render partial: "add_attributes" %>
-    </div>
-    <div class="small-7 columns">
-      <%= render partial: "edit_rhythm" %>
-    </div>
-  </div>
-
   <div class="song-edit selectable">
     <%= render partial: 'edit_song', locals: { song: @song } %>
   </div>
