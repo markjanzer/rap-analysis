@@ -2,7 +2,7 @@
   <input type="hidden" name="section-id" value="<%= section.id %>">
   <!-- refactor for section artists -->
   <h5> <%= section.section_type %> by <%= section.song.artists.first.name %></h5>
-  <button type="button" class="tiny alert button delete-section">Delete Section</button>
+  <%= render partial: "open_edit_menu_button" %>
   <!-- refactor for different beats per measure -->
   <div class="row section-duration-header">
     <div class="col text-center" style="width:25%">1</div>

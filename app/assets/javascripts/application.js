@@ -24,6 +24,8 @@ $(document).on('ready page:load', function(){
   renderNewSectionForm();
   cancelSectionCreation();
   publish();
+  openEditMenu();
+  closeEditMenu();
 });
 
 function createSection(){
@@ -375,6 +377,40 @@ var publish = function(){
       }
     }).done(function(response){
       thisButton.replaceWith(response);
+    })
+  })
+}
+
+function openEditMenu(){
+  $(document).on("click", ".open-edit-menu", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/open_edit_menu",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+  })
+}
+
+function closeEditMenu(){
+  $(document).on("click", ".close-edit-menu", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisForm = $(this).parent().parent().parent();
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/close_edit_menu",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisForm.replaceWith(response);
     })
   })
 }
