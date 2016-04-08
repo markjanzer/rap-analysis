@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.password = params[:user][:password]
+    @user.password = params[:password]
     @user.save!
     session[:current_user_id] = @user.id
     redirect_to "/"
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username)
+    params.permit(:username)
   end
 
 end

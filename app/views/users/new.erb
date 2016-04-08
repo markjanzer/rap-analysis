@@ -1,17 +1,43 @@
 <div class="row">
   <div class="large-5 large-centered columns">
     <div class="input-box">
-      <h3 class="text-centered">Create Account</h3>
+      <div class="small-12 columns">
+        <h3 class="text-centered">Create Account</h3>
+      </div>
       <div class="row">
         <div class="large-12 columns">
-          <%= form_for(@user) do |f| %>
-            <%= f.text_field :username, placeholder: "Username"%>
+          <%= form_tag( @user, {"data-abide": "", "novalidate": "" }) do %>
+            <div class="small-12 columns">
+              <label>Username
+                <input name="username" type="text" aria-describedby="exampleHelpText" required pattern:"alpha_numeric">
+                <span class="form-error">
+                  A Username is required!
+                </span>
+              </label>
+            </div>
 
-            <%= f.password_field :password, placeholder: "Password" %>
+            <div class="small-12 columns">
+              <label>Password Required
+                <input name="password" type="password" id="password" aria-describedby="exampleHelpText" required pattern:"alpha_numeric">
+                <span class="form-error">
+                  I'm required!
+                </span>
+              </label>
+            </div>
+
+            <div class="small-12 columns">
+              <label>Re-enter Password
+                <input name="password-confirmation" type="password" aria-describedby="exampleHelpText2" required pattern="alpha_numeric" data-equalto="password">
+                <span class="form-error">
+                  Passwords did not match!
+                </span>
+              </label>
+            </div>
 
             <!-- refactor add password confirmation -->
-
-            <%= f.submit "Create Account", class: 'button expand' %>
+            <div class="small-12 columns">
+              <button class="button" type="submit" value="Create Account">Create Account</button>
+            </div>
           <% end %>
         </div>
       </div>
