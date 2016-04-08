@@ -27,7 +27,11 @@
   padding: 40px 20px 0 20px;
 }
 
-
+.new-section-div {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 40px 20px 0 20px;
+}
 
 .rhythm-creation-div {
   display: none;
