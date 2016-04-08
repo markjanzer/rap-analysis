@@ -1,14 +1,24 @@
-<h1>Create A New Song</h1>
-<%= form_tag('/songs', method: :post) do %>
-  <p>Song Name</p>
-  <input type="text", name="name">
-  <br>
-  <p>Artist</p>
-  <input type="text", name="artist">
-  <br>
-  <p>Album</p>
-  <input type="text", name="album">
-  <br>
+<div class="row">
+  <div class="large-5 large-centered columns">
+    <div class="input-box">
+      <h3 class="text-centered">New Song</h3>
+      <div class="row">
+        <div class="large-12 columns">
+          <%= form_tag('/songs', method: :post) do %>
+            <input type="text" name="name" placeholder="Song Name">
+
+            <!-- refactor why does artist turn yellow? -->
+            <input type="text" name="artist" placeholder="Artist">
+
+            <input type="text" name="album" placeholder="Album">
+
+            <input type="submit" class="button expand" value="Create Song">
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--
   Add as a default musical value
@@ -23,6 +33,3 @@
   <input type="text", name="beat-subdivision", value="16">
   <br>
 -->
-  <input type="submit">
-<% end %>
-

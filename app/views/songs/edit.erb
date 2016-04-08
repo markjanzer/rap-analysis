@@ -1,13 +1,45 @@
-<div>
-  <h1>Edit Song</h1>
-  <% if !current_user %>
-    <p>NONE OF YOUR INFORMATION WILL BE SAVED UNLESS YOU LOG IN</p>
-  <% end %>
-  <input type="hidden" name="song-id" value="<%= @song.id %>">
-  <div class="song-header">
-    <h2><%= @song.name %></h2>
-    <p><%= @artist_names %></p>
-    <p><%= @song.album.title %></p>
+<div data-sticky-container>
+  <div id="header-bar" data-sticky  data-sticky-on="small">
+    <div class="title-bar" data-responsive-toggle="top-bar" data-hide-for="medium">
+      <button class="menu-icon" type="button" data-toggle></button>
+      <div class="title-bar-title">Menu</div>
+    </div>
+
+    <div id="top-bar" class="top-bar">
+      <div class="row">
+    <!-- Top Bar Left Nav Elements -->
+        <div class="columns medium-2">
+        </div>
+        <div class="columns medium-10">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- refactor do vertical spacing but not as silly -->
+<div class="row">
+  <p></p>
+</div>
+
+<% if !current_user %>
+  <div class="row body">
+    <div class="callout alert">
+      <h5 class="text-center">This song will not be saved</h5>
+      <p class="text-center">Log in or create an account to allow you transcriptions to be saved.</p>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="small-4 small-centered columns">
+    <input type="hidden" name="song-id" value="<%= @song.id %>">
+    <div class="song-header">
+      <h2>Song: <%= @song.name %></h2>
+      <h3>Artist: <%= @artist_names %></h3>
+      <h3>Album: <%= @song.album.title %></h3>
+    </div>
   </div>
 
   <%= render partial: "add_section_button", locals: { section_number: 0} %>
@@ -31,5 +63,4 @@
   <% elsif super_user && @song.published %>
     <%= render partial: "unpublish_button" %>
   <% end %>
-
 </div>

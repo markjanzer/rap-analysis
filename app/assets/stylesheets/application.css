@@ -1,31 +1,36 @@
 /*
  *= require_tree .
  *= require_self
+ *= require foundation_and_overrides
+
  *= require jquery-ui/selectable
  */
 
-
-
-html {
-  text-align: center;
-}
+/* temporarily disabled */
 
 @media (min-width: 30em) {
   .row { width: 100%; display: table; table-layout: fixed; height: 1.2em;}
   .col { display: table-cell; }
 }
 
-.container {
-  margin: 0em;
-  width: 70%;
-  padding: 0px 20px 20px 20px;
-  border: 1px dotted black;
-  margin: auto;
+.selectable .ui-selecting {
+  background: #ccc;
+}
+.selectable .ui-selected {
+  background: #999;
 }
 
+.input-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  margin: 100px 0;
+  padding: 40px 20px 0 20px;
+}
 
-th {
-  text-align: left;
+.new-section-div {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 40px 20px 0 20px;
 }
 
 .rhythm-creation-div {

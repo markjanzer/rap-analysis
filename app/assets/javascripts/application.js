@@ -1,11 +1,13 @@
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
 //= require jquery-ui/selectable
+//= require turbolinks
+//= require foundation
+//= require_tree .
 
 
 $(document).on('ready page:load', function(){
+  $(document).foundation();
   createSection();
   selectable();
   changeRhyme();
@@ -44,12 +46,13 @@ function createSection(){
 
 function selectable(){
   $('.selectable').selectable({
-    filter: ".select"
+    filter: ".select",
+    cancel: "a"
   });
 }
 
 var changeRhyme = function(){
-  $(document).on("click", "button.change-rhyme", function(event){
+  $(document).on("click", ".change-rhyme", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
     var cellIDs = $.map(allCells, function(cell){
@@ -76,7 +79,7 @@ var changeRhyme = function(){
 }
 
 var changeStress = function(){
-  $(document).on("click", "button.change-stress", function(event){
+  $(document).on("click", ".change-stress", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
     var cellIDs = $.map(allCells, function(cell){
@@ -109,7 +112,7 @@ var changeStress = function(){
 }
 
 var changeEndRhyme = function(){
-  $(document).on("click", "button.change-end-rhyme", function(event){
+  $(document).on("click", ".change-end-rhyme", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
     var cellIDs = $.map(allCells, function(cell){
@@ -140,7 +143,7 @@ var changeEndRhyme = function(){
 }
 
 var changeLyric = function(){
-  $(document).on("click", "button.change-lyrics", function(event){
+  $(document).on("click", ".change-lyrics", function(event){
     event.preventDefault();
     // refactor I use next two lines repeatedly
     var songID = $("input[name='song-id']").attr("value");
@@ -166,7 +169,7 @@ var changeLyric = function(){
 }
 
 var changeRhythm = function(){
-  $(document).on("click", "button.change-rhythm", function(event){
+  $(document).on("click", ".change-rhythm", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
@@ -191,7 +194,7 @@ var changeRhythm = function(){
 }
 
 var removeCell = function(){
-  $(document).on("click", "button.remove-cell", function(event){
+  $(document).on("click", ".remove-cell", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
@@ -214,7 +217,7 @@ var removeCell = function(){
 }
 
 var addCell = function(){
-  $(document).on("click", "button.add-cell", function(event){
+  $(document).on("click", ".add-cell", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
@@ -239,7 +242,7 @@ var addCell = function(){
 }
 
 var addMeasureAfter = function(){
-  $(document).on("click", "button.add-measure-after", function(event){
+  $(document).on("click", ".add-measure-after", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var cellID = $(".ui-selected").first().attr("name");
@@ -260,7 +263,7 @@ var addMeasureAfter = function(){
 }
 
 var addMeasureBefore = function(){
-  $(document).on("click", "button.add-measure-before", function(event){
+  $(document).on("click", ".add-measure-before", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var cellID = $(".ui-selected").first().attr("name");
@@ -280,7 +283,7 @@ var addMeasureBefore = function(){
 }
 
 var deleteMeasure = function(){
-  $(document).on("click", "button.delete-measure", function(event){
+  $(document).on("click", ".delete-measure", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var measure = $(".ui-selected").first().parent().parent()
@@ -300,7 +303,7 @@ var deleteMeasure = function(){
 }
 
 var deleteSection = function(){
-  $(document).on("click", "button.delete-section", function(event){
+  $(document).on("click", ".delete-section", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var sectionID = $(this).siblings("input").val();
@@ -319,11 +322,11 @@ var deleteSection = function(){
 }
 
 var renderNewSectionForm = function(){
-  $(document).on("click", "button.add-section-button", function(event){
+  $(document).on("click", ".add-section-button", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var thisButton = $(this);
-    var sectionNumber = $(this).val();
+    var sectionNumber = $(this).attr("data-value");
     $.ajax({
       method: "PUT",
       url: "/songs/" + songID + "/render_section_form",
@@ -338,10 +341,11 @@ var renderNewSectionForm = function(){
 }
 
 var cancelSectionCreation = function(){
-  $(document).on("click", "button.cancel-section-creation", function(event){
+  $(document).on("click", ".cancel-section-creation", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var thisForm = $(this).parent().parent();
+    var thisFormsWrapper = thisForm.parent().parent();
     var sectionNumber = $(this).siblings("input[name='section-number']").val();
     $.ajax({
       method: "PUT",
@@ -351,13 +355,13 @@ var cancelSectionCreation = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      $(thisForm).replaceWith(response);
+      $(thisFormsWrapper).replaceWith(response);
     })
   })
 }
 
 var publish = function(){
-  $(document).on("click", "button.publish", function(event){
+  $(document).on("click", ".publish", function(event){
     event.preventDefault();
     var thisButton = $(this);
     var value = $(this).val();
@@ -379,3 +383,5 @@ var publish = function(){
 function getCSRFTokenValue(){
   return $('meta[name="csrf-token"]').attr('content');
 }
+
+$(function(){ $(document).foundation(); });
