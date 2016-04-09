@@ -1,8 +1,10 @@
 <!-- refactor add phrase div wrapper -->
-<% phrase.ordered_measures.each do |measure| %>
-  <% if measure.rhythmic_errors %>
-    <%= render partial: 'edit_invalid_measure', locals: { measure: measure } %>
-  <% else %>
-    <%= render partial: 'edit_measure', locals: { measure: measure } %>
+<div class="phrase-div">
+  <% phrase.ordered_measures.each do |measure| %>
+    <% if measure.rhythmic_errors %>
+      <%= render partial: 'edit_invalid_measure', locals: { measure: measure } %>
+    <% else %>
+      <%= render partial: 'edit_measure', locals: { measure: measure } %>
+    <% end %>
   <% end %>
-<% end %>
+</div>
