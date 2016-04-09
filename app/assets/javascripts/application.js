@@ -49,7 +49,7 @@ function createSection(){
 function selectable(){
   $('.selectable').selectable({
     filter: ".select",
-    cancel: "a"
+    cancel: "a, .replacement-lyrics, button"
   });
 }
 
@@ -259,7 +259,8 @@ var addMeasureAfter = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      $(".ui-selected").closest("div.edit-section").append(response)
+      // refactor will not render correctly if it is a new phrase.
+      $(".ui-selected").closest("div.edit-section").children(".phrase-div").last().append(response);
     });
   });
 }

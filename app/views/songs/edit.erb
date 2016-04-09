@@ -13,11 +13,11 @@
 <% end %>
 
 <div class="row">
-  <div class="small-4 small-centered columns">
+  <div class="small-6 small-centered columns">
     <input type="hidden" name="song-id" value="<%= @song.id %>">
     <div class="song-header">
       <h2>Song: <%= @song.name %></h2>
-      <h3>Artist: <%= @artist_names %></h3>
+      <h3>Artist: <%= @song.comma_separated_artists %></h3>
       <h3>Album: <%= @song.album.title %></h3>
     </div>
   </div>
