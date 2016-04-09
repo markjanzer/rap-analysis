@@ -203,6 +203,9 @@ class SongsController < ApplicationController
   end
 
   def destroy
+    song = Song.find_by(id: params[:id])
+    song.destroy
+    redirect_to '/'
   end
 
   private

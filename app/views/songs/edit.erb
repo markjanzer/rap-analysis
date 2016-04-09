@@ -34,3 +34,9 @@
     <%= render partial: "unpublish_button" %>
   <% end %>
 </div>
+
+<div class="row">
+  <div class="small-1 small-centered column">
+    <%= button_to "Delete Image", { action: "destroy"}, class: "alert button", method: :delete %>
+  </div>
+</div>
