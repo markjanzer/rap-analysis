@@ -33,14 +33,15 @@ function createSection(){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var sectionData = $(".new-section-form").serializeArray();
-    sectionData.push({ name: "songID", value: songID });
-    // refactor might not have to add songID to sectionData
+    var thisFormAndContainers = $(this).parent().parent().parent();
     var request = $.ajax({
       url: "/songs/" + songID + "/create_section",
       type: "PUT",
       data: sectionData
     })
     request.done(function(response){
+      // Need to replace thisFormAndContainers with the renderNewSectionFormButton
+      // thisFormAndContainers.replaceWith()
       $(".song-edit").html(response)
     })
   })
