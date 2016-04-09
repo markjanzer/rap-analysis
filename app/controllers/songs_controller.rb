@@ -11,7 +11,7 @@ class SongsController < ApplicationController
   end
 
   def create_section
-    section = Section.create(song_id: params["songID"], section_number: params["section-number"], section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]), number_of_pickup_measures: params["pickup-measures"].to_i)
+    section = Section.create(song_id: params["id"], section_number: params["section-number"], section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]), number_of_pickup_measures: params["pickup-measures"].to_i)
 
     # refactor add beats per measure
     section.populate_section(params["measures-in-section"].to_i, params["measures-per-phrase"].to_i)
@@ -203,6 +203,9 @@ class SongsController < ApplicationController
   end
 
   def destroy
+    song = Song.find_by(id: params[:id])
+    song.destroy
+    redirect_to '/'
   end
 
   private

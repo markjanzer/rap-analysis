@@ -13,11 +13,11 @@
 <% end %>
 
 <div class="row">
-  <div class="small-4 small-centered columns">
+  <div class="small-6 small-centered columns">
     <input type="hidden" name="song-id" value="<%= @song.id %>">
     <div class="song-header">
       <h2>Song: <%= @song.name %></h2>
-      <h3>Artist: <%= @artist_names %></h3>
+      <h3>Artist: <%= @song.comma_separated_artists %></h3>
       <h3>Album: <%= @song.album.title %></h3>
     </div>
   </div>
@@ -33,4 +33,10 @@
   <% elsif super_user && @song.published %>
     <%= render partial: "unpublish_button" %>
   <% end %>
+</div>
+
+<div class="row">
+  <div class="small-1 small-centered column">
+    <%= button_to "Delete Song", { action: "destroy"}, class: "alert button", method: :delete %>
+  </div>
 </div>

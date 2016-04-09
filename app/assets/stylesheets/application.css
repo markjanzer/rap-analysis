@@ -39,6 +39,10 @@
   padding: 40px 20px 0 20px;
 }
 
+.phrase-div {
+  padding: 5px 0px 0px 0px;
+}
+
 .rhythm-creation-div {
   display: none;
 }
