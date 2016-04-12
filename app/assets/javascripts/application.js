@@ -51,7 +51,7 @@ var createSection = function(){
 var selectable = function(){
   $('.selectable').selectable({
     filter: ".select",
-    cancel: "a, .replacement-lyrics, button, input"
+    cancel: ""
   });
 }
 
