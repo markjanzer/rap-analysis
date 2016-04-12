@@ -23,6 +23,7 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user)
     else
       # refactor to include errors
+      flash[:error] = "Incorrect password"
       redirect_to edit_user_path(current_user)
     end
   end

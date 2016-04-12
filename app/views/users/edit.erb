@@ -8,11 +8,13 @@
         <div class="large-12 columns">
           <%= form_tag( current_user, { method: :put, "data-abide": "", "novalidate": "" } ) do %>
             <div class="small-12 columns">
+              <% if flash[:error] %>
+                <div class="callout warning">
+                  <p><%= flash[:error] %></p>
+                </div>
+              <% end %>
               <label>Old Password
                 <input name="old-password" type="password" aria-describedby="exampleHelpText" required pattern:"alpha_numeric">
-                <span class="form-error">
-                  Old Password Required
-                </span>
               </label>
             </div>
 
