@@ -8,6 +8,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "Rap Analysis Webapp" %></title>
 
     <%= stylesheet_link_tag    "application" %>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <% javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
@@ -17,7 +18,7 @@
     <div class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
-          <li><a href="/">Rap Analysis WebApp</a></li>
+          <li><a class="logo" href="/">Rap Analysis Webapp</a></li>
         </ul>
       </div>
       <div class="top-bar-right">
