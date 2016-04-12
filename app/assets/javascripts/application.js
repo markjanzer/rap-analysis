@@ -26,6 +26,7 @@ $(document).on('ready page:load', function(){
   publish();
   openEditMenu();
   closeEditMenu();
+  addArtist();
 });
 
 var createSection = function(){
@@ -383,7 +384,7 @@ var publish = function(){
   })
 }
 
-function openEditMenu(){
+var openEditMenu = function(){
   $(document).on("click", ".open-edit-menu", function(event){
     event.preventDefault();
     var thisButton = $(this);
@@ -400,7 +401,7 @@ function openEditMenu(){
   })
 }
 
-function closeEditMenu(){
+var closeEditMenu = function(){
   $(document).on("click", ".close-edit-menu", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
@@ -416,6 +417,16 @@ function closeEditMenu(){
     })
   })
 }
+
+var addArtist = function(){
+  $(document).on("click", ".add-artist", function(event){
+    event.preventDefault();
+    var prevArtistNum = $(this).prev().attr("data-value");
+    var artistNum = (parseInt(prevArtistNum) + 1).toString();
+    $(this).before('<input type="text" name="artist-' + artistNum + '" data-value="' + artistNum + '" placeholder="Artist">');
+  });
+}
+
 
 //----------- HELPERS -------------------
 function getCSRFTokenValue(){

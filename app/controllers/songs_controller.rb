@@ -41,10 +41,15 @@ class SongsController < ApplicationController
 
   def create
     @song = Song.create(song_params)
-    artist = Artist.create(name: params[:artist]) if Artist.all.where(name: params[:artist]).empty?
-    @song.artists << Artist.find_by(name: params[:artist])
-    album = Album.create(title: params[:album]) if Album.all.where(title: params[:album]).empty?
-    Album.find_by(title: params[:album]).songs << @song
+    artist_param = "artist-0"
+    artist_counter = 0
+    while params[artist_param]
+      Artist.addOrCreateAndAddArtist(@song, params[artist_param])
+      artist_counter += 1
+      artist_param = "artist-" + artist_counter.to_s
+    end
+
+    Album.addSongOrCreateAlbumAndAddSong(@song, params[:album])
     if current_user
       @song.update(transcriber_id: current_user.id)
       current_user.songs << @song
