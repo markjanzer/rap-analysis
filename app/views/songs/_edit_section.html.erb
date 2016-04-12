@@ -1,4 +1,4 @@
-<div class="edit-section selectable">
+<div class="edit-section">
   <input type="hidden" name="section-id" value="<%= section.id %>">
   <!-- refactor for section artists -->
   <div class="row">
@@ -17,8 +17,12 @@
     <div class="col text-center" style="width:25%">3</div>
     <div class="col text-center" style="width:25%">4</div>
   </div>
-  <% section.ordered_phrases.each do |phrase| %>
-    <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
-  <% end %>
+  <div class="row">
+    <div class="small-12 columns selectable">
+      <% section.ordered_phrases.each do |phrase| %>
+        <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
+      <% end %>
+    </div>
+  </div>
   <%= render partial: "add_section_button", locals: { section_number: section.section_number + 1 } %>
 </div>
