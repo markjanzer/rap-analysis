@@ -3,7 +3,9 @@ class SongsController < ApplicationController
   end
 
   def render_section_form
-    render template: "songs/_new_section_form", locals: { section_number: params["sectionNumber"]}, layout: false
+    song = Song.find(params[:id])
+    artist_names = song.artists.map{ |artist| artist.name }
+    render template: "songs/_new_section_form", locals: { section_number: params["sectionNumber"], artist_names: artist_names }, layout: false
   end
 
   def cancel_section_form
@@ -14,11 +16,22 @@ class SongsController < ApplicationController
     song = Song.find(params["id"])
     section_number = params["section-number"].to_i
     song.add_section_with_number_n(section_number)
-    section = Section.create(song_id: song.id, section_number: section_number, section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]), number_of_pickup_measures: params["pickup-measures"].to_i)
+    section = Section.create(song_id: song.id, section_number: section_number, section_type: params["section-type"], default_subdivision: Integer("16"), number_of_pickup_measures: params["pickup-measures"].to_i)
 
     # refactor add beats per measure
     section.populate_section(params["measures-in-section"].to_i, params["measures-per-phrase"].to_i)
 
+    Artist.addOrCreateAndAddArtist(section, params["artist"])
+    # check if artist-1 returns true all the time
+    if !params["artist-1"].blank?
+      artist_param = "artist-1"
+      artist_counter = 1
+      while params[artist_param]
+        Artist.addOrCreateAndAddArtist(section, params[artist_param])
+        artist_counter += 1
+        artist_param = "artist-" + artist_counter.to_s
+      end
+    end
     # refactor render section
     render template: "songs/_edit_song", locals: { song: song}, layout: false
   end

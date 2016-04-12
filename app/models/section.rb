@@ -9,6 +9,12 @@ class Section < ActiveRecord::Base
 
   belongs_to :song
 
+  # refactor belongs to songs too
+  def comma_separated_artists
+    artist_names = self.artists.map{ |artist| artist.name }
+    artist_names.join(", ")
+  end
+
   def ordered_phrases
     phrases = self.phrases.sort_by { |phrase| phrase.section_phrase_number }
     return phrases
