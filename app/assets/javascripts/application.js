@@ -28,7 +28,7 @@ $(document).on('ready page:load', function(){
   closeEditMenu();
 });
 
-function createSection(){
+var createSection = function(){
   $(document).on("submit", ".new-section-form", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
@@ -47,10 +47,10 @@ function createSection(){
   })
 }
 
-function selectable(){
+var selectable = function(){
   $('.selectable').selectable({
     filter: ".select",
-    cancel: "a, .replacement-lyrics, button"
+    cancel: "a, .replacement-lyrics, button, input"
   });
 }
 
