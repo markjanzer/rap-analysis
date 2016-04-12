@@ -64,6 +64,16 @@
   display: none;
 }
 
+.logo {
+  font-family: 'Pacifico', cursive;
+  font-weight: bold;
+  color: #C91912;
+}
+
+.main-logo {
+  padding: 1em;
+}
+
 .col textarea {
   width:100%;
 }

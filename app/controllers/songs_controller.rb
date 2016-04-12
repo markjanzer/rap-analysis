@@ -11,17 +11,22 @@ class SongsController < ApplicationController
   end
 
   def create_section
-    section = Section.create(song_id: params["id"], section_number: params["section-number"], section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]), number_of_pickup_measures: params["pickup-measures"].to_i)
+    song = Song.find(params["id"])
+    section_number = params["section-number"].to_i
+    song.add_section_with_number_n(section_number)
+    section = Section.create(song_id: song.id, section_number: section_number, section_type: params["section-type"], default_subdivision: Integer(params["beat-subdivision"]), number_of_pickup_measures: params["pickup-measures"].to_i)
 
     # refactor add beats per measure
     section.populate_section(params["measures-in-section"].to_i, params["measures-per-phrase"].to_i)
 
     # refactor render section
-    render template: "songs/_edit_song", locals: { song: Song.find_by(id: Integer(params["songID"]))}, layout: false
+    render template: "songs/_edit_song", locals: { song: song}, layout: false
   end
 
   def delete_section
     section = Section.find(params["sectionID"])
+    song = Song.find(params["id"])
+    song.remove_section_with_number_n(section.section_number)
     section.destroy
     render json: {"destroyed?": true}
   end

@@ -12,6 +12,23 @@ class UsersController < ApplicationController
     redirect_to "/"
   end
 
+  def edit
+
+  end
+
+  def update
+    p "*" * 80
+    p "we made it?"
+    if current_user.password == params["old-password"]
+      current_user.password = params["new-password"]
+      current_user.save
+      redirect_to user_path(current_user)
+    else
+      # refactor to include errors
+      redirect_to edit_user_path(current_user)
+    end
+  end
+
   def show
     current_user
   end

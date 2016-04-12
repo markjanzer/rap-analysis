@@ -1,1 +1,14 @@
-<h1>Profile for <%= current_user.username %></h1>
+<div class="row">
+  <div class="large-5 large-centered columns">
+    <div class="input-box">
+      <div class="row">
+        <div class="small-12 columns">
+          <h3 class="text-center"><%= current_user.username %></h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <a class="button" href="<%= edit_user_path(current_user) %>">Change Password</a>
+      </div>
+    </div>
+  </div>
+</div>
