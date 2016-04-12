@@ -421,6 +421,7 @@ var closeEditMenu = function(){
 var addArtist = function(){
   $(document).on("click", ".add-artist", function(event){
     event.preventDefault();
+    console.log("Ran once")
     var prevArtistNum = $(this).prev().attr("data-value");
     var artistNum = (parseInt(prevArtistNum) + 1).toString();
     $(this).before('<input type="text" name="artist-' + artistNum + '" data-value="' + artistNum + '" placeholder="Artist">');

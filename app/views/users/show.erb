@@ -3,9 +3,25 @@
     <div class="input-box">
       <div class="row">
         <div class="small-12 columns">
-          <h3 class="text-center"><%= current_user.username %></h3>
+          <h3><%= current_user.username %></h3>
         </div>
       </div>
+      <div class="row">
+        <div class="small-12 columns">
+          <% if @number_of_songs != 1 %>
+            <p>You have transcribed <%= @number_of_songs %> songs.</p>
+          <% else %>
+            <p>You have transcribed 1 song.</p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <p>You have been a user since <%= @account_creation_date %></p>
+        </div>
+      </div>
+
       <div class="row text-center">
         <a class="button" href="<%= edit_user_path(current_user) %>">Change Password</a>
       </div>
