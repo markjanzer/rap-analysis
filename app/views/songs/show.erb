@@ -1,7 +1,8 @@
-<div class="song-header">
-  <h1><%= @song.name %></h2>
-  <h3><%= @song.comma_separated_artists %></h3>
-  <h3><%= @song.album.title %></h3>
+<div class="row">
+  <div class="small-6 small-centered columns">
+    <input type="hidden" name="song-id" value="<%= @song.id %>">
+    <%= render partial: 'song_header', locals: { song: @song } %>
+  </div>
 </div>
 
 <div class="song-show">

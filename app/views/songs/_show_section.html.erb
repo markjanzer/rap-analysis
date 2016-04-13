@@ -1,15 +1,19 @@
-<div class="display-section">
+<div class="show-section">
 
-  <!-- refactor for section artists -->
-  <h5> <%= section.section_type %> by <%= section.song.artists.name %></h5>
-  <!-- refactor for different beats per measure -->
   <div class="row">
-    <div class="col" style="width:25%">1</div>
-    <div class="col" style="width:25%">2</div>
-    <div class="col" style="width:25%">3</div>
-    <div class="col" style="width:25%">4</div>
+    <div class="small-6 columns">
+      <h5> <%= section.section_type %> by <%= section.comma_separated_artists %></h5>
+    </div>
   </div>
-  <% section.measures.each do |measure| %>
-    <%= render partial: 'show_measure', locals: { measure: measure } %>
-  <% end %>
+
+  <%= render partial: "section_duration_header" %>
+
+  <div class="row">
+    <div class="small-12 columns selectable">
+      <% section.ordered_phrases.each do |phrase| %>
+        <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
+      <% end %>
+    </div>
+  </div>
+
 </div>
