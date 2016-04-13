@@ -420,7 +420,7 @@ var closeEditMenu = function(){
 }
 
 var addArtist = function(){
-  $(document).on("click", ".add-artist", function(event){
+  $(document).off("click", ".add-artist").on("click", ".add-artist", function(event){
     event.preventDefault();
     console.log("Ran once")
     var prevArtistNum = $(this).prev().attr("data-value");
