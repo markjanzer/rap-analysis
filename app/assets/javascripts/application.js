@@ -27,6 +27,7 @@ $(document).on('ready page:load', function(){
   openEditMenu();
   closeEditMenu();
   addArtist();
+  tagForPublication();
 });
 
 var createSection = function(){
@@ -426,6 +427,24 @@ var addArtist = function(){
     var artistNum = (parseInt(prevArtistNum) + 1).toString();
     $(this).before('<input type="text" name="artist-' + artistNum + '" data-value="' + artistNum + '" placeholder="Artist">');
   });
+}
+
+var tagForPublication = function(){
+  $(document).on("click", ".tag-for-publication", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisButton = $(this);
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/tag_for_publication",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+
+  })
 }
 
 

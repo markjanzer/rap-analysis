@@ -1,0 +1,13 @@
+<% if song.published %>
+  <div class="callout success">
+    <h5>This song is published</h5>
+    <p>Thank you for contributing!</p>
+  </div>
+<% elsif song.tagged_for_publication %>
+  <div class="callout success">
+    <h5>This song has been tagged for publication</h5>
+    <p>Thanks for contributing, and I'll review it soon!</p>
+  </div>
+<% else %>
+  <button type="button" class="success button tag-for-publication">Tag for Publication</button>
+<% end %>

@@ -225,6 +225,12 @@ class SongsController < ApplicationController
     render template: "songs/_open_edit_menu_button", layout: false
   end
 
+  def tag_for_publication
+    song = Song.find(params[:id])
+    song.update(tagged_for_publication: true)
+    render template: "/songs/_publication_status", locals: { song: song }, layout: false
+  end
+
   def destroy
     song = Song.find_by(id: params[:id])
     song.destroy
