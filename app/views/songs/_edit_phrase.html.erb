@@ -1,5 +1,5 @@
 <!-- refactor add phrase div wrapper -->
-<div class="phrase-div extra-large-width">
+<div class="phrase-div">
   <% phrase.ordered_measures.each do |measure| %>
     <% if measure.rhythmic_errors %>
       <%= render partial: 'edit_invalid_measure', locals: { measure: measure } %>
