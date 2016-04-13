@@ -26,6 +26,8 @@ $(document).on('ready page:load', function(){
   publish();
   openEditMenu();
   closeEditMenu();
+  addArtist();
+  tagForPublication();
 });
 
 var createSection = function(){
@@ -50,7 +52,7 @@ var createSection = function(){
 var selectable = function(){
   $('.selectable').selectable({
     filter: ".select",
-    cancel: "a, .replacement-lyrics, button, input"
+    cancel: ""
   });
 }
 
@@ -383,7 +385,7 @@ var publish = function(){
   })
 }
 
-function openEditMenu(){
+var openEditMenu = function(){
   $(document).on("click", ".open-edit-menu", function(event){
     event.preventDefault();
     var thisButton = $(this);
@@ -400,7 +402,7 @@ function openEditMenu(){
   })
 }
 
-function closeEditMenu(){
+var closeEditMenu = function(){
   $(document).on("click", ".close-edit-menu", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
@@ -416,6 +418,35 @@ function closeEditMenu(){
     })
   })
 }
+
+var addArtist = function(){
+  $(document).on("click", ".add-artist", function(event){
+    event.preventDefault();
+    console.log("Ran once")
+    var prevArtistNum = $(this).prev().attr("data-value");
+    var artistNum = (parseInt(prevArtistNum) + 1).toString();
+    $(this).before('<input type="text" name="artist-' + artistNum + '" data-value="' + artistNum + '" placeholder="Artist">');
+  });
+}
+
+var tagForPublication = function(){
+  $(document).on("click", ".tag-for-publication", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisButton = $(this);
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/tag_for_publication",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+
+  })
+}
+
 
 //----------- HELPERS -------------------
 function getCSRFTokenValue(){

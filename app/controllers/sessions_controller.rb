@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
       session[:current_user_id] = @user.id
       redirect_to "/"
     else
+      flash[:error] = "Incorrect username/password combination"
       redirect_to login_path
     end
   end

@@ -90,6 +90,14 @@
   outline:1px red dotted;
 }
 
+.small-top-padding {
+  padding-top: 1em;
+}
+
+.small-top-margin {
+  margin-top: 1em;
+}
+
 /*.col {
     height: 4em;
     vertical-align: middle;

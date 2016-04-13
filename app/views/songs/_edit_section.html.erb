@@ -3,7 +3,7 @@
   <!-- refactor for section artists -->
   <div class="row">
     <div class="small-6 columns">
-      <h5> <%= section.section_type %> by <%= section.song.artists.first.name %></h5>
+      <h5> <%= section.section_type %> by <%= section.comma_separated_artists %></h5>
     </div>
     <div class="small-6 columns">
       <a class="small alert button float-right delete-section" href="#">Delete Section</a>
@@ -17,8 +17,12 @@
     <div class="col text-center" style="width:25%">3</div>
     <div class="col text-center" style="width:25%">4</div>
   </div>
-  <% section.ordered_phrases.each do |phrase| %>
-    <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
-  <% end %>
+  <div class="row">
+    <div class="small-12 columns selectable">
+      <% section.ordered_phrases.each do |phrase| %>
+        <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
+      <% end %>
+    </div>
+  </div>
   <%= render partial: "add_section_button", locals: { section_number: section.section_number + 1 } %>
 </div>

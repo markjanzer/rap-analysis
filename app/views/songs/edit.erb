@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div class="song-edit selectable">
+  <div class="song-edit">
     <%= render partial: 'edit_song', locals: { song: @song } %>
   </div>
 
@@ -34,7 +34,15 @@
 </div>
 
 <div class="row">
-  <div class="small-1 small-centered column">
-    <%= button_to "Delete Song", { action: "destroy"}, class: "alert button", method: :delete %>
+  <div class="small-6 columns">
+    <%= render partial: "publication_status", locals: { song: @song } %>
+  </div>
+  <div class="small-6 columns">
+    <%= button_to "Delete Song", { action: "destroy"}, class: "alert button float-right", method: :delete %>
+  </div>
+</div>
+<div class="row">
+  <div class="small-12 columns">
+    <a class="expanded success button" href="<%= song_path(@song) %>">Done Editing</a>
   </div>
 </div>

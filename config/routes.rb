@@ -39,6 +39,7 @@ Rails.application.routes.draw do
         put 'publish'
         put 'open_edit_menu'
         put 'close_edit_menu'
+        put 'tag_for_publication'
       end
     end
 

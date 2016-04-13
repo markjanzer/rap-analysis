@@ -17,20 +17,21 @@ class UsersController < ApplicationController
   end
 
   def update
-    p "*" * 80
-    p "we made it?"
     if current_user.password == params["old-password"]
       current_user.password = params["new-password"]
       current_user.save
       redirect_to user_path(current_user)
     else
       # refactor to include errors
+      flash[:error] = "Incorrect password"
       redirect_to edit_user_path(current_user)
     end
   end
 
   def show
     current_user
+    @number_of_songs = current_user.songs.count
+    @account_creation_date = current_user.created_at.to_date
   end
 
   private
