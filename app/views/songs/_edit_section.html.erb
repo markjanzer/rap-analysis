@@ -11,12 +11,8 @@
   </div>
   <%= render partial: "open_edit_menu_button" %>
   <!-- refactor for different beats per measure -->
-  <div class="row section-duration-header">
-    <div class="col text-center" style="width:25%">1</div>
-    <div class="col text-center" style="width:25%">2</div>
-    <div class="col text-center" style="width:25%">3</div>
-    <div class="col text-center" style="width:25%">4</div>
-  </div>
+  <%= render partial: "section_duration_header" %>
+
   <div class="row">
     <div class="small-12 columns selectable">
       <% section.ordered_phrases.each do |phrase| %>
@@ -24,5 +20,6 @@
       <% end %>
     </div>
   </div>
+
   <%= render partial: "add_section_button", locals: { section_number: section.section_number + 1 } %>
 </div>
