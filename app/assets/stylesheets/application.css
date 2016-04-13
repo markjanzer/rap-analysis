@@ -78,12 +78,15 @@
   padding: 1em;
 }
 
-.col textarea {
-  width:100%;
+.change-rhyme {
+  margin: 0.2em;
+  border: none;
+  width: 5em;
+  height: 4em;
 }
 
-.col button {
-  width: 100%;
+.col textarea {
+  width:100%;
 }
 
 .col {
@@ -128,44 +131,82 @@ And then use color instead of class
   font-weight: bold;
 }
 
-/*RHYMES*/
+/*RHYME*/
 
-.aquaRhyme {
-  background-color: aqua;
+ 18 HEXs
+/*no rhyme*/
+[data-rhyme="0"] {
+  background-color: #FFFFFF;
 }
-.blueRhyme {
-  background-color: blue;
+/*cat*/
+[data-rhyme="1"] {
+  background-color: #D54E33;
 }
-.fuchsiaRhyme {
-  background-color: fuchsia;
+/*up*/
+[data-rhyme="2"] {
+  background-color: #CE973E;
 }
-.orangeRhyme {
-  background-color: orange;
+/*boy*/
+[data-rhyme="3"] {
+  background-color: #63572F;
 }
-.limeRhyme {
-  background-color: lime;
+/*shoot*/
+[data-rhyme="4"] {
+  background-color: #C9D645;
 }
-.greenRhyme {
-  background-color: green;
+/*ship*/
+[data-rhyme="5"] {
+  background-color: #588A39;
 }
-.maroonRhyme {
-  background-color: maroon;
+/*sheep*/
+[data-rhyme="6"] {
+  background-color: #6CD85A;
 }
-.navyRhyme {
-  background-color: navy;
+/*here*/
+[data-rhyme="7"] {
+  background-color: #B5D392;
 }
-.oliveRhyme {
-  background-color: olive;
+/*bed*/
+[data-rhyme="8"] {
+  background-color: #527C6A;
 }
-.purpleRhyme {
-  background-color: purple;
+/*bird*/
+[data-rhyme="9"] {
+  background-color: #7DD9C2;
 }
-.redRhyme {
-  background-color: red;
+/*good*/
+[data-rhyme="10"] {
+  background-color: #86B1D1;
 }
-.tealRhyme {
-  background-color: teal;
+/*far*/
+[data-rhyme="11"] {
+  background-color: #595675;
 }
-.yellowRhyme {
-  background-color: yellow;
+/*on*/
+[data-rhyme="12"] {
+  background-color: #776FCC;
+}
+/*my*/
+[data-rhyme="13"] {
+  background-color: #D29AC4;
+}
+/*door*/
+[data-rhyme="14"] {
+  background-color: #D053CD;
+}
+/*cow*/
+[data-rhyme="15"] {
+  background-color: #903C79;
+}
+/*wait*/
+[data-rhyme="16"] {
+  background-color: #D74D76;
+}
+/*show*/
+[data-rhyme="17"] {
+  background-color: #CCA18C;
+}
+/*hair*/
+[data-rhyme="18"] {
+  background-color: #8F4236;
 }

@@ -40,7 +40,7 @@ var createSection = function(){
       url: "/songs/" + songID + "/create_section",
       type: "PUT",
       data: sectionData
-    })
+    });
     request.done(function(response){
       // Need to replace thisFormAndContainers with the renderNewSectionFormButton
       // thisFormAndContainers.replaceWith()
@@ -63,7 +63,7 @@ var changeRhyme = function(){
     var cellIDs = $.map(allCells, function(cell){
       return $(cell).attr("name");
     });
-    var quality = $(this).attr("value");
+    var quality = $(this).val();
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
     // refactor to not include authenticity_token in params if possible
@@ -77,7 +77,7 @@ var changeRhyme = function(){
       }
     }).done(function(response){
       $.each(allCells, function(){
-        $(this).css("background-color", response['quality'].slice(0, -5))
+        $(this).attr("data-rhyme", response['quality'])
       })
     })
   })
