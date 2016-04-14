@@ -48,7 +48,8 @@ var createSection = function(){
     request.done(function(response){
       // Need to replace thisFormAndContainers with the renderNewSectionFormButton
       // thisFormAndContainers.replaceWith()
-      $(".song-edit").html(response)
+      $(".song-edit").html(response);
+      selectable();
     })
   })
 }

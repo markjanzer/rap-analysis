@@ -21,11 +21,14 @@
   outline:1px #000 solid;
 }
 
+/* refactor to darken the shades  */
 .selectable .ui-selecting {
-  background: #ccc;
+  /*background: #ccc;*/
+  opacity: .7;
 }
 .selectable .ui-selected {
-  background: #999;
+  /*background: #999;*/
+  opacity: .4;
 }
 
 .phrase-div {
