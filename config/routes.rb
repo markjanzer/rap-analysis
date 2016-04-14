@@ -40,6 +40,8 @@ Rails.application.routes.draw do
         put 'open_edit_menu'
         put 'close_edit_menu'
         put 'tag_for_publication'
+        put 'render_delete_song_warning'
+        put 'render_delete_section_warning'
       end
     end
 

@@ -1,0 +1,11 @@
+<div class="callout alert">
+  <h5 class="text-center">Are you sure you want to delete this song?</h5>
+  <div class="row">
+    <div class="small-6 columns">
+      <button class="button cancel-song-deletion">Cancel</button>
+    </div>
+    <div class="small-6 columns">
+      <%= button_to "Delete Song", { action: "destroy"}, class: "alert button float-right", method: :delete %>
+    </div>
+  </div>
+</div>

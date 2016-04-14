@@ -28,6 +28,10 @@ $(document).on('ready page:load', function(){
   closeEditMenu();
   addArtist();
   tagForPublication();
+  renderDeleteSectionWarning();
+  removeDeleteSectionWarning();
+  renderDeleteSongWarning();
+  removeDeleteSongWarning();
 });
 
 var createSection = function(){
@@ -312,8 +316,8 @@ var deleteSection = function(){
   $(document).on("click", ".delete-section", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
-    var sectionID = $(this).siblings("input").val();
-    var section = $(this).parent();
+    var section = $(this).parents(".edit-section");
+    var sectionID = section.children("input[name='section-id']").val();
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/delete_section"),
@@ -447,6 +451,57 @@ var tagForPublication = function(){
   })
 }
 
+
+var renderDeleteSectionWarning = function(){
+  $(document).on("click", ".render-delete-section-warning", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/render_delete_section_warning",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+
+  })
+}
+
+var removeDeleteSectionWarning = function(){
+  $(document).off("click", ".cancel-section-deletion").on("click", ".cancel-section-deletion", function(event){
+    event.preventDefault();
+    var thisForm = $(this).parent().parent().parent();
+    thisForm.replaceWith('<button class="alert button float-right render-delete-section-warning">Delete Section</button>');
+  })
+}
+
+var renderDeleteSongWarning = function(){
+  $(document).on("click", ".render-delete-song-warning", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/render_delete_song_warning",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+  })
+}
+
+var removeDeleteSongWarning = function(){
+  $(document).off("click", ".cancel-song-deletion").on("click", ".cancel-song-deletion", function(event){
+    event.preventDefault();
+    var thisForm = $(this).parent().parent().parent();
+    thisForm.replaceWith('<button class="alert button float-right render-delete-song-warning">Delete Song</button>');
+  })
+}
 
 //----------- HELPERS -------------------
 function getCSRFTokenValue(){

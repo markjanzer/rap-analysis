@@ -34,7 +34,7 @@
     <%= render partial: "publication_status", locals: { song: @song } %>
   </div>
   <div class="small-6 columns">
-    <%= button_to "Delete Song", { action: "destroy"}, class: "alert button float-right", method: :delete %>
+    <button class="alert button float-right render-delete-song-warning">Delete Song</button>
   </div>
 </div>
 <div class="row">

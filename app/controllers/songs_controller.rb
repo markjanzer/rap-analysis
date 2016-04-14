@@ -231,6 +231,14 @@ class SongsController < ApplicationController
     render template: "/songs/_publication_status", locals: { song: song }, layout: false
   end
 
+  def render_delete_song_warning
+    render template: "songs/_delete_song_warning", layout: false
+  end
+
+  def render_delete_section_warning
+    render template: "songs/_delete_section_warning", layout: false
+  end
+
   def destroy
     song = Song.find_by(id: params[:id])
     song.destroy
