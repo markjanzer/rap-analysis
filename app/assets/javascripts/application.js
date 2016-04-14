@@ -7,6 +7,8 @@
 
 
 $(document).on('ready page:load', function(){
+  // Prevents duplicate event bindings
+  $(document).off("click");
   $(document).foundation();
   createSection();
   selectable();
@@ -425,7 +427,7 @@ var closeEditMenu = function(){
 }
 
 var addArtist = function(){
-  $(document).off("click", ".add-artist").on("click", ".add-artist", function(event){
+  $(document).on("click", ".add-artist", function(event){
     event.preventDefault();
     console.log("Ran once")
     var prevArtistNum = $(this).prev().attr("data-value");
@@ -472,7 +474,7 @@ var renderDeleteSectionWarning = function(){
 }
 
 var removeDeleteSectionWarning = function(){
-  $(document).off("click", ".cancel-section-deletion").on("click", ".cancel-section-deletion", function(event){
+  $(document).on("click", ".cancel-section-deletion", function(event){
     event.preventDefault();
     var thisForm = $(this).parent().parent().parent();
     thisForm.replaceWith('<button class="alert button float-right render-delete-section-warning">Delete Section</button>');
@@ -497,7 +499,7 @@ var renderDeleteSongWarning = function(){
 }
 
 var removeDeleteSongWarning = function(){
-  $(document).off("click", ".cancel-song-deletion").on("click", ".cancel-song-deletion", function(event){
+  $(document).on("click", ".cancel-song-deletion", function(event){
     event.preventDefault();
     var thisForm = $(this).parent().parent().parent();
     thisForm.replaceWith('<button class="alert button float-right render-delete-song-warning">Delete Song</button>');
