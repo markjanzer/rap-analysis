@@ -1,34 +1,70 @@
-
-<div class="statistics">
-    <h3>Statistics</h3>
-    <p>% of syllables rhymed: <%= content.percent_of_rhyming_syllables %></p>
-    <p>Average end rhyme syllable count: <%= content.average_end_rhyme_syllable_count %></p>
-    <p>Percent of measures with beat one stressed: <%= content.percent_of_measures_with_stress_on_beat_one %></p>
-    <p>Placement of stressed syllables: </p>
+<div class="row">
+  <div class="small-12 columns">
+    <h3 class="text-centered">Statistics</h3>
     <table>
-      <tr>
-        <th>Placement</th>
-        <th>Count</th>
-      </tr>
-      <% content.placement_of_stressed_syllables.each do |beginning, count| %>
-      <tr>
-        <td><%= beginning %></td>
-        <td><%= count %></td>
-      </tr>
-      <% end %>
-    </table>
-    <p>Placement of end rhymes: </p>
-
-    <table>
-      <tr>
-        <th>Placement</th>
-        <th>Count</th>
-      </tr>
-      <% content.placement_of_end_rhymes.each do |beginning, count| %>
-      <tr>
-        <td><%= beginning %></td>
-        <td><%= count %></td>
-      </tr>
-      <% end %>
+      <thead>
+        <tr>
+          <th>Quality</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Syllables rhymed</td>
+          <td><%= content.percent_of_rhyming_syllables %></td>
+        </tr>
+        <tr>
+          <td>Average syllable count of end rhyme</td>
+          <td><%= content.average_end_rhyme_syllable_count %></td>
+        </tr>
+        <tr>
+          <td>Measures without stress on beat one</td>
+          <td><%= content.percent_of_measures_with_stress_on_beat_one %></td>
+        </tr>
+      </tbody>
     </table>
   </div>
+</div>
+<div class="row">
+  <div class="small-12 columns">
+    <h5 class="text-center">Placement of stressed syllables</h5>
+    <table>
+      <thead>
+        <tr>
+          <th>Placement</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% content.placement_of_stressed_syllables.each do |rhythm_hash| %>
+          <tr>
+            <td><%= rhythm_hash[:onset] %></td>
+            <td><%= rhythm_hash[:quantity] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns">
+    <h5 class="text-center">Placement of end rhymes</h5>
+    <table>
+      <thead>
+        <tr>
+          <th>Placement</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% content.placement_of_end_rhymes.each do |rhythm_hash| %>
+          <tr>
+            <td><%= rhythm_hash[:onset] %></td>
+            <td><%= rhythm_hash[:quantity] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

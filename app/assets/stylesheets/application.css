@@ -2,26 +2,38 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
-
  *= require jquery-ui/selectable
  */
 
-/* temporarily disabled */
-
+/* Ungrid */
 @media (min-width: 30em) {
   .row { width: 100%; display: table; table-layout: fixed; height: 1.2em;}
   .col { display: table-cell; }
 }
 
-.extra-large-width{
-  width: 110%;
+/* Specific styling */
+
+.col textarea {
+  width:100%;
 }
 
+.col {
+  outline:1px #000 solid;
+}
+
+/* refactor to darken the shades  */
 .selectable .ui-selecting {
-  background: #ccc;
+  /*background: #ccc;*/
+  opacity: .7;
 }
 .selectable .ui-selected {
-  background: #999;
+  /*background: #999;*/
+  opacity: .4;
+}
+
+.phrase-div {
+  padding-top: 5px;
+  width: 110%;
 }
 
 .input-box {
@@ -43,55 +55,23 @@
   padding: 40px 20px 0 20px;
 }
 
-.phrase-div {
-  padding: 5px 0px 0px 0px;
-}
-
-.rhythm-creation-div {
-  display: none;
-}
-
-.add-text-div {
-  display: none;
-}
-
-.input-text-div {
-  display: none;
-}
-
-
-.begin-measure-creation {
-  display: none;
-}
-
-.section-creation-div {
-  display: none;
-}
-
 .logo {
   font-family: 'Pacifico', cursive;
   font-weight: bold;
   color: #C91912;
 }
 
-.main-logo {
+.change-rhyme {
+  margin: 0.2em;
+  border: none;
+  width: 5em;
+  height: 4em;
+}
+
+/* Atomic CSS */
+
+.small-padding {
   padding: 1em;
-}
-
-.col textarea {
-  width:100%;
-}
-
-.col button {
-  width: 100%;
-}
-
-.col {
-  outline:1px #000 solid;
-}
-
-.invalid {
-  outline:1px red dotted;
 }
 
 .small-top-padding {
@@ -102,23 +82,6 @@
   margin-top: 1em;
 }
 
-/*.col {
-    height: 4em;
-    vertical-align: middle;
-    line-height: 4em;
-    background-color: teal;
-}
-
-.col:nth-of-type(2n) {
-    background-color: #95cbcb;
-}
-*/
-/*
-I should make a constant that
-is an association of colors and rhymes
-And then use color instead of class
-*/
-
 /*QUALITIES*/
 .end-rhyme {
   font-style: italic;
@@ -128,44 +91,82 @@ And then use color instead of class
   font-weight: bold;
 }
 
-/*RHYMES*/
+/*RHYME*/
 
-.aquaRhyme {
-  background-color: aqua;
+ 18 HEXs
+/*no rhyme*/
+[data-rhyme="0"] {
+  background-color: #FFFFFF;
 }
-.blueRhyme {
-  background-color: blue;
+/*cat*/
+[data-rhyme="1"] {
+  background-color: #D54E33;
 }
-.fuchsiaRhyme {
-  background-color: fuchsia;
+/*up*/
+[data-rhyme="2"] {
+  background-color: #CE973E;
 }
-.orangeRhyme {
-  background-color: orange;
+/*boy*/
+[data-rhyme="3"] {
+  background-color: #63572F;
 }
-.limeRhyme {
-  background-color: lime;
+/*shoot*/
+[data-rhyme="4"] {
+  background-color: #C9D645;
 }
-.greenRhyme {
-  background-color: green;
+/*ship*/
+[data-rhyme="5"] {
+  background-color: #588A39;
 }
-.maroonRhyme {
-  background-color: maroon;
+/*sheep*/
+[data-rhyme="6"] {
+  background-color: #6CD85A;
 }
-.navyRhyme {
-  background-color: navy;
+/*here*/
+[data-rhyme="7"] {
+  background-color: #B5D392;
 }
-.oliveRhyme {
-  background-color: olive;
+/*bed*/
+[data-rhyme="8"] {
+  background-color: #527C6A;
 }
-.purpleRhyme {
-  background-color: purple;
+/*bird*/
+[data-rhyme="9"] {
+  background-color: #7DD9C2;
 }
-.redRhyme {
-  background-color: red;
+/*good*/
+[data-rhyme="10"] {
+  background-color: #86B1D1;
 }
-.tealRhyme {
-  background-color: teal;
+/*far*/
+[data-rhyme="11"] {
+  background-color: #595675;
 }
-.yellowRhyme {
-  background-color: yellow;
+/*on*/
+[data-rhyme="12"] {
+  background-color: #776FCC;
+}
+/*my*/
+[data-rhyme="13"] {
+  background-color: #D29AC4;
+}
+/*door*/
+[data-rhyme="14"] {
+  background-color: #D053CD;
+}
+/*cow*/
+[data-rhyme="15"] {
+  background-color: #903C79;
+}
+/*wait*/
+[data-rhyme="16"] {
+  background-color: #D74D76;
+}
+/*show*/
+[data-rhyme="17"] {
+  background-color: #CCA18C;
+}
+/*hair*/
+[data-rhyme="18"] {
+  background-color: #8F4236;
 }

@@ -7,6 +7,8 @@
 
 
 $(document).on('ready page:load', function(){
+  // Prevents duplicate event bindings
+  $(document).off("click");
   $(document).foundation();
   createSection();
   selectable();
@@ -28,6 +30,10 @@ $(document).on('ready page:load', function(){
   closeEditMenu();
   addArtist();
   tagForPublication();
+  renderDeleteSectionWarning();
+  removeDeleteSectionWarning();
+  renderDeleteSongWarning();
+  removeDeleteSongWarning();
 });
 
 var createSection = function(){
@@ -40,11 +46,12 @@ var createSection = function(){
       url: "/songs/" + songID + "/create_section",
       type: "PUT",
       data: sectionData
-    })
+    });
     request.done(function(response){
       // Need to replace thisFormAndContainers with the renderNewSectionFormButton
       // thisFormAndContainers.replaceWith()
-      $(".song-edit").html(response)
+      $(".song-edit").html(response);
+      selectable();
     })
   })
 }
@@ -63,7 +70,7 @@ var changeRhyme = function(){
     var cellIDs = $.map(allCells, function(cell){
       return $(cell).attr("name");
     });
-    var quality = $(this).attr("value");
+    var quality = $(this).val();
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
     // refactor to not include authenticity_token in params if possible
@@ -77,7 +84,7 @@ var changeRhyme = function(){
       }
     }).done(function(response){
       $.each(allCells, function(){
-        $(this).css("background-color", response['quality'].slice(0, -5))
+        $(this).attr("data-rhyme", response['quality'])
       })
     })
   })
@@ -312,8 +319,8 @@ var deleteSection = function(){
   $(document).on("click", ".delete-section", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
-    var sectionID = $(this).siblings("input").val();
-    var section = $(this).parent();
+    var section = $(this).parents(".edit-section");
+    var sectionID = section.children("input[name='section-id']").val();
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/delete_section"),
@@ -447,6 +454,57 @@ var tagForPublication = function(){
   })
 }
 
+
+var renderDeleteSectionWarning = function(){
+  $(document).on("click", ".render-delete-section-warning", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/render_delete_section_warning",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+
+  })
+}
+
+var removeDeleteSectionWarning = function(){
+  $(document).on("click", ".cancel-section-deletion", function(event){
+    event.preventDefault();
+    var thisForm = $(this).parent().parent().parent();
+    thisForm.replaceWith('<button class="alert button float-right render-delete-section-warning">Delete Section</button>');
+  })
+}
+
+var renderDeleteSongWarning = function(){
+  $(document).on("click", ".render-delete-song-warning", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/render_delete_song_warning",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+  })
+}
+
+var removeDeleteSongWarning = function(){
+  $(document).on("click", ".cancel-song-deletion", function(event){
+    event.preventDefault();
+    var thisForm = $(this).parent().parent().parent();
+    thisForm.replaceWith('<button class="alert button float-right render-delete-song-warning">Delete Song</button>');
+  })
+}
 
 //----------- HELPERS -------------------
 function getCSRFTokenValue(){

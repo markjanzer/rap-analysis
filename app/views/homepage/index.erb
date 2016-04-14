@@ -1,14 +1,14 @@
 <div class="row">
   <div class="small-12 large-10 columns large-centered">
-    <h1 class="text-center logo main-logo">Rap Analysis Webapp</h1>
+    <h1 class="text-center logo small-padding">Rap Analysis Webapp</h1>
 
-    <ul class="tabs" data-tabs id="example-tabs">
-      <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Published Transcriptions</a></li>
+    <ul class="tabs" data-tabs id="songs-tabs">
+      <li class="tabs-title is-active"><a href="#published-songs" aria-selected="true">Published Transcriptions</a></li>
       <% if current_user %>
-        <li class="tabs-title"><a href="#panel2">Your Transcriptions</a></li>
+        <li class="tabs-title"><a href="#personal-songs">Your Transcriptions</a></li>
       <% end %>
     </ul>
-    <div class="tabs-content" data-tabs-content="example-tabs">
+    <div class="tabs-content" data-tabs-content="songs-tabs">
       <div class="tabs-panel is-active" id="published-songs">
         <table>
           <thead>

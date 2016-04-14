@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20160405034630) do
     t.integer  "note_duration"
     t.boolean  "stressed",            default: false
     t.boolean  "end_rhyme",           default: false
-    t.string   "rhyme"
+    t.integer  "rhyme",               default: 0
     t.string   "content"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
