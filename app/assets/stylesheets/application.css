@@ -3,6 +3,7 @@
  *= require_self
  *= require foundation
  *= require jquery-ui/selectable
+*= require font-awesome
  */
 
 /* Ungrid */
@@ -90,6 +91,9 @@
   margin-top: 1em;
 }
 
+.red {
+  color: #C91912;
+}
 /*QUALITIES*/
 .end-rhyme {
   font-style: italic;
