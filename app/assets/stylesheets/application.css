@@ -1,0 +1,184 @@
+/*
+ *= require_tree .
+ *= require_self
+ *= require foundation
+ *= require jquery-ui/selectable
+*= require font-awesome
+ */
+
+/* Ungrid */
+@media (min-width: 30em) {
+  .row { width: 100%; display: table; table-layout: fixed; height: 1.2em;}
+  .col { display: table-cell; }
+}
+
+/* Specific styling */
+
+.col textarea {
+  width:100%;
+}
+
+.col {
+  outline:1px #CFCFCF solid;
+}
+
+/* refactor to darken the shades  */
+.selectable .ui-selecting {
+  /*background: #ccc;*/
+  opacity: .7;
+}
+.selectable .ui-selected {
+  /*background: #999;*/
+  opacity: .4;
+}
+
+.phrase-div {
+  padding-top: 5px;
+  width: 110%;
+}
+
+.input-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  margin: 100px 0;
+  padding: 40px 20px 0 20px;
+}
+
+.edit-song-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px 20px 5px 20px;
+}
+
+.new-section-div {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 40px 20px 0 20px;
+}
+
+.logo {
+  font-family: 'Pacifico', cursive;
+  font-weight: bold;
+  color: #C91912;
+}
+
+.change-rhyme {
+  margin: 0.2em;
+  border: none;
+  width: 5em;
+  height: 4em;
+}
+
+.section-duration-header {
+  width: 103%;
+}
+
+/* Atomic CSS */
+
+.small-padding {
+  padding: 1em;
+}
+
+.med-padding-right {
+  padding-right: 3em;
+}
+
+.small-top-padding {
+  padding-top: 1em;
+}
+
+.small-top-margin {
+  margin-top: 1em;
+}
+
+.red {
+  color: #C91912;
+}
+/*QUALITIES*/
+.end-rhyme {
+  font-style: italic;
+}
+
+.stressed {
+  font-weight: bold;
+}
+
+/*RHYME*/
+
+ 18 HEXs
+/*no rhyme*/
+[data-rhyme="0"] {
+  background-color: #FFFFFF;
+}
+/*cat*/
+[data-rhyme="1"] {
+  background-color: #D54E33;
+}
+/*up*/
+[data-rhyme="2"] {
+  background-color: #CE973E;
+}
+/*boy*/
+[data-rhyme="3"] {
+  background-color: #63572F;
+}
+/*shoot*/
+[data-rhyme="4"] {
+  background-color: #C9D645;
+}
+/*ship*/
+[data-rhyme="5"] {
+  background-color: #588A39;
+}
+/*sheep*/
+[data-rhyme="6"] {
+  background-color: #6CD85A;
+}
+/*here*/
+[data-rhyme="7"] {
+  background-color: #B5D392;
+}
+/*bed*/
+[data-rhyme="8"] {
+  background-color: #527C6A;
+}
+/*bird*/
+[data-rhyme="9"] {
+  background-color: #7DD9C2;
+}
+/*good*/
+[data-rhyme="10"] {
+  background-color: #86B1D1;
+}
+/*far*/
+[data-rhyme="11"] {
+  background-color: #595675;
+}
+/*on*/
+[data-rhyme="12"] {
+  background-color: #776FCC;
+}
+/*my*/
+[data-rhyme="13"] {
+  background-color: #D29AC4;
+}
+/*door*/
+[data-rhyme="14"] {
+  background-color: #D053CD;
+}
+/*cow*/
+[data-rhyme="15"] {
+  background-color: #903C79;
+}
+/*wait*/
+[data-rhyme="16"] {
+  background-color: #D74D76;
+}
+/*show*/
+[data-rhyme="17"] {
+  background-color: #CCA18C;
+}
+/*hair*/
+[data-rhyme="18"] {
+  background-color: #8F4236;
+}

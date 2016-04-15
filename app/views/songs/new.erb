@@ -1,11 +1,36 @@
-<div class="container">
-  <div class="song-form">
-    <form action="/songs" method="POST" class="create-song">
-      Song: <input type="text" name="song">
-      Artist: <input type="text" name="artist">
-      Album: <input type="text" name="album">
-      Spotify URI: <input type="text" name="spotify-uri">
-      <input type="submit">
-    </form>
+<div class="row">
+  <div class="large-5 large-centered columns">
+    <div class="input-box">
+      <h3 class="text-centered">New Song</h3>
+      <div class="row">
+        <div class="large-12 columns">
+          <%= form_tag('/songs', method: :post) do %>
+            <input type="text" name="name" placeholder="Song Name">
+
+            <!-- refactor why does artist turn yellow? -->
+            <input type="text" name="artist-0" data-value="0" placeholder="Artist">
+            <a class="button tiny add-artist" href="#">Add Artist</a>
+
+            <input type="text" name="album" placeholder="Album">
+
+            <input type="submit" class="button expand" value="Create Song">
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- refactor
+  Add as a default musical value
+  refactor rename
+  <p>Measures per musical phrase</p>
+  <input type="text", name="measures-per-beat-resolution" value="4">
+  <br>
+  <p>Beats per measure</p>
+  <input type="text", name="beats-per-measure", value="4">
+  <br>
+  <p>Beat subdivison</p>
+  <input type="text", name="beat-subdivision", value="16">
+  <br>
+-->

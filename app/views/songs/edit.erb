@@ -1,59 +1,44 @@
-<div class="container">
-  <div class="song-header">
-    <h1>Song: <%= @song.name %></h1>
-    <h2>Artist: <%= @artists.first.name %></h2>
-    <h2>Album: <%= @album.title %></h2>
-  </div>
-
-  <button type="button" class="begin-section-creation">Add Section</button>
-
-  <div class="section-creation-div">
-    <form action="/sections" method="POST" class="create-section">
-      <input type="hidden" name="song-id" value="<%= @song.id %>">
-      <select name="section-type">
-        <option value="verse">verse</option>
-        <option value="chorus">chorus</option>
-        <option value="bridge">bridge</option>
-        <option value="other">other</option>
-      </select>
-      <select name="section-artist-id">
-        <option value="<%= @artists.first.id %>"><%= @artists.first.name %></option>
-      </select>
-      <input type="submit">
-    </form>
-  </div>
-
-  <button type="button" class="begin-measure-creation">Add Measure</button>
-
-  <div class="rhythm-creation-div">
-    <%= erb :'/partials/duration-buttons' %>
-    <p>Current measure:</p>
-    <p class='measure-creation-values'></p>
-    <p>Current value: </p>
-    <p class='measure-creation-total'>0</p>
-    <button type="button" class="retry-rhythm-creation">Retry</button>
-    <button type="button" class="create-rhythm">Create Rhythm</button>
-  </div>
-
-  <div class="input-text-div">
-  </div>
-
-  <div class="input-qualities-div">
-  </div>
-
-  <br>
-
-  <div class="display-song">
-    <%= erb :'/partials/display-song', locals: { song: @song }, layout: false %>
-  </div>
-
-  <br>
-
-  <a href="/songs/<%= @song.id %>">Complete Song</a>
-
-  <br>
-
-  <button style="background-color: red;" class="delete-song" name="delete" value="<%= @song.id %>">Delete Song</button>
-
+<!-- refactor do vertical spacing but not as silly -->
+<div class="row">
+  <p></p>
 </div>
 
+<% if !current_user %>
+  <div class="row body">
+    <div class="callout alert">
+      <h5 class="text-center">This song will not be saved</h5>
+      <p class="text-center">Log in or create an account to allow you transcriptions to be saved.</p>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="small-6 small-centered columns">
+    <input type="hidden" name="song-id" value="<%= @song.id %>">
+    <%= render partial: 'song_header', locals: { song: @song } %>
+  </div>
+
+  <div class="song-edit">
+    <%= render partial: 'edit_song', locals: { song: @song } %>
+  </div>
+
+  <% if super_user && !@song.published %>
+    <%= render partial: "publish_button" %>
+  <% elsif super_user && @song.published %>
+    <%= render partial: "unpublish_button" %>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="small-6 columns">
+    <%= render partial: "publication_status", locals: { song: @song } %>
+  </div>
+  <div class="small-6 columns">
+    <button class="alert button float-right render-delete-song-warning">Delete Song</button>
+  </div>
+</div>
+<div class="row">
+  <div class="small-12 columns">
+    <a class="expanded success button" href="<%= song_path(@song) %>">Done Editing</a>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="row small-top-padding">
+  <div class="small-6 columns small-centered">
+    <div class="new-section-div"  >
+      <h3>New Section Form</h3>
+      <!-- refactor remove <br> -->
+      <%= form_tag( {}, {class: 'new-section-form'}) do %>
+        <input type="hidden" name="section-number" value="<%= section_number %>">
+        <p>Section Type</p>
+        <select name="section-type">
+          <option value="Verse">Verse</option>
+          <option value="Chorus">Chorus</option>
+          <option value="Intro">Intro</option>
+          <option value="Bridge">Bridge</option>
+          <option value="Outro">Outro</option>
+          <option value="Other">Other</option>
+        </select>
+        <br>
+
+        <p>Artist</p>
+        <select name="artist">
+          <% artist_names.each do |artist| %>
+            <option value="<%= artist %>"><%= artist %></option>
+          <% end %>
+        </select>
+
+        <p>Additional Aritsts</p>
+        <input type="text" name="artist-1" data-value="1">
+        <a class="button tiny add-artist" href="#">Add Artist</a>
+
+
+        <p>Measures in Section</p>
+        <input type="number" name="measures-in-section"
+           min="0" max="128" step="1" value="16">
+        <br>
+
+        <p>Measures per phrase</p>
+        <select name="measures-per-phrase">
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4" selected="selected">4</option>
+          <option value="8">8</option>
+        </select>
+        <br>
+
+        <p>Number of pickup measures</p>
+        <select name="pickup-measures">
+          <option value="0"selected="selected">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+        <br>
+
+        <input type="submit" class="section-create button expand">
+        <a href="#" class="button cancel-section-creation">Cancel Section Creation</a>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- refactor
+
+<p>Beats per measure</p>
+<select name="beats-per-measure">
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4" selected="selected">4</option>
+</select>
+<br>
+
+<p>Beat subdivison</p>
+<select name="beat-subdivision">
+  <option value="8">8</option>
+  <option value="16" selected="selected">16</option>
+  <option value="32">32</option>
+  <option value="12">12</option>
+  <option value="24">24</option>
+</select>
+<br> -->

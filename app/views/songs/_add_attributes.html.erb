@@ -1,0 +1,17 @@
+<div class="attributes">
+  <div class="button-group">
+    <button class="secondary button hollow change-rhyme" value="0" data-rhyme="0">No Rhyme</button>
+  </div>
+
+  <div>
+    <% Cell.colors.each_with_index do |color, index|  %>
+      <% next if index == 0 %>
+      <button class="secondary button hollow change-rhyme" style="background-color: <%= color[:color_hex]%>;" value="<%= index %>"><%=raw color[:phonetic_symbol] %><br><%= color[:descriptor] %></button>
+    <% end %>
+  </div>
+
+  <div class="button-group">
+    <button class="secondary button hollow change-stress" value="stressed"><strong>Stressed Syllable</strong></button>
+    <button class="secondary button hollow change-end-rhyme" value="end-rhyme"><em>End Rhyme</em></button>
+  </div>
+</div>

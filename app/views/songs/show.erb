@@ -1,29 +1,20 @@
-<div class="container">
-  <div class="song-header">
-    <h1><%= @song.name %></h1>
-    <h2><%= @artists.first.name %></h2>
-    <h2><%= @album.title %></h2>
+<div class="row">
+  <div class="small-6 small-centered columns">
+    <input type="hidden" name="song-id" value="<%= @song.id %>">
+    <%= render partial: 'song_header', locals: { song: @song } %>
   </div>
-
-  <div class="spotify-play-widget">
-
-  </div>
-
-  <% if !@song.spotify_uri.nil? %>
-  <iframe src="https://embed.spotify.com/?uri=spotify:track:<%= @song.spotify_uri %>" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
-  <% end %>
-
-
-  <div class="display-song">
-    <%= erb :'/partials/display-song', locals: { song: @song }, layout: false %>
-  </div>
-  <% if current_user %>
-    <% if @song.transcriber.username == current_user.username %>
-      <a href="/songs/<%= @song.id %>/edit"><button>Edit Song</button></a>
-    <% end %>
-  <% end %>
-
-  <%= erb :'/partials/statistics', locals: { content: @song }, layout: false %>
-
-
 </div>
+
+<div class="song-show">
+  <%= render partial: 'show_song', locals: { song: @song, edit: "none" } %>
+</div>
+
+<% if super_user || (current_user && @song.transcriber.id == current_user.id) %>
+  <div class="row">
+    <div class="small-12 columns">
+      <a href="<%= edit_song_path %>" class="expanded button small-top-margin">Edit Song</a>
+    </div>
+  </div>
+<% end %>
+
+<%= render partial: 'statistics', locals: { content: @song } %>

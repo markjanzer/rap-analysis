@@ -1,7 +1,6 @@
-require 'bcrypt'
-
 class User < ActiveRecord::Base
-  # users.password_hash in the database is a :string
+  has_many :songs, foreign_key: :transcriber_id
+
   include BCrypt
 
   def password
@@ -12,6 +11,4 @@ class User < ActiveRecord::Base
     @password = Password.create(new_password)
     self.password_hash = @password
   end
-
-  has_many :transcribed_songs, class_name: "Song", foreign_key: :transcriber_id
 end

@@ -1,0 +1,19 @@
+<div class="show-section">
+
+  <div class="row">
+    <div class="small-6 columns">
+      <h5> <%= section.section_type %> by <%= section.comma_separated_artists %></h5>
+    </div>
+  </div>
+
+  <%= render partial: "section_duration_header" %>
+
+  <div class="row">
+    <div class="small-12 columns selectable">
+      <% section.ordered_phrases.each do |phrase| %>
+        <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
+      <% end %>
+    </div>
+  </div>
+
+</div>

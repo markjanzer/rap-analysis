@@ -1,0 +1,14 @@
+<div class="edit-measure">
+  <div class="callout alert">
+    <p><%= measure.total_rhythmic_value * 100 %>% of measure used</p>
+  </div>
+  <input type="hidden" name="measure_id" value="<%= measure.id %>">
+  <div class="row invalid">
+    <!-- refactor to have to translate cell into html for the cell -->
+    <% measure.ordered_cells.each do |cell| %>
+      <div class="col select <%= cell.rhyme %> <%= cell.html('stressed') %> <%= cell.html('end_rhyme') %>" name="<%= cell.id %>" style="width:<%= cell.note_duration/9.6 %>%">
+        <%= cell.content %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<%= render partial: "add_section_button", locals: { section_number: 0} %>
+
+<% song.ordered_sections.each do |section| %>
+  <%= render partial: "edit_section", locals: { section: section } %>
+<% end %>
