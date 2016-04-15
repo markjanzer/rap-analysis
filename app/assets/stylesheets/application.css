@@ -68,14 +68,18 @@
   height: 4em;
 }
 
-/* Atomic CSS */
-
-.no-padding {
-  padding: 0;
+.section-duration-header {
+  width: 103%;
 }
+
+/* Atomic CSS */
 
 .small-padding {
   padding: 1em;
+}
+
+.med-padding-right {
+  padding-right: 3em;
 }
 
 .small-top-padding {

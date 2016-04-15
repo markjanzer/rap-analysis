@@ -15,7 +15,7 @@
   <%= render partial: "section_duration_header" %>
 
   <div class="row">
-    <div class="small-12 columns selectable no-padding">
+    <div class="small-12 columns selectable med-padding-right">
       <% section.ordered_phrases.each do |phrase| %>
         <%= render partial: 'edit_phrase', locals: { phrase: phrase } %>
       <% end %>
