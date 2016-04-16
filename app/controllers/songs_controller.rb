@@ -41,7 +41,7 @@ class SongsController < ApplicationController
     song = Song.find(params["id"])
     song.remove_section_with_number_n(section.section_number)
     section.destroy
-    render json: {"destroyed?": true}
+    render json: {:"destroyed?" => true}
   end
 
   def show
