@@ -34,6 +34,8 @@ $(document).on('ready page:load', function(){
   removeDeleteSectionWarning();
   renderDeleteSongWarning();
   removeDeleteSongWarning();
+  focusLyrics();
+  submitLyrics();
 });
 
 var createSection = function(){
@@ -59,8 +61,21 @@ var createSection = function(){
 var selectable = function(){
   $('.selectable').selectable({
     filter: ".select",
-    cancel: ""
   });
+}
+
+var submitLyrics = function(){
+  $(document).on("keypress", ".replacement-lyrics", function(event){
+    if (event.keyCode === 13){
+      $(".change-lyrics").click();
+    }
+  })
+}
+
+var focusLyrics = function(){
+  $(document).on("keypress", "body", function(event){
+    $(".replacement-lyrics").focus();
+  })
 }
 
 var changeRhyme = function(){
@@ -164,6 +179,7 @@ var changeLyric = function(){
       return $(cell).attr("name");
     });
     var replacementLyrics = $(".replacement-lyrics").val();
+    $(".replacement-lyrics").val('');
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/change_lyrics"),
