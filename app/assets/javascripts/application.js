@@ -84,7 +84,13 @@ var tabToNextCell = function(){
     if (event.keyCode === 9){
       event.preventDefault();
       var selectedCell = $(".ui-selected").first();
-      var nextCell = selectedCell.next();
+      var nextCell = undefined;
+      // assign nextCell to the next cell in the measure, or if at end of measure, then to the first cell in the next measure.
+      if (selectedCell.next().length){
+        nextCell = selectedCell.next();
+      } else {
+        nextCell = selectedCell.parents(".edit-measure").next().children("div").children().first(".col.select");
+      }
       selectedCell.removeClass("ui-selected");
       nextCell.addClass("ui-selected");
     }
