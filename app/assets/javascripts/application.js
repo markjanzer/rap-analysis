@@ -34,6 +34,7 @@ $(document).on('ready page:load', function(){
   removeDeleteSectionWarning();
   renderDeleteSongWarning();
   removeDeleteSongWarning();
+  tabToNextCell();
   focusLyrics();
   submitLyrics();
 });
@@ -75,6 +76,18 @@ var submitLyrics = function(){
 var focusLyrics = function(){
   $(document).on("keypress", "body", function(event){
     $(".replacement-lyrics").focus();
+  })
+}
+
+var tabToNextCell = function(){
+  $(document).on("keydown", "body", function(event){
+    if (event.keyCode === 9){
+      event.preventDefault();
+      var selectedCell = $(".ui-selected").first();
+      var nextCell = selectedCell.next();
+      selectedCell.removeClass("ui-selected");
+      nextCell.addClass("ui-selected");
+    }
   })
 }
 
