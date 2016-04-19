@@ -73,21 +73,15 @@ class Section < ActiveRecord::Base
     ordered_measures.each.with_index.reduce(ordered_phrases.shift) do |phrase, (measure, index)|
       # if phrase is full and there are no phrases left, create a new phrase for the section
       if phrase.measures.count == phrase.number_of_measures && ordered_phrases.empty?
-        p "ordered_phrases is empty"
         phrase = Phrase.create(section_id: self.id, section_phrase_number: phrase.section_phrase_number + 1, number_of_measures: phrase.number_of_measures)
       # else if the phrase is full, move on to the next phrase
       elsif phrase.measures.count == phrase.number_of_measures
         phrase = ordered_phrases.shift
-        p "the new phrase has an id of #{phrase.id}"
       end
       # Add measure to phrase
-      measure.update(section_measure_number: index + self.number_of_pickup_measures, phrase_measure_number: phrase.measures.count + 1)
+      measure.update(phrase_id: nil)
       phrase.measures << measure
-      p "this is measure.id #{measure.id}"
-      p "phrase's measure count: #{phrase.measures.count}"
-      p "#{phrase.measures.count > phrase.number_of_measures}"
-      p "phrase's number_of_measures: #{phrase.number_of_measures}"
-      p "this is phrase.id #{phrase.id}"
+      measure.update(section_measure_number: index + self.number_of_pickup_measures, phrase_measure_number: phrase.measures.count + 1)
       phrase
     end
   end

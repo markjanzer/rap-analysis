@@ -200,7 +200,7 @@ class SongsController < ApplicationController
   def delete_measure
     measure = Measure.find(params["measureID"])
     section = measure.phrase.section
-    measure.destroy
+    measure.delete
     section.update_measures
 
     render template: "songs/_edit_section", locals: { section: section }, layout: false
