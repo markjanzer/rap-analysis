@@ -19,8 +19,11 @@ class Song < ActiveRecord::Base
   end
 
   def ordered_sections
-    sections = self.sections.sort_by { |section| section.section_number}
-    return sections
+    ordered = []
+    self.sections.order(:section_number).each do |section|
+      ordered << section
+    end
+    ordered
   end
 
   # refactor use .update_all("section_number = section_number + 1")

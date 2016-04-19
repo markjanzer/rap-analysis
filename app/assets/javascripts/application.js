@@ -305,6 +305,7 @@ var addMeasureAfter = function(){
       }
     }).done(function(response){
       // refactor will not render correctly if it is a new phrase.
+      debugger
       $(".ui-selected").closest("div.edit-section").children(".phrase-div").last().append(response);
     });
   });
@@ -325,6 +326,7 @@ var addMeasureBefore = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
+      debugger
       $(".ui-selected").parent().parent().siblings(".section-duration-header").after(response)
     });
   });

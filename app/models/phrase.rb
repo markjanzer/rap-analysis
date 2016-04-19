@@ -4,7 +4,10 @@ class Phrase < ActiveRecord::Base
   belongs_to :section
 
   def ordered_measures
-    measures = self.measures.sort_by { |measure| measure.phrase_measure_number }
-    return measures
+    ordered = []
+    self.measures.order(:phrase_measure_number).each do |measure|
+      ordered << measure
+    end
+    ordered
   end
 end
