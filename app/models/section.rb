@@ -16,13 +16,19 @@ class Section < ActiveRecord::Base
   end
 
   def ordered_phrases
-    phrases = self.phrases.sort_by { |phrase| phrase.section_phrase_number }
-    return phrases
+    ordered = []
+    self.phrases.order(:section_phrase_number).each do |phrase|
+      ordered << phrase
+    end
+    ordered
   end
 
   def ordered_measures
-    measures = self.measures.sort_by { |measure| measure.section_measure_number }
-    return measures
+    ordered = []
+    self.measures.order(:section_measure_number).each do |measure|
+      ordered << measure
+    end
+    ordered
   end
 
   # Fill a section with phrases and cells and number them appropriately
@@ -46,14 +52,18 @@ class Section < ActiveRecord::Base
     end
   end
 
+  def delete_all_measures_from_phrases
+    self.phrases.each do |phrase|
+      phrase.measures.delete_all
+    end
+  end
+
   def update_measures
-    # is upadting all measures to remove associations to phrases necessary?
-    # self.phrases.update(measures: [])
     ordered_measures = self.ordered_measures
     ordered_phrases = self.ordered_phrases
-    # self.measures.update_all(phrase_id: 0)
-
+    self.delete_all_measures_from_phrases
     pickup_phrase = ordered_phrases.shift
+    # Add appropriate number of pickup measures to the pickup_phrase. refactor not sure if negatives will work out well
     self.number_of_pickup_measures.times do |i|
       measure = ordered_measures.shift
       measure.update(section_measure_number: i, phrase_measure_number: i - self.number_of_pickup_measures)
@@ -61,13 +71,17 @@ class Section < ActiveRecord::Base
     end
 
     ordered_measures.each.with_index.reduce(ordered_phrases.shift) do |phrase, (measure, index)|
+      # if phrase is full and there are no phrases left, create a new phrase for the section
       if phrase.measures.count == phrase.number_of_measures && ordered_phrases.empty?
         phrase = Phrase.create(section_id: self.id, section_phrase_number: phrase.section_phrase_number + 1, number_of_measures: phrase.number_of_measures)
+      # else if the phrase is full, move on to the next phrase
       elsif phrase.measures.count == phrase.number_of_measures
         phrase = ordered_phrases.shift
       end
-      measure.update(section_measure_number: index + self.number_of_pickup_measures, phrase_measure_number: phrase.measures.count + 1)
+      # Add measure to phrase
+      measure.update(phrase_id: nil)
       phrase.measures << measure
+      measure.update(section_measure_number: index + self.number_of_pickup_measures, phrase_measure_number: phrase.measures.count + 1)
       phrase
     end
   end

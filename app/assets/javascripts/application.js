@@ -34,6 +34,9 @@ $(document).on('ready page:load', function(){
   removeDeleteSectionWarning();
   renderDeleteSongWarning();
   removeDeleteSongWarning();
+  tabToNextCell();
+  focusLyrics();
+  submitLyrics();
 });
 
 var createSection = function(){
@@ -59,8 +62,39 @@ var createSection = function(){
 var selectable = function(){
   $('.selectable').selectable({
     filter: ".select",
-    cancel: ""
   });
+}
+
+var submitLyrics = function(){
+  $(document).on("keypress", ".replacement-lyrics", function(event){
+    if (event.keyCode === 13){
+      $(".change-lyrics").click();
+    }
+  })
+}
+
+var focusLyrics = function(){
+  $(document).on("keypress", "body", function(event){
+    $(".replacement-lyrics").focus();
+  })
+}
+
+var tabToNextCell = function(){
+  $(document).on("keydown", "body", function(event){
+    if (event.keyCode === 9){
+      event.preventDefault();
+      var selectedCell = $(".ui-selected").first();
+      var nextCell = undefined;
+      // assign nextCell to the next cell in the measure, or if at end of measure, then to the first cell in the next measure.
+      if (selectedCell.next().length){
+        nextCell = selectedCell.next();
+      } else {
+        nextCell = selectedCell.parents(".edit-measure").next().children("div").children().first(".col.select");
+      }
+      selectedCell.removeClass("ui-selected");
+      nextCell.addClass("ui-selected");
+    }
+  })
 }
 
 var changeRhyme = function(){
@@ -164,6 +198,7 @@ var changeLyric = function(){
       return $(cell).attr("name");
     });
     var replacementLyrics = $(".replacement-lyrics").val();
+    $(".replacement-lyrics").val('');
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/change_lyrics"),
@@ -257,6 +292,7 @@ var addMeasureAfter = function(){
   $(document).on("click", ".add-measure-after", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var cellID = $(".ui-selected").first().attr("name");
     // refactor use this when combining before and after
     var beforeOrAfter = $(this).val();
@@ -269,8 +305,7 @@ var addMeasureAfter = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      // refactor will not render correctly if it is a new phrase.
-      $(".ui-selected").closest("div.edit-section").children(".phrase-div").last().append(response);
+      thisSection.replaceWith(response);
     });
   });
 }
@@ -279,6 +314,7 @@ var addMeasureBefore = function(){
   $(document).on("click", ".add-measure-before", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var cellID = $(".ui-selected").first().attr("name");
     var beforeOrAfter = $(this).val();
     $.ajax({
@@ -290,7 +326,7 @@ var addMeasureBefore = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      $(".ui-selected").parent().parent().siblings(".section-duration-header").after(response)
+      thisSection.replaceWith(response);
     });
   });
 }
@@ -299,6 +335,7 @@ var deleteMeasure = function(){
   $(document).on("click", ".delete-measure", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var measure = $(".ui-selected").first().parent().parent()
     var measureID = measure.children("input").val();
     console.log("this is measureID" + measureID)
@@ -310,7 +347,7 @@ var deleteMeasure = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      measure.remove();
+      thisSection.replaceWith(response);
     });
   });
 }
