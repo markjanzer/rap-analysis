@@ -178,7 +178,7 @@ class SongsController < ApplicationController
     added_measure = Measure.create_measure_and_cells(last_phrase.id, last_phrase.measures.count, section.ordered_measures.last.section_measure_number + 1, section.default_subdivision)
     last_phrase.measures << added_measure
 
-    render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
+    render template: "songs/_edit_section", locals: { section: section }, layout: false
   end
 
   # refactor use section_update
@@ -194,7 +194,7 @@ class SongsController < ApplicationController
     added_measure = Measure.create_measure_and_cells(first_phrase.id, (first_phrase.number_of_measures - 1 - first_phrase.measures.count), 0, section.default_subdivision )
     first_phrase.measures << added_measure
 
-    render template: "songs/_edit_measure", locals: { measure: added_measure }, layout: false
+    render template: "songs/_edit_section", locals: { section: section }, layout: false
   end
 
   def delete_measure

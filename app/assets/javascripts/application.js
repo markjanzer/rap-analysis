@@ -292,6 +292,7 @@ var addMeasureAfter = function(){
   $(document).on("click", ".add-measure-after", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var cellID = $(".ui-selected").first().attr("name");
     // refactor use this when combining before and after
     var beforeOrAfter = $(this).val();
@@ -304,9 +305,7 @@ var addMeasureAfter = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      // refactor will not render correctly if it is a new phrase.
-      debugger
-      $(".ui-selected").closest("div.edit-section").children(".phrase-div").last().append(response);
+      thisSection.replaceWith(response);
     });
   });
 }
@@ -315,6 +314,7 @@ var addMeasureBefore = function(){
   $(document).on("click", ".add-measure-before", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var cellID = $(".ui-selected").first().attr("name");
     var beforeOrAfter = $(this).val();
     $.ajax({
@@ -326,8 +326,7 @@ var addMeasureBefore = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      debugger
-      $(".ui-selected").parent().parent().siblings(".section-duration-header").after(response)
+      thisSection.replaceWith(response);
     });
   });
 }
@@ -336,6 +335,7 @@ var deleteMeasure = function(){
   $(document).on("click", ".delete-measure", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var measure = $(".ui-selected").first().parent().parent()
     var measureID = measure.children("input").val();
     console.log("this is measureID" + measureID)
@@ -347,7 +347,7 @@ var deleteMeasure = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      measure.remove();
+      thisSection.replaceWith(response);
     });
   });
 }
