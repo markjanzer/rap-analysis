@@ -11,6 +11,8 @@ To record your transcribed songs, you have to make an account (passwords are sav
 When transcribing a song:
 *   When choosing measures per phrase, listen to the music accompanying the rapper. Shook Ones Part 2 by Mobb Deep is an example of a 2 measure phrase, and Clear Soul Forces' "No Better" is an example of a four bar phrase (most songs are composed of four bar phrases).
 *   Pickup creates measures before the official beginning of a verse. For an exaggerated example of pickup measures, see Pharoahe Monch's verse (the second verse) on "Oh no" (most pickups are only a few beats long so one measure will do).
+*   Use tab to skip to the next cell
+*   No need to click the textbox to change lyrics, typing anything will autofocus to the textbox, and hitting return will submit.
 *   For mul- ti- syl- lab- ic words, split syl- la- bles with hy- phens to clar- i- fy that they are the same word.
 *   Rule of thumb: if unsure about stress, include it. If unsure about rhyme, don't include it (especially if the syllable is unstressed).
 *   The process of transcription is not entirely objective! Don't worry if you are unsure, just go with your instinct.
