@@ -66,7 +66,7 @@ var selectable = function(){
 }
 
 var submitLyrics = function(){
-  $(document).on("keypress", ".replacement-lyrics", function(event){
+  $(document).off("keypress", ".replacement-lyrics").on("keypress", ".replacement-lyrics", function(event){
     if (event.keyCode === 13){
       $(".change-lyrics").click();
     }
@@ -74,13 +74,13 @@ var submitLyrics = function(){
 }
 
 var focusLyrics = function(){
-  $(document).on("keypress", "body", function(event){
+  $(document).off("keypress", "body").on("keypress", "body", function(event){
     $(".replacement-lyrics").focus();
   })
 }
 
 var tabToNextCell = function(){
-  $(document).on("keydown", "body", function(event){
+  $(document).off("keydown", "body").on("keydown", "body", function(event){
     if (event.keyCode === 9){
       event.preventDefault();
       var selectedCell = $(".ui-selected").first();
