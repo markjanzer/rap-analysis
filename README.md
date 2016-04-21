@@ -1,10 +1,10 @@
-# [Rapp](http://gentle-wildwood-3897.herokuapp.com)
+# [Rapp](http://rap-analysis.herokuapp.com)
 
 Gives you the tools to transcribe rap and analyze its musical properties with a visual display and statistics to match.
 
 ## How to use Rapp
 
-To view transcriptions of songs, you do not need to create account. Visit [the site](http://gentle-wildwood-3897.herokuapp.com) and you can view public transcriptions and the song statistics. You can also play around with transcription, but nothing will be saved.
+To view transcriptions of songs, you do not need to create account. Visit [the site](http://rap-analysis.herokuapp.com) and you can view public transcriptions and the song statistics. You can also play around with transcription, but nothing will be saved.
 
 To record your transcribed songs, you have to make an account (passwords are saved with bCrypt).
 
@@ -55,7 +55,7 @@ In his book "Sweet Anticipation: Music and the Psychology of Expectation", David
 Thank you in advance contributions of any form, whether it be transcriptions, discussion, pull requests, or advice. I honestly appreciate any and all conversation or contributions for this project.
 
 I also want to thank Kyle Adams (notably for the chart display of rap), David Huron, Adam Krims, Martin Connor, and many others for their contributions to the field of rap analysis.
-The master branch of this is deployed on Heroku at: [http://gentle-wildwood-3897.herokuapp.com](http://gentle-wildwood-3897.herokuapp.com)
+The master branch of this is deployed on Heroku at: [http://rap-analysis.herokuapp.com](http://rap-analysis.herokuapp.com)
 
 If you have any questions or comments, feel free to shoot me an email at mark.janzer@gmail.com
 
