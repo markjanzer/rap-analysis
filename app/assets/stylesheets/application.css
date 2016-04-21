@@ -3,8 +3,8 @@
  *= require_self
  *= require foundation
  *= require jquery-ui/selectable
-*= require font-awesome
- */
+ *= require font-awesome
+*/
 
 /* Ungrid */
 @media (min-width: 30em) {
@@ -24,11 +24,9 @@
 
 /* refactor to darken the shades  */
 .selectable .ui-selecting {
-  /*background: #ccc;*/
   opacity: .7;
 }
 .selectable .ui-selected {
-  /*background: #999;*/
   opacity: .4;
 }
 
