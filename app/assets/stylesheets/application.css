@@ -3,8 +3,8 @@
  *= require_self
  *= require foundation
  *= require jquery-ui/selectable
-*= require font-awesome
- */
+ *= require font-awesome
+*/
 
 /* Ungrid */
 @media (min-width: 30em) {
