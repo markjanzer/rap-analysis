@@ -544,8 +544,6 @@ var getCSRFTokenValue = function(){
   return $('meta[name="csrf-token"]').attr('content');
 }
 
-$(function(){ $(document).foundation(); });
-
 var selectNextCell = function(){
   var selectedCell = $(".ui-selected").first();
   var nextCell = undefined;
