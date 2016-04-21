@@ -24,11 +24,9 @@
 
 /* refactor to darken the shades  */
 .selectable .ui-selecting {
-  /*background: #ccc;*/
   opacity: .7;
 }
 .selectable .ui-selected {
-  /*background: #999;*/
   opacity: .4;
 }
 
