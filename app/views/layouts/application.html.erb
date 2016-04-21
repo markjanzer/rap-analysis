@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 
-    <title><%= content_for?(:title) ? yield(:title) : "Rap Analysis Webapp" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Rapp" %></title>
 
     <%= stylesheet_link_tag    "application" %>
-    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
     <% javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
@@ -18,7 +18,7 @@
     <div class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
-          <li><a class="logo" href="/">Rap Analysis Webapp</a></li>
+          <li><a class="logo" href="/">Rapp</a></li>
           <li><a href="https://github.com/markjanzer/rap-analysis"><i class="fa fa-github red" aria-hidden="true"></i></a></li>
         </ul>
       </div>
