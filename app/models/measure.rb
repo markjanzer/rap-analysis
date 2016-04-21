@@ -4,8 +4,11 @@ class Measure < ActiveRecord::Base
   belongs_to :phrase
 
   def ordered_cells
-    cells = self.cells.sort_by { |cell| cell.measure_cell_number }
-    return cells
+    ordered = []
+    self.cells.order(:measure_cell_number).each do |cell|
+      ordered << cell
+    end
+    ordered
   end
 
   def update_measure

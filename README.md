@@ -1,16 +1,18 @@
-# [Rap Analysis WebApp](http://gentle-wildwood-3897.herokuapp.com)
+# [Rapp](http://rap-analysis.herokuapp.com)
 
 Gives you the tools to transcribe rap and analyze its musical properties with a visual display and statistics to match.
 
-## How to use Rap Analysis Webapp
+## How to use Rapp
 
-To view transcriptions of songs, you do not need to create account. Visit [the site](http://gentle-wildwood-3897.herokuapp.com) and you can view public transcriptions and the song statistics. You can also play around with transcription, but nothing will be saved.
+To view transcriptions of songs, you do not need to create account. Visit [the site](http://rap-analysis.herokuapp.com) and you can view public transcriptions and the song statistics. You can also play around with transcription, but nothing will be saved.
 
 To record your transcribed songs, you have to make an account (passwords are saved with bCrypt).
 
 When transcribing a song:
 *   When choosing measures per phrase, listen to the music accompanying the rapper. Shook Ones Part 2 by Mobb Deep is an example of a 2 measure phrase, and Clear Soul Forces' "No Better" is an example of a four bar phrase (most songs are composed of four bar phrases).
 *   Pickup creates measures before the official beginning of a verse. For an exaggerated example of pickup measures, see Pharoahe Monch's verse (the second verse) on "Oh no" (most pickups are only a few beats long so one measure will do).
+*   Use tab to skip to the next cell
+*   No need to click the textbox to change lyrics, typing anything will autofocus to the textbox, and hitting return will submit.
 *   For mul- ti- syl- lab- ic words, split syl- la- bles with hy- phens to clar- i- fy that they are the same word.
 *   Rule of thumb: if unsure about stress, include it. If unsure about rhyme, don't include it (especially if the syllable is unstressed).
 *   The process of transcription is not entirely objective! Don't worry if you are unsure, just go with your instinct.
@@ -53,7 +55,7 @@ In his book "Sweet Anticipation: Music and the Psychology of Expectation", David
 Thank you in advance contributions of any form, whether it be transcriptions, discussion, pull requests, or advice. I honestly appreciate any and all conversation or contributions for this project.
 
 I also want to thank Kyle Adams (notably for the chart display of rap), David Huron, Adam Krims, Martin Connor, and many others for their contributions to the field of rap analysis.
-The master branch of this is deployed on Heroku at: [http://gentle-wildwood-3897.herokuapp.com](http://gentle-wildwood-3897.herokuapp.com)
+The master branch of this is deployed on Heroku at: [http://rap-analysis.herokuapp.com](http://rap-analysis.herokuapp.com)
 
 If you have any questions or comments, feel free to shoot me an email at mark.janzer@gmail.com
 

@@ -5,16 +5,20 @@
   </div>
 </div>
 
-<div class="song-show">
-  <%= render partial: 'show_song', locals: { song: @song, edit: "none" } %>
+<div class="row">
+  <div class="song-show">
+    <%= render partial: 'show_song', locals: { song: @song, edit: "none" } %>
+  </div>
+
+  <% if super_user || (current_user && @song.transcriber.id == current_user.id) %>
+    <div class="row">
+      <div class="small-12 columns">
+        <a href="<%= edit_song_path %>" class="expanded button small-top-margin">Edit Song</a>
+      </div>
+    </div>
+  <% end %>
 </div>
 
-<% if super_user || (current_user && @song.transcriber.id == current_user.id) %>
-  <div class="row">
-    <div class="small-12 columns">
-      <a href="<%= edit_song_path %>" class="expanded button small-top-margin">Edit Song</a>
-    </div>
-  </div>
-<% end %>
-
-<%= render partial: 'statistics', locals: { content: @song } %>
+<div class="row">
+  <%= render partial: 'statistics', locals: { content: @song } %>
+</div>

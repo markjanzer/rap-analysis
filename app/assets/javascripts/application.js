@@ -34,6 +34,9 @@ $(document).on('ready page:load', function(){
   removeDeleteSectionWarning();
   renderDeleteSongWarning();
   removeDeleteSongWarning();
+  tabToCell();
+  focusLyrics();
+  submitLyrics();
 });
 
 var createSection = function(){
@@ -59,8 +62,34 @@ var createSection = function(){
 var selectable = function(){
   $('.selectable').selectable({
     filter: ".select",
-    cancel: ""
   });
+}
+
+var submitLyrics = function(){
+  $(document).off("keypress", ".replacement-lyrics").on("keypress", ".replacement-lyrics", function(event){
+    if (event.keyCode === 13){
+      $(".change-lyrics").click();
+    }
+  })
+}
+
+var focusLyrics = function(){
+  $(document).off("keypress", "body").on("keypress", "body", function(event){
+    $(".replacement-lyrics").focus();
+  })
+}
+
+var tabToCell = function(){
+  $(document).off("keydown", "body").on("keydown", "body", function(event){
+    if (event.keyCode === 9){
+      event.preventDefault();
+      if (event.shiftKey){
+        selectPreviousCell();
+      } else {
+        selectNextCell();
+      }
+    }
+  })
 }
 
 var changeRhyme = function(){
@@ -164,6 +193,7 @@ var changeLyric = function(){
       return $(cell).attr("name");
     });
     var replacementLyrics = $(".replacement-lyrics").val();
+    $(".replacement-lyrics").val('');
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/change_lyrics"),
@@ -175,7 +205,8 @@ var changeLyric = function(){
     }).done(function(response){
       $.each(allCells, function(){
         $(this).html(replacementLyrics);
-      })
+      });
+      selectNextCell();
     })
   })
 }
@@ -257,6 +288,7 @@ var addMeasureAfter = function(){
   $(document).on("click", ".add-measure-after", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var cellID = $(".ui-selected").first().attr("name");
     // refactor use this when combining before and after
     var beforeOrAfter = $(this).val();
@@ -269,8 +301,7 @@ var addMeasureAfter = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      // refactor will not render correctly if it is a new phrase.
-      $(".ui-selected").closest("div.edit-section").children(".phrase-div").last().append(response);
+      thisSection.replaceWith(response);
     });
   });
 }
@@ -279,6 +310,7 @@ var addMeasureBefore = function(){
   $(document).on("click", ".add-measure-before", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var cellID = $(".ui-selected").first().attr("name");
     var beforeOrAfter = $(this).val();
     $.ajax({
@@ -290,7 +322,7 @@ var addMeasureBefore = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      $(".ui-selected").parent().parent().siblings(".section-duration-header").after(response)
+      thisSection.replaceWith(response);
     });
   });
 }
@@ -299,6 +331,7 @@ var deleteMeasure = function(){
   $(document).on("click", ".delete-measure", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var measure = $(".ui-selected").first().parent().parent()
     var measureID = measure.children("input").val();
     console.log("this is measureID" + measureID)
@@ -310,7 +343,7 @@ var deleteMeasure = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      measure.remove();
+      thisSection.replaceWith(response);
     });
   });
 }
@@ -507,8 +540,36 @@ var removeDeleteSongWarning = function(){
 }
 
 //----------- HELPERS -------------------
-function getCSRFTokenValue(){
+var getCSRFTokenValue = function(){
   return $('meta[name="csrf-token"]').attr('content');
 }
 
-$(function(){ $(document).foundation(); });
+var selectNextCell = function(){
+  var selectedCell = $(".ui-selected").first();
+  var nextCell = undefined;
+  // assign nextCell to the next cell in the measure, or first cell in next measure, or first cell in next measure of next phrase
+  if (selectedCell.next().length){
+    nextCell = selectedCell.next();
+  } else if (selectedCell.parents(".edit-measure").next().find(".col.select").first().length) {
+    nextCell = selectedCell.parents(".edit-measure").next().find(".col.select").first();;
+  } else {
+    nextCell = selectedCell.parents(".phrase-div").next().find(".col.select").first();
+  }
+  selectedCell.removeClass("ui-selected");
+  nextCell.addClass("ui-selected");
+}
+
+var selectPreviousCell = function(){
+  var selectedCell = $(".ui-selected").first();
+  var prevCell = undefined;
+  // assign prevCell to the previous cell in the measure, or first cell in previous measure, or first cell in previous measure of previous phrase
+  if (selectedCell.prev().length){
+    prevCell = selectedCell.prev();
+  } else if (selectedCell.parents(".edit-measure").prev().find(".col.select").last().length) {
+    prevCell = selectedCell.parents(".edit-measure").prev().find(".col.select").last();;
+  } else {
+    prevCell = selectedCell.parents(".phrase-div").prev().find(".col.select").last();
+  }
+  selectedCell.removeClass("ui-selected");
+  prevCell.addClass("ui-selected");
+}
