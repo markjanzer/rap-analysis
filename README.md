@@ -1,8 +1,8 @@
-# [Rap Analysis WebApp](http://gentle-wildwood-3897.herokuapp.com)
+# [Rapp](http://gentle-wildwood-3897.herokuapp.com)
 
 Gives you the tools to transcribe rap and analyze its musical properties with a visual display and statistics to match.
 
-## How to use Rap Analysis Webapp
+## How to use Rapp
 
 To view transcriptions of songs, you do not need to create account. Visit [the site](http://gentle-wildwood-3897.herokuapp.com) and you can view public transcriptions and the song statistics. You can also play around with transcription, but nothing will be saved.
 
