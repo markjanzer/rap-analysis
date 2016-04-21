@@ -82,14 +82,17 @@ var focusLyrics = function(){
 var tabToCell = function(){
   $(document).off("keydown", "body").on("keydown", "body", function(event){
     if (event.keyCode === 9){
-      event.preventDefault();
-      if (event.shiftKey){
-        selectPreviousCell();
-      } else {
-        selectNextCell();
+      var selectedCell = $(".ui-selected");
+      if (selectedCell.length){
+        event.preventDefault();
+        if (event.shiftKey){
+          selectPreviousCell();
+        } else {
+          selectNextCell();
+        }
       }
     }
-  })
+  });
 }
 
 var changeRhyme = function(){
