@@ -34,7 +34,7 @@ $(document).on('ready page:load', function(){
   removeDeleteSectionWarning();
   renderDeleteSongWarning();
   removeDeleteSongWarning();
-  tabToNextCell();
+  tabToCell();
   focusLyrics();
   submitLyrics();
 });
@@ -79,20 +79,15 @@ var focusLyrics = function(){
   })
 }
 
-var tabToNextCell = function(){
+var tabToCell = function(){
   $(document).off("keydown", "body").on("keydown", "body", function(event){
     if (event.keyCode === 9){
       event.preventDefault();
-      var selectedCell = $(".ui-selected").first();
-      var nextCell = undefined;
-      // assign nextCell to the next cell in the measure, or if at end of measure, then to the first cell in the next measure.
-      if (selectedCell.next().length){
-        nextCell = selectedCell.next();
+      if (event.shiftKey){
+        selectPreviousCell();
       } else {
-        nextCell = selectedCell.parents(".edit-measure").next().children("div").children().first(".col.select");
+        selectNextCell();
       }
-      selectedCell.removeClass("ui-selected");
-      nextCell.addClass("ui-selected");
     }
   })
 }
@@ -210,7 +205,8 @@ var changeLyric = function(){
     }).done(function(response){
       $.each(allCells, function(){
         $(this).html(replacementLyrics);
-      })
+      });
+      selectNextCell();
     })
   })
 }
@@ -544,8 +540,38 @@ var removeDeleteSongWarning = function(){
 }
 
 //----------- HELPERS -------------------
-function getCSRFTokenValue(){
+var getCSRFTokenValue = function(){
   return $('meta[name="csrf-token"]').attr('content');
 }
 
 $(function(){ $(document).foundation(); });
+
+var selectNextCell = function(){
+  var selectedCell = $(".ui-selected").first();
+  var nextCell = undefined;
+  // assign nextCell to the next cell in the measure, or first cell in next measure, or first cell in next measure of next phrase
+  if (selectedCell.next().length){
+    nextCell = selectedCell.next();
+  } else if (selectedCell.parents(".edit-measure").next().find(".col.select").first().length) {
+    nextCell = selectedCell.parents(".edit-measure").next().find(".col.select").first();;
+  } else {
+    nextCell = selectedCell.parents(".phrase-div").next().find(".col.select").first();
+  }
+  selectedCell.removeClass("ui-selected");
+  nextCell.addClass("ui-selected");
+}
+
+var selectPreviousCell = function(){
+  var selectedCell = $(".ui-selected").first();
+  var prevCell = undefined;
+  // assign prevCell to the previous cell in the measure, or first cell in previous measure, or first cell in previous measure of previous phrase
+  if (selectedCell.prev().length){
+    prevCell = selectedCell.prev();
+  } else if (selectedCell.parents(".edit-measure").prev().find(".col.select").last().length) {
+    prevCell = selectedCell.parents(".edit-measure").prev().find(".col.select").last();;
+  } else {
+    prevCell = selectedCell.parents(".phrase-div").prev().find(".col.select").last();
+  }
+  selectedCell.removeClass("ui-selected");
+  prevCell.addClass("ui-selected");
+}
