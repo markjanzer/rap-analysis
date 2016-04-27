@@ -11,15 +11,15 @@
       <tbody>
         <tr>
           <td>Syllables rhymed</td>
-          <td><%= content.percent_of_rhyming_syllables %></td>
+          <td><%= content.percent_of_rhyming_syllables.round(2) %>%</td>
         </tr>
         <tr>
           <td>Average syllable count of end rhyme</td>
-          <td><%= content.average_end_rhyme_syllable_count %></td>
+          <td><%= content.average_end_rhyme_syllable_count.round(2) %></td>
         </tr>
         <tr>
-          <td>Measures without stress on beat one</td>
-          <td><%= content.percent_of_measures_with_stress_on_beat_one %></td>
+          <td>Measures with stress on beat one</td>
+          <td><%= content.percent_of_measures_with_stress_on_beat_one.round(2) %>%</td>
         </tr>
       </tbody>
     </table>
@@ -33,13 +33,15 @@
         <tr>
           <th>Placement</th>
           <th>Count</th>
+          <th>Percent</th>
         </tr>
       </thead>
       <tbody>
         <% content.placement_of_stressed_syllables.each do |rhythm_hash| %>
           <tr>
             <td><%= rhythm_hash[:onset] %></td>
-            <td><%= rhythm_hash[:quantity] %></td>
+            <td><%= rhythm_hash[:count] %></td>
+            <td><%= rhythm_hash[:percent].round(2) %>%</td>
           </tr>
         <% end %>
       </tbody>
@@ -55,13 +57,15 @@
         <tr>
           <th>Placement</th>
           <th>Count</th>
+          <th>Percent</th>
         </tr>
       </thead>
       <tbody>
         <% content.placement_of_end_rhymes.each do |rhythm_hash| %>
           <tr>
             <td><%= rhythm_hash[:onset] %></td>
-            <td><%= rhythm_hash[:quantity] %></td>
+            <td><%= rhythm_hash[:count] %></td>
+            <td><%= rhythm_hash[:percent] %>%</td>
           </tr>
         <% end %>
       </tbody>
