@@ -305,6 +305,7 @@ var addMeasureAfter = function(){
       }
     }).done(function(response){
       thisSection.replaceWith(response);
+      selectable();
     });
   });
 }
@@ -326,6 +327,7 @@ var addMeasureBefore = function(){
       }
     }).done(function(response){
       thisSection.replaceWith(response);
+      selectable();
     });
   });
 }
@@ -347,6 +349,7 @@ var deleteMeasure = function(){
       }
     }).done(function(response){
       thisSection.replaceWith(response);
+      selectable();
     });
   });
 }
