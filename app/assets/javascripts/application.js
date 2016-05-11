@@ -244,6 +244,7 @@ var removeCell = function(){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
+    var previousCells = getPreviousCells(allCells);
     var cellIDs = $.map(allCells, function(cell){
       return $(cell).attr("name");
     });
@@ -256,7 +257,10 @@ var removeCell = function(){
       }
     }).done(function(response){
       for (var key in response){
+        debugger
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
+        debugger
+        selectCells(previousCells);
       }
     })
   })
@@ -282,6 +286,7 @@ var addCell = function(){
     }).done(function(response){
       for (var key in response){
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
+        selectCells(allCells)
       }
     })
   })
@@ -553,7 +558,6 @@ var getCSRFTokenValue = function(){
 var selectNextCells = function(){
   var selectedCells = $(".ui-selected");
   var nextCells = getNextCells(selectedCells);
-  console.log(nextCells);
   unselectCells(selectedCells);
   selectCells(nextCells);
 }
@@ -561,9 +565,7 @@ var selectNextCells = function(){
 
 var selectPreviousCells = function(){
   var selectedCells = $(".ui-selected");
-  console.log(selectedCells);
   var previousCells = getPreviousCells(selectedCells);
-  console.log(previousCells);
   unselectCells(selectedCells);
   selectCells(previousCells);
 }
@@ -608,7 +610,7 @@ var selectCells = function(cells){
   cells.each(function(){
     // if not undefined, select the cell
     if ($(this)){
-      $($(this)).addClass("ui-selected");
+      $(this).addClass("ui-selected");
     }
   });
 }
@@ -618,7 +620,7 @@ var unselectCells = function(cells){
   cells.each(function(){
     // if not undefined, unselect the cell
     if ($(this)){
-      $($(this)).removeClass("ui-selected");
+      $(this).removeClass("ui-selected");
     }
   });
 }
