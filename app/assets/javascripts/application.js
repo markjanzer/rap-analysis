@@ -86,9 +86,9 @@ var tabToCell = function(){
       if (selectedCell.length){
         event.preventDefault();
         if (event.shiftKey){
-          selectPreviousCell();
+          selectPreviousCells();
         } else {
-          selectNextCell();
+          selectNextCells();
         }
       }
     }
@@ -550,32 +550,76 @@ var getCSRFTokenValue = function(){
   return $('meta[name="csrf-token"]').attr('content');
 }
 
-var selectNextCell = function(){
-  var selectedCell = $(".ui-selected").first();
-  var nextCell = undefined;
-  // assign nextCell to the next cell in the measure, or first cell in next measure, or first cell in next measure of next phrase
-  if (selectedCell.next().length){
-    nextCell = selectedCell.next();
-  } else if (selectedCell.parents(".edit-measure").next().find(".col.select").first().length) {
-    nextCell = selectedCell.parents(".edit-measure").next().find(".col.select").first();;
-  } else {
-    nextCell = selectedCell.parents(".phrase-div").next().find(".col.select").first();
-  }
-  selectedCell.removeClass("ui-selected");
-  nextCell.addClass("ui-selected");
+var selectNextCells = function(){
+  var selectedCells = $(".ui-selected");
+  var nextCells = getNextCells(selectedCells);
+  console.log(nextCells);
+  unselectCells(selectedCells);
+  selectCells(nextCells);
 }
 
-var selectPreviousCell = function(){
-  var selectedCell = $(".ui-selected").first();
-  var prevCell = undefined;
-  // assign prevCell to the previous cell in the measure, or first cell in previous measure, or first cell in previous measure of previous phrase
-  if (selectedCell.prev().length){
-    prevCell = selectedCell.prev();
-  } else if (selectedCell.parents(".edit-measure").prev().find(".col.select").last().length) {
-    prevCell = selectedCell.parents(".edit-measure").prev().find(".col.select").last();;
-  } else {
-    prevCell = selectedCell.parents(".phrase-div").prev().find(".col.select").last();
-  }
-  selectedCell.removeClass("ui-selected");
-  prevCell.addClass("ui-selected");
+
+var selectPreviousCells = function(){
+  var selectedCells = $(".ui-selected");
+  console.log(selectedCells);
+  var previousCells = getPreviousCells(selectedCells);
+  console.log(previousCells);
+  unselectCells(selectedCells);
+  selectCells(previousCells);
 }
+
+// returns the next cell in the measure, or the first cell in the next measure, or the firt cell in the next section, or undefined if none of the above.
+var getNextCells = function(currentCells){
+  var nextCells = currentCells.map(function(){
+    var cell = $(this);
+    var nextCell;
+    if (cell.next().length){
+      nextCell = cell.next();
+    } else if (cell.parents(".edit-measure").next().find(".col.select").first().length) {
+      nextCell = cell.parents(".edit-measure").next().find(".col.select").first();
+    } else {
+      nextCell = cell.parents(".phrase-div").next().find(".col.select").first();
+    }
+    return nextCell;
+  });
+  return nextCells;
+}
+
+// returns previous cell in measure, or the last cell in previous measure, or the last cell in previous section, or undefined if none of the above.
+var getPreviousCells = function(currentCells){
+  var previousCells = currentCells.map(function(){
+    var cell = $(this);
+    var prevCell;
+    if (cell.prev().length){
+      prevCell = cell.prev();
+    } else if (cell.parents(".edit-measure").prev().find(".col.select").last().length) {
+      prevCell = cell.parents(".edit-measure").prev().find(".col.select").last();
+    } else {
+      prevCell = cell.parents(".phrase-div").prev().find(".col.select").last();
+    }
+    return prevCell;
+  });
+  return previousCells;
+}
+
+
+var selectCells = function(cells){
+  // iterate through array of jQuery cells
+  cells.each(function(){
+    // if not undefined, select the cell
+    if ($(this)){
+      $($(this)).addClass("ui-selected");
+    }
+  });
+}
+
+var unselectCells = function(cells){
+  // iterate through array of jQuery cells
+  cells.each(function(){
+    // if not undefined, unselect the cell
+    if ($(this)){
+      $($(this)).removeClass("ui-selected");
+    }
+  });
+}
+
