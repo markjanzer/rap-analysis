@@ -86,9 +86,9 @@ var tabToCell = function(){
       if (selectedCell.length){
         event.preventDefault();
         if (event.shiftKey){
-          selectPreviousCell();
+          selectPreviousCells();
         } else {
-          selectNextCell();
+          selectNextCells();
         }
       }
     }
@@ -99,13 +99,10 @@ var changeRhyme = function(){
   $(document).on("click", ".change-rhyme", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var quality = $(this).val();
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
-    // refactor to not include authenticity_token in params if possible
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/change_rhyme"),
@@ -126,9 +123,7 @@ var changeStress = function(){
   $(document).on("click", ".change-stress", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     // refactor Don't think I need following line
     // var quality = $(this).attr("value");
     // refactor This is to get song id
@@ -159,9 +154,7 @@ var changeEndRhyme = function(){
   $(document).on("click", ".change-end-rhyme", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
     // refactor to not include authenticity_token in params if possible
@@ -192,9 +185,7 @@ var changeLyric = function(){
     // refactor I use next two lines repeatedly
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var replacementLyrics = $(".replacement-lyrics").val();
     $(".replacement-lyrics").val('');
     $.ajax({
@@ -219,9 +210,7 @@ var changeRhythm = function(){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var replacementDuration = $(this).val();
     $.ajax({
       method: "PUT",
@@ -235,6 +224,7 @@ var changeRhythm = function(){
       for (var key in response){
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
       }
+      selectCellsByID(cellIDs);
     })
   })
 }
@@ -244,9 +234,9 @@ var removeCell = function(){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var previousCells = getPreviousCells(allCells);
+    var previousCellIDs = getCellIDs(previousCells);
+    var cellIDs = getCellIDs(allCells);
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/delete_cell"),
@@ -258,6 +248,7 @@ var removeCell = function(){
       for (var key in response){
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
       }
+      selectCellsByID(previousCellIDs);
     })
   })
 }
@@ -267,9 +258,7 @@ var addCell = function(){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var beforeOrAfter = $(this).val();
     $.ajax({
       method: "PUT",
@@ -283,6 +272,7 @@ var addCell = function(){
       for (var key in response){
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
       }
+      selectCellsByID(cellIDs);
     })
   })
 }
@@ -305,6 +295,7 @@ var addMeasureAfter = function(){
       }
     }).done(function(response){
       thisSection.replaceWith(response);
+      selectable();
     });
   });
 }
@@ -326,6 +317,7 @@ var addMeasureBefore = function(){
       }
     }).done(function(response){
       thisSection.replaceWith(response);
+      selectable();
     });
   });
 }
@@ -347,6 +339,7 @@ var deleteMeasure = function(){
       }
     }).done(function(response){
       thisSection.replaceWith(response);
+      selectable();
     });
   });
 }
@@ -547,32 +540,89 @@ var getCSRFTokenValue = function(){
   return $('meta[name="csrf-token"]').attr('content');
 }
 
-var selectNextCell = function(){
-  var selectedCell = $(".ui-selected").first();
-  var nextCell = undefined;
-  // assign nextCell to the next cell in the measure, or first cell in next measure, or first cell in next measure of next phrase
-  if (selectedCell.next().length){
-    nextCell = selectedCell.next();
-  } else if (selectedCell.parents(".edit-measure").next().find(".col.select").first().length) {
-    nextCell = selectedCell.parents(".edit-measure").next().find(".col.select").first();;
-  } else {
-    nextCell = selectedCell.parents(".phrase-div").next().find(".col.select").first();
-  }
-  selectedCell.removeClass("ui-selected");
-  nextCell.addClass("ui-selected");
+var selectNextCells = function(){
+  var selectedCells = $(".ui-selected");
+  var nextCells = getNextCells(selectedCells);
+  unselectCells(selectedCells);
+  selectCells(nextCells);
 }
 
-var selectPreviousCell = function(){
-  var selectedCell = $(".ui-selected").first();
-  var prevCell = undefined;
-  // assign prevCell to the previous cell in the measure, or first cell in previous measure, or first cell in previous measure of previous phrase
-  if (selectedCell.prev().length){
-    prevCell = selectedCell.prev();
-  } else if (selectedCell.parents(".edit-measure").prev().find(".col.select").last().length) {
-    prevCell = selectedCell.parents(".edit-measure").prev().find(".col.select").last();;
-  } else {
-    prevCell = selectedCell.parents(".phrase-div").prev().find(".col.select").last();
+
+var selectPreviousCells = function(){
+  var selectedCells = $(".ui-selected");
+  var previousCells = getPreviousCells(selectedCells);
+  unselectCells(selectedCells);
+  selectCells(previousCells);
+}
+
+// returns the next cell in the measure, or the first cell in the next measure, or the firt cell in the next section, or undefined if none of the above.
+var getNextCells = function(currentCells){
+  var nextCells = currentCells.map(function(){
+    var cell = $(this);
+    var nextCell;
+    if (cell.next().length){
+      nextCell = cell.next();
+    } else if (cell.parents(".edit-measure").next().find(".col.select").first().length) {
+      nextCell = cell.parents(".edit-measure").next().find(".col.select").first();
+    } else {
+      nextCell = cell.parents(".phrase-div").next().find(".col.select").first();
+    }
+    return nextCell;
+  });
+  return nextCells;
+}
+
+// returns previous cell in measure, or the last cell in previous measure, or the last cell in previous section, or undefined if none of the above.
+var getPreviousCells = function(currentCells){
+  var previousCells = currentCells.map(function(){
+    var cell = $(this);
+    var prevCell;
+    if (cell.prev().length){
+      prevCell = cell.prev();
+    } else if (cell.parents(".edit-measure").prev().find(".col.select").last().length) {
+      prevCell = cell.parents(".edit-measure").prev().find(".col.select").last();
+    } else {
+      prevCell = cell.parents(".phrase-div").prev().find(".col.select").last();
+    }
+    return prevCell;
+  });
+  return previousCells;
+}
+
+
+var selectCells = function(cells){
+  // iterate through array of jQuery cells
+  cells.each(function(){
+    // if not undefined, select the cell
+    if ($(this)){
+      $(this).addClass("ui-selected");
+    }
+  });
+}
+
+var unselectCells = function(cells){
+  // iterate through array of jQuery cells
+  cells.each(function(){
+    // if not undefined, unselect the cell
+    if ($(this)){
+      $(this).removeClass("ui-selected");
+    }
+  });
+}
+
+// I need this for cells in measures that are rendered with errors because the cells cannot be saved as jQuery objects (because they are replaced)
+var selectCellsByID = function(cellIDs){
+  // if cell with cellID exists, add stress
+  for (var i = 0; i < cellIDs.length; i++){
+    if ($('div.col[name="' + cellIDs[i] + '"]')){
+      $('div.col[name="' + cellIDs[i] + '"]').addClass("ui-selected");
+    }
   }
-  selectedCell.removeClass("ui-selected");
-  prevCell.addClass("ui-selected");
+}
+
+var getCellIDs = function(cells){
+  var cellIDs = $.map(cells, function(cell){
+      return $(cell).attr("name");
+  });
+  return cellIDs;
 }
