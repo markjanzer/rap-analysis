@@ -10,35 +10,58 @@ $(document).on('ready page:load', function(){
   // Prevents duplicate event bindings
   $(document).off("click");
   $(document).foundation();
-  createSection();
   selectable();
+
+  // Section creation and deletion
+  createSection();
+  deleteSection();
+  renderNewSectionForm();
+  cancelSectionCreation();
+  addArtist();
+
+  // Remove and Render Warnings
+  renderDeleteSectionWarning();
+  removeDeleteSectionWarning();
+  renderDeleteSongWarning();
+  removeDeleteSongWarning();
+
+  // Add and Remove Measures
+  addMeasureAfter();
+  addMeasureBefore();
+  deleteMeasure();
+
+  // Add and Remove Cells
+  addCell();
+  removeCell();
+
+  // Edit Cell Attributes
   changeRhyme();
   changeStress();
   changeEndRhyme();
   changeLyric();
   changeRhythm();
-  removeCell();
-  addCell();
-  addMeasureAfter();
-  addMeasureBefore();
-  deleteMeasure();
-  deleteSection();
-  renderNewSectionForm();
-  cancelSectionCreation();
-  publish();
+
+  // Open and Close Edit Menu
   openEditMenu();
   closeEditMenu();
-  addArtist();
+
+  // Publication
   tagForPublication();
-  renderDeleteSectionWarning();
-  removeDeleteSectionWarning();
-  renderDeleteSongWarning();
-  removeDeleteSongWarning();
+  publish();
+
+  // Tabbing and Adding Lyrics
   tabToCell();
   focusLyrics();
   submitLyrics();
 });
 
+var selectable = function(){
+  $('.selectable').selectable({
+    filter: ".select",
+  });
+}
+
+// --------- Section Creation and Deletion ---------
 var createSection = function(){
   $(document).on("submit", ".new-section-form", function(event){
     event.preventDefault();
@@ -51,50 +74,250 @@ var createSection = function(){
       data: sectionData
     });
     request.done(function(response){
-      // Need to replace thisFormAndContainers with the renderNewSectionFormButton
-      // thisFormAndContainers.replaceWith()
       $(".song-edit").html(response);
       selectable();
     })
   })
 }
 
-var selectable = function(){
-  $('.selectable').selectable({
-    filter: ".select",
-  });
-}
-
-var submitLyrics = function(){
-  $(document).off("keypress", ".replacement-lyrics").on("keypress", ".replacement-lyrics", function(event){
-    if (event.keyCode === 13){
-      $(".change-lyrics").click();
-    }
-  })
-}
-
-var focusLyrics = function(){
-  $(document).off("keypress", "body").on("keypress", "body", function(event){
-    $(".replacement-lyrics").focus();
-  })
-}
-
-var tabToCell = function(){
-  $(document).off("keydown", "body").on("keydown", "body", function(event){
-    if (event.keyCode === 9){
-      var selectedCell = $(".ui-selected");
-      if (selectedCell.length){
-        event.preventDefault();
-        if (event.shiftKey){
-          selectPreviousCells();
-        } else {
-          selectNextCells();
-        }
+var deleteSection = function(){
+  $(document).on("click", ".delete-section", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var section = $(this).parents(".edit-section");
+    var sectionID = section.children("input[name='section-id']").val();
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/delete_section"),
+      data: {
+        sectionID: sectionID,
+        authenticity_token: getCSRFTokenValue()
       }
-    }
+    }).done(function(response){
+      section.remove();
+    })
+  })
+}
+
+var renderNewSectionForm = function(){
+  $(document).on("click", ".add-section-button", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisButton = $(this);
+    var sectionNumber = $(this).attr("data-value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/render_section_form",
+      data: {
+        sectionNumber: sectionNumber,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      $(thisButton).replaceWith(response)
+    })
+  })
+}
+
+var cancelSectionCreation = function(){
+  $(document).on("click", ".cancel-section-creation", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisForm = $(this).parent().parent();
+    var thisFormsWrapper = thisForm.parent().parent();
+    var sectionNumber = $(this).siblings("input[name='section-number']").val();
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/cancel_section_form",
+      data: {
+        sectionNumber: sectionNumber,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      $(thisFormsWrapper).replaceWith(response);
+    })
+  })
+}
+
+var addArtist = function(){
+  $(document).on("click", ".add-artist", function(event){
+    event.preventDefault();
+    console.log("Ran once")
+    var prevArtistNum = $(this).prev().attr("data-value");
+    var artistNum = (parseInt(prevArtistNum) + 1).toString();
+    $(this).before('<input type="text" name="artist-' + artistNum + '" data-value="' + artistNum + '" placeholder="Artist">');
   });
 }
 
+// --------- Remove and Render Warnings ---------
+var renderDeleteSectionWarning = function(){
+  $(document).on("click", ".render-delete-section-warning", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/render_delete_section_warning",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+  })
+}
+
+var removeDeleteSectionWarning = function(){
+  $(document).on("click", ".cancel-section-deletion", function(event){
+    event.preventDefault();
+    var thisForm = $(this).parent().parent().parent();
+    thisForm.replaceWith('<button class="alert button float-right render-delete-section-warning">Delete Section</button>');
+  })
+}
+
+var renderDeleteSongWarning = function(){
+  $(document).on("click", ".render-delete-song-warning", function(event){
+    event.preventDefault();
+    var thisButton = $(this);
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/render_delete_song_warning",
+      data: {
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+  })
+}
+
+var removeDeleteSongWarning = function(){
+  $(document).on("click", ".cancel-song-deletion", function(event){
+    event.preventDefault();
+    var thisForm = $(this).parent().parent().parent();
+    thisForm.replaceWith('<button class="alert button float-right render-delete-song-warning">Delete Song</button>');
+  })
+}
+
+// --------- Add and Remove Measures ---------
+var addMeasureAfter = function(){
+  $(document).on("click", ".add-measure-after", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
+    var cellID = $(".ui-selected").first().attr("name");
+    // refactor use this when combining before and after
+    var beforeOrAfter = $(this).val();
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/add_measure_after"),
+      data: {
+        cellID: cellID,
+        before_or_after: beforeOrAfter,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisSection.replaceWith(response);
+      selectable();
+    });
+  });
+}
+
+var addMeasureBefore = function(){
+  $(document).on("click", ".add-measure-before", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
+    var cellID = $(".ui-selected").first().attr("name");
+    var beforeOrAfter = $(this).val();
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/add_measure_before"),
+      data: {
+        cellID: cellID,
+        before_or_after: beforeOrAfter,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisSection.replaceWith(response);
+      selectable();
+    });
+  });
+}
+
+var deleteMeasure = function(){
+  $(document).on("click", ".delete-measure", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
+    var measure = $(".ui-selected").first().parent().parent()
+    var measureID = measure.children("input").val();
+    console.log("this is measureID" + measureID)
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/delete_measure"),
+      data: {
+        measureID: measureID,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisSection.replaceWith(response);
+      selectable();
+    });
+  });
+}
+
+
+// --------- Add and Remove Cells ---------
+var addCell = function(){
+  $(document).on("click", ".add-cell", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var allCells = $(".ui-selected")
+    var cellIDs = getCellIDs(allCells);
+    var beforeOrAfter = $(this).val();
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/add_cell"),
+      data: {
+        cellIDs: cellIDs,
+        before_or_after: beforeOrAfter,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      for (var key in response){
+        $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
+      }
+      selectCellsByID(cellIDs);
+    })
+  })
+}
+
+var removeCell = function(){
+  $(document).on("click", ".remove-cell", function(event){
+    event.preventDefault();
+    var songID = $("input[name='song-id']").attr("value");
+    var allCells = $(".ui-selected")
+    var previousCells = getPreviousCells(allCells);
+    var previousCellIDs = getCellIDs(previousCells);
+    var cellIDs = getCellIDs(allCells);
+    $.ajax({
+      method: "PUT",
+      url: ("/songs/" + songID + "/delete_cell"),
+      data: {
+        cellIDs: cellIDs,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      for (var key in response){
+        $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
+      }
+      selectCellsByID(previousCellIDs);
+    })
+  })
+}
+
+// --------- Edit Cell Attributes ---------
 var changeRhyme = function(){
   $(document).on("click", ".change-rhyme", function(event){
     event.preventDefault();
@@ -229,198 +452,8 @@ var changeRhythm = function(){
   })
 }
 
-var removeCell = function(){
-  $(document).on("click", ".remove-cell", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var allCells = $(".ui-selected")
-    var previousCells = getPreviousCells(allCells);
-    var previousCellIDs = getCellIDs(previousCells);
-    var cellIDs = getCellIDs(allCells);
-    $.ajax({
-      method: "PUT",
-      url: ("/songs/" + songID + "/delete_cell"),
-      data: {
-        cellIDs: cellIDs,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      for (var key in response){
-        $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
-      }
-      selectCellsByID(previousCellIDs);
-    })
-  })
-}
 
-var addCell = function(){
-  $(document).on("click", ".add-cell", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var allCells = $(".ui-selected")
-    var cellIDs = getCellIDs(allCells);
-    var beforeOrAfter = $(this).val();
-    $.ajax({
-      method: "PUT",
-      url: ("/songs/" + songID + "/add_cell"),
-      data: {
-        cellIDs: cellIDs,
-        before_or_after: beforeOrAfter,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      for (var key in response){
-        $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
-      }
-      selectCellsByID(cellIDs);
-    })
-  })
-}
-
-var addMeasureAfter = function(){
-  $(document).on("click", ".add-measure-after", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var thisSection = $(this).parents(".edit-section");
-    var cellID = $(".ui-selected").first().attr("name");
-    // refactor use this when combining before and after
-    var beforeOrAfter = $(this).val();
-    $.ajax({
-      method: "PUT",
-      url: ("/songs/" + songID + "/add_measure_after"),
-      data: {
-        cellID: cellID,
-        before_or_after: beforeOrAfter,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      thisSection.replaceWith(response);
-      selectable();
-    });
-  });
-}
-
-var addMeasureBefore = function(){
-  $(document).on("click", ".add-measure-before", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var thisSection = $(this).parents(".edit-section");
-    var cellID = $(".ui-selected").first().attr("name");
-    var beforeOrAfter = $(this).val();
-    $.ajax({
-      method: "PUT",
-      url: ("/songs/" + songID + "/add_measure_before"),
-      data: {
-        cellID: cellID,
-        before_or_after: beforeOrAfter,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      thisSection.replaceWith(response);
-      selectable();
-    });
-  });
-}
-
-var deleteMeasure = function(){
-  $(document).on("click", ".delete-measure", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var thisSection = $(this).parents(".edit-section");
-    var measure = $(".ui-selected").first().parent().parent()
-    var measureID = measure.children("input").val();
-    console.log("this is measureID" + measureID)
-    $.ajax({
-      method: "PUT",
-      url: ("/songs/" + songID + "/delete_measure"),
-      data: {
-        measureID: measureID,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      thisSection.replaceWith(response);
-      selectable();
-    });
-  });
-}
-
-var deleteSection = function(){
-  $(document).on("click", ".delete-section", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var section = $(this).parents(".edit-section");
-    var sectionID = section.children("input[name='section-id']").val();
-    $.ajax({
-      method: "PUT",
-      url: ("/songs/" + songID + "/delete_section"),
-      data: {
-        sectionID: sectionID,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      section.remove();
-    })
-  })
-}
-
-var renderNewSectionForm = function(){
-  $(document).on("click", ".add-section-button", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var thisButton = $(this);
-    var sectionNumber = $(this).attr("data-value");
-    $.ajax({
-      method: "PUT",
-      url: "/songs/" + songID + "/render_section_form",
-      data: {
-        sectionNumber: sectionNumber,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      $(thisButton).replaceWith(response)
-    })
-  })
-}
-
-var cancelSectionCreation = function(){
-  $(document).on("click", ".cancel-section-creation", function(event){
-    event.preventDefault();
-    var songID = $("input[name='song-id']").attr("value");
-    var thisForm = $(this).parent().parent();
-    var thisFormsWrapper = thisForm.parent().parent();
-    var sectionNumber = $(this).siblings("input[name='section-number']").val();
-    $.ajax({
-      method: "PUT",
-      url: "/songs/" + songID + "/cancel_section_form",
-      data: {
-        sectionNumber: sectionNumber,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      $(thisFormsWrapper).replaceWith(response);
-    })
-  })
-}
-
-var publish = function(){
-  $(document).on("click", ".publish", function(event){
-    event.preventDefault();
-    var thisButton = $(this);
-    var value = $(this).val();
-    var songID = $("input[name='song-id']").attr("value");
-    $.ajax({
-      method: "PUT",
-      url: "/songs/" + songID + "/publish",
-      data: {
-        value: value,
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      thisButton.replaceWith(response);
-    })
-  })
-}
-
+// --------- Open and Close Edit Menu ---------
 var openEditMenu = function(){
   $(document).on("click", ".open-edit-menu", function(event){
     event.preventDefault();
@@ -455,16 +488,28 @@ var closeEditMenu = function(){
   })
 }
 
-var addArtist = function(){
-  $(document).on("click", ".add-artist", function(event){
+// --------- Publication ---------
+// Allows super users to publish a song
+var publish = function(){
+  $(document).on("click", ".publish", function(event){
     event.preventDefault();
-    console.log("Ran once")
-    var prevArtistNum = $(this).prev().attr("data-value");
-    var artistNum = (parseInt(prevArtistNum) + 1).toString();
-    $(this).before('<input type="text" name="artist-' + artistNum + '" data-value="' + artistNum + '" placeholder="Artist">');
-  });
+    var thisButton = $(this);
+    var value = $(this).val();
+    var songID = $("input[name='song-id']").attr("value");
+    $.ajax({
+      method: "PUT",
+      url: "/songs/" + songID + "/publish",
+      data: {
+        value: value,
+        authenticity_token: getCSRFTokenValue()
+      }
+    }).done(function(response){
+      thisButton.replaceWith(response);
+    })
+  })
 }
 
+// Allows users to tag their song for publication
 var tagForPublication = function(){
   $(document).on("click", ".tag-for-publication", function(event){
     event.preventDefault();
@@ -479,63 +524,41 @@ var tagForPublication = function(){
     }).done(function(response){
       thisButton.replaceWith(response);
     })
-
   })
 }
 
-
-var renderDeleteSectionWarning = function(){
-  $(document).on("click", ".render-delete-section-warning", function(event){
-    event.preventDefault();
-    var thisButton = $(this);
-    var songID = $("input[name='song-id']").attr("value");
-    $.ajax({
-      method: "PUT",
-      url: "/songs/" + songID + "/render_delete_section_warning",
-      data: {
-        authenticity_token: getCSRFTokenValue()
+// --------- Tabbing and Adding Lyrics ---------
+var tabToCell = function(){
+  $(document).off("keydown", "body").on("keydown", "body", function(event){
+    if (event.keyCode === 9){
+      var selectedCell = $(".ui-selected");
+      if (selectedCell.length){
+        event.preventDefault();
+        if (event.shiftKey){
+          selectPreviousCells();
+        } else {
+          selectNextCells();
+        }
       }
-    }).done(function(response){
-      thisButton.replaceWith(response);
-    })
+    }
+  });
+}
 
+var submitLyrics = function(){
+  $(document).off("keypress", ".replacement-lyrics").on("keypress", ".replacement-lyrics", function(event){
+    if (event.keyCode === 13){
+      $(".change-lyrics").click();
+    }
   })
 }
 
-var removeDeleteSectionWarning = function(){
-  $(document).on("click", ".cancel-section-deletion", function(event){
-    event.preventDefault();
-    var thisForm = $(this).parent().parent().parent();
-    thisForm.replaceWith('<button class="alert button float-right render-delete-section-warning">Delete Section</button>');
+var focusLyrics = function(){
+  $(document).off("keypress", "body").on("keypress", "body", function(event){
+    $(".replacement-lyrics").focus();
   })
 }
 
-var renderDeleteSongWarning = function(){
-  $(document).on("click", ".render-delete-song-warning", function(event){
-    event.preventDefault();
-    var thisButton = $(this);
-    var songID = $("input[name='song-id']").attr("value");
-    $.ajax({
-      method: "PUT",
-      url: "/songs/" + songID + "/render_delete_song_warning",
-      data: {
-        authenticity_token: getCSRFTokenValue()
-      }
-    }).done(function(response){
-      thisButton.replaceWith(response);
-    })
-  })
-}
-
-var removeDeleteSongWarning = function(){
-  $(document).on("click", ".cancel-song-deletion", function(event){
-    event.preventDefault();
-    var thisForm = $(this).parent().parent().parent();
-    thisForm.replaceWith('<button class="alert button float-right render-delete-song-warning">Delete Song</button>');
-  })
-}
-
-//----------- HELPERS -------------------
+//--------------- HELPER METHODS -------------------
 var getCSRFTokenValue = function(){
   return $('meta[name="csrf-token"]').attr('content');
 }
@@ -610,6 +633,13 @@ var unselectCells = function(cells){
   });
 }
 
+var getCellIDs = function(cells){
+  var cellIDs = $.map(cells, function(cell){
+      return $(cell).attr("name");
+  });
+  return cellIDs;
+}
+
 // I need this for cells in measures that are rendered with errors because the cells cannot be saved as jQuery objects (because they are replaced)
 var selectCellsByID = function(cellIDs){
   // if cell with cellID exists, add stress
@@ -618,11 +648,4 @@ var selectCellsByID = function(cellIDs){
       $('div.col[name="' + cellIDs[i] + '"]').addClass("ui-selected");
     }
   }
-}
-
-var getCellIDs = function(cells){
-  var cellIDs = $.map(cells, function(cell){
-      return $(cell).attr("name");
-  });
-  return cellIDs;
 }
