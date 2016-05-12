@@ -99,13 +99,10 @@ var changeRhyme = function(){
   $(document).on("click", ".change-rhyme", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var quality = $(this).val();
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
-    // refactor to not include authenticity_token in params if possible
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/change_rhyme"),
@@ -126,9 +123,7 @@ var changeStress = function(){
   $(document).on("click", ".change-stress", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     // refactor Don't think I need following line
     // var quality = $(this).attr("value");
     // refactor This is to get song id
@@ -159,9 +154,7 @@ var changeEndRhyme = function(){
   $(document).on("click", ".change-end-rhyme", function(event){
     event.preventDefault();
     var allCells = $(".ui-selected");
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     // refactor This is to get song id
     var songID = $("input[name='song-id']").attr("value");
     // refactor to not include authenticity_token in params if possible
@@ -192,9 +185,7 @@ var changeLyric = function(){
     // refactor I use next two lines repeatedly
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var replacementLyrics = $(".replacement-lyrics").val();
     $(".replacement-lyrics").val('');
     $.ajax({
@@ -219,9 +210,7 @@ var changeRhythm = function(){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var replacementDuration = $(this).val();
     $.ajax({
       method: "PUT",
@@ -235,6 +224,7 @@ var changeRhythm = function(){
       for (var key in response){
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
       }
+      selectCellsByID(cellIDs);
     })
   })
 }
@@ -245,9 +235,8 @@ var removeCell = function(){
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
     var previousCells = getPreviousCells(allCells);
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var previousCellIDs = getCellIDs(previousCells);
+    var cellIDs = getCellIDs(allCells);
     $.ajax({
       method: "PUT",
       url: ("/songs/" + songID + "/delete_cell"),
@@ -257,11 +246,9 @@ var removeCell = function(){
       }
     }).done(function(response){
       for (var key in response){
-        debugger
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
-        debugger
-        selectCells(previousCells);
       }
+      selectCellsByID(previousCellIDs);
     })
   })
 }
@@ -271,9 +258,7 @@ var addCell = function(){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
     var allCells = $(".ui-selected")
-    var cellIDs = $.map(allCells, function(cell){
-      return $(cell).attr("name");
-    });
+    var cellIDs = getCellIDs(allCells);
     var beforeOrAfter = $(this).val();
     $.ajax({
       method: "PUT",
@@ -286,8 +271,8 @@ var addCell = function(){
     }).done(function(response){
       for (var key in response){
         $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
-        selectCells(allCells)
       }
+      selectCellsByID(cellIDs);
     })
   })
 }
@@ -625,3 +610,19 @@ var unselectCells = function(cells){
   });
 }
 
+// I need this for cells in measures that are rendered with errors because the cells cannot be saved as jQuery objects (because they are replaced)
+var selectCellsByID = function(cellIDs){
+  // if cell with cellID exists, add stress
+  for (var i = 0; i < cellIDs.length; i++){
+    if ($('div.col[name="' + cellIDs[i] + '"]')){
+      $('div.col[name="' + cellIDs[i] + '"]').addClass("ui-selected");
+    }
+  }
+}
+
+var getCellIDs = function(cells){
+  var cellIDs = $.map(cells, function(cell){
+      return $(cell).attr("name");
+  });
+  return cellIDs;
+}
