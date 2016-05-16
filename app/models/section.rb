@@ -47,7 +47,6 @@ class Section < ActiveRecord::Base
         self.phrases << phrase
       end
       phrase.measures << Measure.create_measure_and_cells(phrase.id, phrase_measure_number, self.number_of_pickup_measures + i, self.default_subdivision)
-      p phrase.measures.count
       phrase
     end
   end

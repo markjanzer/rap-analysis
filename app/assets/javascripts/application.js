@@ -297,6 +297,7 @@ var removeCell = function(){
   $(document).on("click", ".remove-cell", function(event){
     event.preventDefault();
     var songID = $("input[name='song-id']").attr("value");
+    var thisSection = $(this).parents(".edit-section");
     var allCells = $(".ui-selected")
     var previousCells = getPreviousCells(allCells);
     var previousCellIDs = getCellIDs(previousCells);
@@ -309,9 +310,11 @@ var removeCell = function(){
         authenticity_token: getCSRFTokenValue()
       }
     }).done(function(response){
-      for (var key in response){
-        $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
-      }
+      // for (var key in response){
+      //   $("input[value='" + key + "'][name='measure_id']").parent().replaceWith(response[key])
+      // }
+      thisSection.replaceWith(response);
+      selectable();
       selectCellsByID(previousCellIDs);
     })
   })
@@ -423,7 +426,7 @@ var changeLyric = function(){
       $.each(allCells, function(){
         $(this).html(replacementLyrics);
       });
-      selectNextCell();
+      selectNextCells();
     })
   })
 }

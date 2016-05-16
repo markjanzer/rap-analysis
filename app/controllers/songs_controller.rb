@@ -127,9 +127,21 @@ class SongsController < ApplicationController
     all_cells = params["cellIDs"].map do |cell_id|
       Cell.find(cell_id.to_i)
     end
+    section = all_cells.first.measure.phrase.section
     all_measures = all_cells.map { |cell| cell.measure }.uniq
     all_cells.each { |cell| cell.destroy }
-    render json: update_measures_return_hash(all_measures)
+    # If all cells are deleted from a measure, delete the measure. If a measure is deleted, call update_measures on the section, and render the whole section, else just update the measures.
+    if all_measures.reduce(false) do |bool, measure|
+        if measure.cells.count == 0
+          measure.destroy
+          bool = true
+        end
+        bool
+      end
+      section.update_measures
+    end
+    # render json: update_measures_return_hash(all_measures)
+    render template: "songs/_edit_section_open_edit_menu", locals: { section: section }, layout: false
   end
 
   def add_cell
@@ -247,7 +259,11 @@ class SongsController < ApplicationController
 
   private
 
-  def update_measures_return_hash(all_measures)
+  def song_params
+    params.permit(:name)
+  end
+
+  def self.update_measures_return_hash(all_measures)
     # refactor is this redundant because the same process is done in _edit_phrase.html.erb?
     measures_hash = {}
     all_measures.each do |measure|
@@ -259,10 +275,6 @@ class SongsController < ApplicationController
       end
     end
     measures_hash
-  end
-
-  def song_params
-    params.permit(:name)
   end
 
 end
