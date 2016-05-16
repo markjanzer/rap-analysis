@@ -135,6 +135,8 @@ class SongsController < ApplicationController
         if measure.cells.count == 0
           measure.destroy
           bool = true
+        else
+          measure.check_for_rhythmic_errors
         end
         bool
       end
@@ -263,7 +265,7 @@ class SongsController < ApplicationController
     params.permit(:name)
   end
 
-  def self.update_measures_return_hash(all_measures)
+  def update_measures_return_hash(all_measures)
     # refactor is this redundant because the same process is done in _edit_phrase.html.erb?
     measures_hash = {}
     all_measures.each do |measure|
