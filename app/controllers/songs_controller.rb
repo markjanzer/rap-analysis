@@ -2,17 +2,10 @@ class SongsController < ApplicationController
   # RESTFUL Routes
   def create
     @song = Song.create(song_params)
-    artist_param = "artist-0"
-    artist_counter = 0
-    while params[artist_param]
-      Artist.addOrCreateAndAddArtist(@song, params[artist_param])
-      artist_counter += 1
-      artist_param = "artist-" + artist_counter.to_s
-    end
-
+    @song.add_all_artists(params)
     Album.addSongOrCreateAlbumAndAddSong(@song, params[:album])
     if current_user
-      @song.update(transcriber_id: current_user.id)
+      @song.update(trans  criber_id: current_user.id)
       current_user.songs << @song
     end
     # Add default music values for measures per musical phrase, beats per measure, beat subdivision

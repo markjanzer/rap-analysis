@@ -12,6 +12,17 @@ class Song < ActiveRecord::Base
   belongs_to :album
   belongs_to :transcriber, class_name: :User
 
+  # Searches through artists in params and adds them to song
+  def add_all_artists(params)
+    artist_param = "artist-0"
+    artist_counter = 0
+    while params[artist_param]
+      Artist.addOrCreateAndAddArtist(self, params[artist_param])
+      artist_counter += 1
+      artist_param = "artist-" + artist_counter.to_s
+    end
+  end
+
   # refactor as module to belong to song, section, and album
   def comma_separated_artists
     artist_names = self.artists.map{ |artist| artist.name }

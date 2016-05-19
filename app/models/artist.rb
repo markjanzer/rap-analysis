@@ -14,4 +14,6 @@ class Artist < ActiveRecord::Base
       song_or_section.artists << Artist.find_by(name: artist_name)
     end
   end
+
+
 end
