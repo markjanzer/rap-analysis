@@ -1,17 +1,39 @@
 class SongsController < ApplicationController
-  def index
+  # RESTFUL Routes
+  def create
+    @song = Song.create(song_params)
+    artist_param = "artist-0"
+    artist_counter = 0
+    while params[artist_param]
+      Artist.addOrCreateAndAddArtist(@song, params[artist_param])
+      artist_counter += 1
+      artist_param = "artist-" + artist_counter.to_s
+    end
+
+    Album.addSongOrCreateAlbumAndAddSong(@song, params[:album])
+    if current_user
+      @song.update(transcriber_id: current_user.id)
+      current_user.songs << @song
+    end
+    # Add default music values for measures per musical phrase, beats per measure, beat subdivision
+    redirect_to edit_song_path(@song)
   end
 
-  def render_section_form
-    song = Song.find(params[:id])
-    artist_names = song.artists.map{ |artist| artist.name }
-    render template: "songs/_new_section_form", locals: { section_number: params["sectionNumber"], artist_names: artist_names }, layout: false
+  def show
+    @song = Song.find(params[:id])
   end
 
-  def cancel_section_form
-    render template: "songs/_add_section_button", locals: { section_number: params["sectionNumber"]}, layout: false
+  def edit
+    @song = Song.find(params[:id])
   end
 
+  def destroy
+    song = Song.find_by(id: params[:id])
+    song.destroy
+    redirect_to '/'
+  end
+
+  # Section creation and deletion
   def create_section
     song = Song.find(params["id"])
     section_number = params["section-number"].to_i
@@ -44,142 +66,26 @@ class SongsController < ApplicationController
     render json: {:"destroyed?" => true}
   end
 
-  def show
-    @song = Song.find(params[:id])
+  def render_section_form
+    song = Song.find(params[:id])
+    artist_names = song.artists.map{ |artist| artist.name }
+    render template: "songs/_new_section_form", locals: { section_number: params["sectionNumber"], artist_names: artist_names }, layout: false
   end
 
-  def edit
-    @song = Song.find(params[:id])
+  def cancel_section_form
+    render template: "songs/_add_section_button", locals: { section_number: params["sectionNumber"]}, layout: false
   end
 
-  def create
-    @song = Song.create(song_params)
-    artist_param = "artist-0"
-    artist_counter = 0
-    while params[artist_param]
-      Artist.addOrCreateAndAddArtist(@song, params[artist_param])
-      artist_counter += 1
-      artist_param = "artist-" + artist_counter.to_s
-    end
-
-    Album.addSongOrCreateAlbumAndAddSong(@song, params[:album])
-    if current_user
-      @song.update(transcriber_id: current_user.id)
-      current_user.songs << @song
-    end
-    # Add default music values for measures per musical phrase, beats per measure, beat subdivision
-    redirect_to edit_song_path(@song)
+  # Remove and Render Warnings
+  def render_delete_song_warning
+    render template: "songs/_delete_song_warning", layout: false
   end
 
-  def change_rhyme
-    all_cells = params["cellIDs"].map do |cell_id|
-      Cell.find(cell_id.to_i)
-    end
-    all_cells.each do |cell|
-      cell.update(rhyme: params['quality'])
-    end
-    render json: {quality: params['quality']}
+  def render_delete_section_warning
+    render template: "songs/_delete_section_warning", layout: false
   end
 
-  def change_rhythm
-    all_cells = params["cellIDs"].map do |cell_id|
-      Cell.find(cell_id.to_i)
-    end
-    all_cells.each { |cell| cell.update(note_duration: params["duration"].to_i) }
-    all_measures = all_cells.map { |cell| cell.measure }.uniq
-    render json: update_measures_return_hash(all_measures)
-  end
-
-  def change_lyrics
-    all_cells = params["cellIDs"].map do |cell_id|
-      Cell.find(cell_id.to_i)
-    end
-    all_cells.each do |cell|
-      cell.update(content: params["lyrics"])
-    end
-    # refactor unecessary, might be nice though if I want to show errors
-    render json: {quality: params["lyrics"]}
-  end
-
-  def change_end_rhyme
-    all_cells = params["cellIDs"].map do |cell_id|
-      Cell.find(cell_id.to_i)
-    end
-    new_end_rhyme_value = !all_cells.first.end_rhyme
-    all_cells.each do |cell|
-      cell.update(end_rhyme: new_end_rhyme_value)
-    end
-    render json: {quality: new_end_rhyme_value}
-  end
-
-  def change_stress
-    all_cells = params["cellIDs"].map do |cell_id|
-      Cell.find(cell_id.to_i)
-    end
-    new_stressed_value = !all_cells.first.stressed
-    all_cells.each do |cell|
-      cell.update(stressed: new_stressed_value)
-    end
-    render json: {quality: new_stressed_value}
-  end
-
-  def delete_cell
-    all_cells = params["cellIDs"].map do |cell_id|
-      Cell.find(cell_id.to_i)
-    end
-    section = all_cells.first.measure.phrase.section
-    all_measures = all_cells.map { |cell| cell.measure }.uniq
-    all_cells.each { |cell| cell.destroy }
-    # If all cells are deleted from a measure, delete the measure. If a measure is deleted, call update_measures on the section, and render the whole section, else just update the measures.
-    if all_measures.reduce(false) do |bool, measure|
-        if measure.cells.count == 0
-          measure.destroy
-          bool = true
-        else
-          measure.check_for_rhythmic_errors
-        end
-        bool
-      end
-      section.update_measures
-    end
-    # render json: update_measures_return_hash(all_measures)
-    render template: "songs/_edit_section_open_edit_menu", locals: { section: section }, layout: false
-  end
-
-  def add_cell
-    all_cells = params["cellIDs"].map do |cell_id|
-      Cell.find(cell_id.to_i)
-    end
-    all_measures = all_cells.map { |cell| cell.measure }.uniq
-    default_duration = all_cells[0].note_duration
-    all_cells.each_with_index do |cell, index|
-      if params["before_or_after"] == "before"
-        cell_placement = cell.measure_cell_number
-      elsif params["before_or_after"] == "after"
-        cell_placement = cell.measure_cell_number + 1
-      end
-      measure = cell.measure
-      cells_in_measure = measure.ordered_cells
-      cell_added = false
-      cells_in_measure.each_with_index do |cell, i|
-        if i == cell_placement
-          cell.update(measure_cell_number: i + 1)
-          measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: i)
-          cell_added = true
-          next
-        end
-        if cell_added
-          cell.update(measure_cell_number: i + 1)
-        end
-      end
-      if !cell_added
-        measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: cells_in_measure.length)
-      end
-    end
-
-    render json: update_measures_return_hash(all_measures)
-  end
-
+  # Add and Remove Measures
   def add_measure_after
     section = Cell.find(params["cellID"].to_i).measure.phrase.section
     last_phrase = section.ordered_phrases.last
@@ -220,6 +126,133 @@ class SongsController < ApplicationController
     render template: "songs/_edit_section_open_edit_menu", locals: { section: section }, layout: false
   end
 
+  # Add and Remove Cells
+  def add_cell
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    all_measures = all_cells.map { |cell| cell.measure }.uniq
+    default_duration = all_cells[0].note_duration
+    all_cells.each_with_index do |cell, index|
+      if params["before_or_after"] == "before"
+        cell_placement = cell.measure_cell_number
+      elsif params["before_or_after"] == "after"
+        cell_placement = cell.measure_cell_number + 1
+      end
+      measure = cell.measure
+      cells_in_measure = measure.ordered_cells
+      cell_added = false
+      cells_in_measure.each_with_index do |cell, i|
+        if i == cell_placement
+          cell.update(measure_cell_number: i + 1)
+          measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: i)
+          cell_added = true
+          next
+        end
+        if cell_added
+          cell.update(measure_cell_number: i + 1)
+        end
+      end
+      if !cell_added
+        measure.cells << Cell.create(note_duration: default_duration, measure_cell_number: cells_in_measure.length)
+      end
+    end
+
+    render json: update_measures_return_hash(all_measures)
+  end
+
+  def delete_cell
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    section = all_cells.first.measure.phrase.section
+    all_measures = all_cells.map { |cell| cell.measure }.uniq
+    all_cells.each { |cell| cell.destroy }
+    # If all cells are deleted from a measure, delete the measure. If a measure is deleted, call update_measures on the section, and render the whole section, else just update the measures.
+    if all_measures.reduce(false) do |bool, measure|
+        if measure.cells.count == 0
+          measure.destroy
+          bool = true
+        else
+          measure.check_for_rhythmic_errors
+        end
+        bool
+      end
+      section.update_measures
+    end
+    # render json: update_measures_return_hash(all_measures)
+    render template: "songs/_edit_section_open_edit_menu", locals: { section: section }, layout: false
+  end
+
+  # Edit Cell Attributes
+  def change_rhyme
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    all_cells.each do |cell|
+      cell.update(rhyme: params['quality'])
+    end
+    render json: {quality: params['quality']}
+  end
+
+  def change_stress
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    new_stressed_value = !all_cells.first.stressed
+    all_cells.each do |cell|
+      cell.update(stressed: new_stressed_value)
+    end
+    render json: {quality: new_stressed_value}
+  end
+
+  def change_end_rhyme
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    new_end_rhyme_value = !all_cells.first.end_rhyme
+    all_cells.each do |cell|
+      cell.update(end_rhyme: new_end_rhyme_value)
+    end
+    render json: {quality: new_end_rhyme_value}
+  end
+
+  def change_lyrics
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    all_cells.each do |cell|
+      cell.update(content: params["lyrics"])
+    end
+    # refactor unecessary, might be nice though if I want to show errors
+    render json: {quality: params["lyrics"]}
+  end
+
+  def change_rhythm
+    all_cells = params["cellIDs"].map do |cell_id|
+      Cell.find(cell_id.to_i)
+    end
+    all_cells.each { |cell| cell.update(note_duration: params["duration"].to_i) }
+    all_measures = all_cells.map { |cell| cell.measure }.uniq
+    render json: update_measures_return_hash(all_measures)
+  end
+
+  # Open and Close Edit Menu
+  def open_edit_menu
+    render template: "songs/_edit_menu", layout: false
+  end
+
+  def close_edit_menu
+    render template: "songs/_open_edit_menu_button", layout: false
+  end
+
+  # Publication
+  def tag_for_publication
+    song = Song.find(params[:id])
+    song.update(tagged_for_publication: true)
+    render template: "/songs/_publication_status", locals: { song: song }, layout: false
+  end
+
   def publish
     song = Song.find(params["id"])
     value = params["value"] == "true"
@@ -229,34 +262,6 @@ class SongsController < ApplicationController
     else
       render template: "songs/_publish_button", layout: false
     end
-  end
-
-  def open_edit_menu
-    render template: "songs/_edit_menu", layout: false
-  end
-
-  def close_edit_menu
-    render template: "songs/_open_edit_menu_button", layout: false
-  end
-
-  def tag_for_publication
-    song = Song.find(params[:id])
-    song.update(tagged_for_publication: true)
-    render template: "/songs/_publication_status", locals: { song: song }, layout: false
-  end
-
-  def render_delete_song_warning
-    render template: "songs/_delete_song_warning", layout: false
-  end
-
-  def render_delete_section_warning
-    render template: "songs/_delete_section_warning", layout: false
-  end
-
-  def destroy
-    song = Song.find_by(id: params[:id])
-    song.destroy
-    redirect_to '/'
   end
 
   private
